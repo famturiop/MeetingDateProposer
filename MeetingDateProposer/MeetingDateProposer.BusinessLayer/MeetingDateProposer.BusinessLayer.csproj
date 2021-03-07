@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MeetingDateProposer.DataLayer\MeetingDateProposer.DataLayer.csproj" />
+    <ProjectReference Include="..\MeetingDateProposer.Domain\MeetingDateProposer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
