@@ -2,6 +2,6 @@
 {
     public interface Meet
     {
-        void CreateMeeting(object[] users, object MeetingId);
+        void CreateMeeting(object[] users, object meetingId);
     }
 }
