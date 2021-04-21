@@ -5,7 +5,7 @@ namespace MeetingDateProposer.Domain.Models
 {
     public  interface IReceiverApiData
     {
-        object Receive(User user)
+        object Receive(User Calendar)
         {
             return new object();
         }
