@@ -9,35 +9,45 @@ namespace MeetingDateProposer.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly GooseProvider _gooseProvider;
+        private readonly GoogleCalendar tmpCalendar;
+        private readonly User user;
 
         public ValuesController()
         {
-            _gooseProvider = new GooseProvider();
+            tmpCalendar = new GoogleCalendar();
         }
 
         [HttpGet]
-        [Route("api/Values/GetAllGooses")]
-        public List<Goose> GetAllGooses()
+        [Route("T")]
+        public void Test()
         {
-            return _gooseProvider.GetAllGooses();
+            tmpCalendar.GetCalendar(user);
         }
 
-        [HttpGet]
-        [Route("api/Values/GetGooseCount")]
-        public int GetGooseCount()
-        {
-            return _gooseProvider.GetGooseCount();
-        }
 
-        [HttpGet]
-        [Route("api/Values/SaveRandomGoose")]
-        public void SaveRandomGoose()
-        {
-            _gooseProvider.SaveGoose(new Goose
-            {
-                Name = Guid.NewGuid().ToString()
-            });
-        }
+
+        //[HttpGet]
+        //[Route("api/Values/GetAllGooses")]
+        //public List<Goose> GetAllGooses()
+        //{
+        //    return _gooseProvider.GetAllGooses();
+        //}
+
+        //[HttpGet]
+        //[Route("api/Values/GetGooseCount")]
+        //public int GetGooseCount()
+        //{
+        //    return _gooseProvider.GetGooseCount();
+        //}
+
+        //[HttpGet]
+        //[Route("api/Values/SaveRandomGoose")]
+        //public void SaveRandomGoose()
+        //{
+        //    _gooseProvider.SaveGoose(new Goose
+        //    {
+        //        Name = Guid.NewGuid().ToString()
+        //    });
+        //}
     }
 }
