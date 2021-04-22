@@ -1,7 +1,9 @@
-﻿namespace MeetingDateProposer.Domain.Models
+﻿using System.Collections.Generic;
+
+namespace MeetingDateProposer.Domain.Models
 {
     public class Calendar
     {
-        public object Data { get; set; }
+        public List<CalendarDay> UserCalendar { get; set; }
     }
 }
