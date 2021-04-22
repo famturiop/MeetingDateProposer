@@ -1,6 +1,6 @@
 ﻿namespace MeetingDateProposer.Domain.Models
 {
-    public class CalendarDay
+    public class CalendarEvent
     {
         public object EventStart { get; set; }
         public object EventEnd { get; set; }

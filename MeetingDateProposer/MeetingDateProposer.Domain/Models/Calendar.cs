@@ -4,6 +4,6 @@ namespace MeetingDateProposer.Domain.Models
 {
     public class Calendar
     {
-        public List<CalendarDay> UserCalendar { get; set; }
+        public List<CalendarEvent> UserCalendar { get; set; }
     }
 }
