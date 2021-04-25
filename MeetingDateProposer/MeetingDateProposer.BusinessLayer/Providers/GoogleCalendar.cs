@@ -17,44 +17,46 @@ namespace MeetingDateProposer.BusinessLayer.Providers
         public void GetCalendar(User user)
         {
             string[] Scopes = {CalendarService.Scope.CalendarReadonly};
-
-            var credential = GetAccessToGoogle(Scopes);
+            var credential = GetAccessToGoogle(Scopes, user); 
             var events = SendRequestToGoogle(credential);
-
 
             var calendar = new Calendar();
             calendar.UserCalendar = new List<CalendarEvent>();
-            //calendar.UserCalendar.Add(calendarEvent);
 
             foreach (var eventItem in events.Items)
             {
-                var calendarEvent = new CalendarEvent(); // что происходит с созданием обьекта в цикле? ссылка на предыдущий теряется на каждой итерации?
-                calendarEvent.EventStart = eventItem.Start.DateTime;
-                calendarEvent.EventEnd = eventItem.End.DateTime;
-
-                calendar.UserCalendar.Add(calendarEvent); // передал ссылку на обьект, а не сам обьект?
+                calendar.UserCalendar.Add(new CalendarEvent
+                {
+                    EventStart = eventItem.Start.DateTime,
+                    EventEnd = eventItem.End.DateTime
+                });
             }
-        }
-        // можно разбить на часть приватных методов, 10 строк?
-        // выдает объект календарь
 
-        private UserCredential GetAccessToGoogle(string[] Scopes)
+            user.Calendar = calendar;
+        }
+
+        private UserCredential GetAccessToGoogle(string[] Scopes, User user)
         {
             UserCredential credential;
-            using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            LocalServerCodeReceiver redirectURI = new LocalServerCodeReceiver("You may close the page now.",
+                LocalServerCodeReceiver.CallbackUriChooserStrategy.Default); // redirect URI choice strategy
+            // The file token.json stores the user's access and refresh tokens, and is created
+            // automatically when the authorization flow completes for the first time.
+            using (var stream =
+                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
                 // The file token.json stores the user's access and refresh tokens, and is created
                 // automatically when the authorization flow completes for the first time.
-                var credPath = "token.json";
+                string credPath = "token.json";
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
-                    "user",
+                    user.UserId.ToString(),
                     CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
+                    new FileDataStore(credPath, true), redirectURI).Result;
                 Console.WriteLine("Credential file saved to: " + credPath);
-                return credential;
             }
+            return credential;
         }
 
         private Events SendRequestToGoogle(UserCredential credential)
@@ -63,7 +65,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             var service = new CalendarService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
-                ApplicationName = "Temp"
+                ApplicationName = "My Project 88493"
             });
 
             // Define parameters of request.
@@ -71,7 +73,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             request.TimeMin = DateTime.Now;
             request.ShowDeleted = false;
             request.SingleEvents = true;
-            request.MaxResults = 10;
+            request.MaxResults = 250;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
             var events = request.Execute();
             return events;

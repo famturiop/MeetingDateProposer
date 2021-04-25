@@ -9,19 +9,22 @@ namespace MeetingDateProposer.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly GoogleCalendar tmpCalendar;
-        private readonly User user;
+        private readonly GoogleCalendar _tmpCalendar;
+        private readonly User _user;
 
         public ValuesController()
         {
-            tmpCalendar = new GoogleCalendar();
+            _tmpCalendar = new GoogleCalendar();
+            _user = new User();
         }
 
         [HttpGet]
-        [Route("T")]
+        [Route("t")] // attributes? what do they do in our case?
         public void Test()
         {
-            tmpCalendar.GetCalendar(user);
+            
+            _user.UserId = 56;
+            _tmpCalendar.GetCalendar(_user);
         }
 
 
