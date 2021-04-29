@@ -12,7 +12,7 @@ using Calendar = MeetingDateProposer.Domain.Models.Calendar;
 
 namespace MeetingDateProposer.BusinessLayer.Providers
 {
-    public class GoogleCalendar : ICalendarProvider
+    public class GoogleCalendarProvider : ICalendarProvider
     {
         public void GetCalendar(User user)
         {
@@ -20,8 +20,10 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             var credential = GetAccessToGoogle(Scopes, user); 
             var events = SendRequestToGoogle(credential);
 
-            var calendar = new Calendar();
-            calendar.UserCalendar = new List<CalendarEvent>();
+            var calendar = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>()
+            };
 
             foreach (var eventItem in events.Items)
             {
@@ -39,36 +41,27 @@ namespace MeetingDateProposer.BusinessLayer.Providers
         {
             UserCredential credential;
             LocalServerCodeReceiver redirectURI = new LocalServerCodeReceiver("You may close the page now.",
-                LocalServerCodeReceiver.CallbackUriChooserStrategy.Default); // redirect URI choice strategy
-            // The file token.json stores the user's access and refresh tokens, and is created
-            // automatically when the authorization flow completes for the first time.
+                LocalServerCodeReceiver.CallbackUriChooserStrategy.Default);
             using (var stream =
                 new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
-                string credPath = "token.json";
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                return credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
                     user.UserId.ToString(),
                     CancellationToken.None,
-                    new FileDataStore(credPath, true), redirectURI).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
+                    new NullDataStore(), redirectURI).Result;
             }
-            return credential;
         }
 
         private Events SendRequestToGoogle(UserCredential credential)
         {
-            // Create Google Calendar API service.
             var service = new CalendarService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
                 ApplicationName = "My Project 88493"
             });
 
-            // Define parameters of request.
             var request = service.Events.List("primary");
             request.TimeMin = DateTime.Now;
             request.ShowDeleted = false;
@@ -78,5 +71,6 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             var events = request.Execute();
             return events;
         }
+
     }
 }
