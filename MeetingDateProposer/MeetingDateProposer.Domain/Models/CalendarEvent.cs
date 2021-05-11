@@ -1,8 +1,10 @@
-﻿namespace MeetingDateProposer.Domain.Models
+﻿using System;
+
+namespace MeetingDateProposer.Domain.Models
 {
     public class CalendarEvent
     {
-        public object EventStart { get; set; }
-        public object EventEnd { get; set; }
+        public DateTime EventStart { get; set; }
+        public DateTime EventEnd { get; set; }
     }
 }
