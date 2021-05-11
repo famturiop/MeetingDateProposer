@@ -29,8 +29,8 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             {
                 calendar.UserCalendar.Add(new CalendarEvent
                 {
-                    EventStart = eventItem.Start.DateTime,
-                    EventEnd = eventItem.End.DateTime
+                    EventStart = (DateTime)eventItem.Start.DateTime,
+                    EventEnd = (DateTime)eventItem.End.DateTime
                 });
             }
 
