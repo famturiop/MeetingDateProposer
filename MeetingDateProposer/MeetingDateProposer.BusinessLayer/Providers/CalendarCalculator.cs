@@ -7,7 +7,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 {
     public class CalendarCalculator: ICalendarCalculator
     {
-
+        
         public Calendar CalculateAvailableMeetingTime(Meeting currentMeeting)
         {
             var jointCalendar = new Calendar
@@ -15,7 +15,9 @@ namespace MeetingDateProposer.BusinessLayer.Providers
                 UserCalendar = new List<CalendarEvent>()
             };
 
-            currentMeeting.ConnectedUsers.ForEach(c => jointCalendar.UserCalendar.AddRange( c.Calendar.UserCalendar));
+            currentMeeting.ConnectedUsers.ForEach(c1 => c1.Calendars.ForEach(c2 => jointCalendar.UserCalendar.AddRange(c2.UserCalendar)));
+            
+
             if (jointCalendar.UserCalendar.Count != 0)
             {
                 ReversedCalEventsCheck(jointCalendar.UserCalendar);
@@ -45,6 +47,23 @@ namespace MeetingDateProposer.BusinessLayer.Providers
                 };
             }
         }
+        private static List<CalendarEvent> NullCheck(List<CalendarEvent> calendarList)
+        {
+            if (calendarList.Any(c => c.EventStart == null || c.EventEnd == null))
+            {
+                throw new Exception("A null Event time was detected.");
+            }
+
+            Action<CalendarEvent> CalEventInsertedDelegate = (calEvnt) => 
+            {
+                calEvnt.EventStart = (DateTime)calEvnt.EventStart;
+                calEvnt.EventEnd = (DateTime)calEvnt.EventEnd;
+            };
+
+            calendarList.ForEach(CalEventInsertedDelegate);
+            return calendarList;
+        }
+
         private static void ReversedCalEventsCheck(List<CalendarEvent> calendarList)
         {
             if (calendarList.Any(x => x.EventStart > x.EventEnd))

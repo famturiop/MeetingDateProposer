@@ -9,25 +9,25 @@ namespace MeetingDateProposer.BusinessLayer.Providers
     {
         private readonly ApplicationContext _applicationContext;
 
-        public GooseProvider()
-        {
-            _applicationContext = new ApplicationContext();
-        }
+        //public GooseProvider()
+        //{
+        //    _applicationContext = new ApplicationContext();
+        //}
 
-        public int GetGooseCount()
-        {
-            return _applicationContext.Gooses.Count();
-        }
+        //public int GetGooseCount()
+        //{
+        //    return _applicationContext.Gooses.Count();
+        //}
 
-        public List<Goose> GetAllGooses()
-        {
-            return _applicationContext.Gooses.ToList();
-        }
+        //public List<Goose> GetAllGooses()
+        //{
+        //    return _applicationContext.Gooses.ToList();
+        //}
 
-        public void SaveGoose(Goose goose)
-        {
-            _applicationContext.Gooses.Add(goose);
-            _applicationContext.SaveChanges();
-        }
+        //public void SaveGoose(Goose goose)
+        //{
+        //    _applicationContext.Gooses.Add(goose);
+        //    _applicationContext.SaveChanges();
+        //}
     }
 }

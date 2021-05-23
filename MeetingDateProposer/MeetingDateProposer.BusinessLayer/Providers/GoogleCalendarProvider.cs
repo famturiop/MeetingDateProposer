@@ -34,7 +34,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
                 });
             }
 
-            user.Calendar = calendar;
+            user.Calendars.Add(calendar);
         }
 
         private UserCredential GetAccessToGoogle(string[] Scopes, User user)
@@ -48,7 +48,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
                 return credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
-                    user.UserId.ToString(),
+                    user.Id.ToString(),
                     CancellationToken.None,
                     new NullDataStore(), redirectURI).Result;
             }
@@ -72,5 +72,9 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             return events;
         }
 
+        private void NullEventsHandler()
+        {
+
+        }
     }
 }

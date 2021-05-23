@@ -15,9 +15,10 @@ namespace MeetingDateProposer.Domain.Utilities
             {
                 User testUser = new User()
                 {
-                    UserId = currentUser,
-                    Calendar = GenerateCalendar(numberofEvents)
+                    Id = currentUser,
+                    Calendars = new List<Calendar>()
                 };
+                testUser.Calendars.Add(GenerateCalendar(numberofEvents));
                 testMeeting.ConnectedUsers.Add(testUser);
             }
 

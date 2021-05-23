@@ -16,28 +16,28 @@ namespace MeetingDateProposer.Controllers
             _gooseProvider = new GooseProvider();
         }
 
-        [HttpGet]
-        [Route("api/Values/GetAllGooses")]
-        public List<Goose> GetAllGooses()
-        {
-            return _gooseProvider.GetAllGooses();
-        }
+        //[HttpGet]
+        //[Route("api/Values/GetAllGooses")]
+        //public List<Goose> GetAllGooses()
+        //{
+        //    return _gooseProvider.GetAllGooses();
+        //}
 
-        [HttpGet]
-        [Route("api/Values/GetGooseCount")]
-        public int GetGooseCount()
-        {
-            return _gooseProvider.GetGooseCount();
-        }
+        //[HttpGet]
+        //[Route("api/Values/GetGooseCount")]
+        //public int GetGooseCount()
+        //{
+        //    return _gooseProvider.GetGooseCount();
+        //}
 
-        [HttpGet]
-        [Route("api/Values/SaveRandomGoose")]
-        public void SaveRandomGoose()
-        {
-            _gooseProvider.SaveGoose(new Goose
-            {
-                Name = Guid.NewGuid().ToString()
-            });
-        }
+        //[HttpGet]
+        //[Route("api/Values/SaveRandomGoose")]
+        //public void SaveRandomGoose()
+        //{
+        //    _gooseProvider.SaveGoose(new Goose
+        //    {
+        //        Name = Guid.NewGuid().ToString()
+        //    });
+        //}
     }
 }

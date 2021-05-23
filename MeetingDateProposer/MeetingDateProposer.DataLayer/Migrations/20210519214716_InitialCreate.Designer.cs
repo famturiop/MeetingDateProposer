@@ -4,14 +4,16 @@ using MeetingDateProposer.DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingDateProposer.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210519214716_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,18 +61,6 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     b.ToTable("CalendarEvents");
                 });
 
-            modelBuilder.Entity("MeetingDateProposer.Domain.Models.Meeting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Meetings");
-                });
-
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -81,21 +71,6 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("MeetingUser", b =>
-                {
-                    b.Property<int>("ConnectedUsersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserMeetingsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ConnectedUsersId", "UserMeetingsId");
-
-                    b.HasIndex("UserMeetingsId");
-
-                    b.ToTable("MeetingUser");
                 });
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.Calendar", b =>
@@ -118,21 +93,6 @@ namespace MeetingDateProposer.DataLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Calendar");
-                });
-
-            modelBuilder.Entity("MeetingUser", b =>
-                {
-                    b.HasOne("MeetingDateProposer.Domain.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("ConnectedUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MeetingDateProposer.Domain.Models.Meeting", null)
-                        .WithMany()
-                        .HasForeignKey("UserMeetingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.Calendar", b =>

@@ -26,7 +26,8 @@ namespace MeetingDateProposer.Controllers
         [Route("t")]
         public void Test()
         {
-            _user.UserId = 56;
+            _user.Id = 56;
+            _user.Calendars = new List<Calendar>();
             _googleCalendar.GetCalendar(_user);
         }
     }
