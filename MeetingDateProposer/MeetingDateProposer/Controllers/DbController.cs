@@ -8,12 +8,12 @@ namespace MeetingDateProposer.Controllers
 {
     public class DbController : Controller
     {
-        private readonly UserProvider _userProvider;
+        private readonly IUserProvider _userProvider;
         private readonly User _user;
 
-        public DbController()
+        public DbController(IUserProvider userProvider)
         {
-            _userProvider = new UserProvider();
+            _userProvider = userProvider;
             _user = new User();
         }
 
@@ -40,6 +40,7 @@ namespace MeetingDateProposer.Controllers
                     }
                 }
             };
+            
             _userProvider.AddUserToDb(_user);
         }
     }

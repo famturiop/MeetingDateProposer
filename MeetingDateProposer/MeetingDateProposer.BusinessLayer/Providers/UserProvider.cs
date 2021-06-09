@@ -7,30 +7,30 @@ using MeetingDateProposer.DataLayer;
 
 namespace MeetingDateProposer.BusinessLayer.Providers
 {
-    public class UserProvider
+    public class UserProvider: IUserProvider
     {
-        private readonly ApplicationContext appContext;
+        private readonly ApplicationContext _appContext;
 
-        public UserProvider()
+        public UserProvider(ApplicationContext applicationContext)
         {
-            appContext = new ApplicationContext();
+            _appContext = applicationContext;
         }
 
         public void AddUserToDb(User user)
         {
-            appContext.Users.Add(user);
-            appContext.SaveChanges();
+            _appContext.Users.Add(user);
+            _appContext.SaveChanges();
         }
 
         public void RemoveUserFromDb(User user)
         {
-            appContext.Users.Remove(user);
-            appContext.SaveChanges();
+            _appContext.Users.Remove(user);
+            _appContext.SaveChanges();
         }
 
         public User GetUserbyIdFromDb(int Id)
         {
-            return appContext.Users.Where(u => u.Id == Id).First();
+            return _appContext.Users.Where(u => u.Id == Id).First();
         }
 
     }
