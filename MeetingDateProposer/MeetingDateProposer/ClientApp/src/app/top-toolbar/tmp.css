@@ -1,0 +1,35 @@
+ul
+{
+padding-left: 50px;
+margin-left: 0;
+background-color: #036;
+color: White;
+float: left;
+width: 100%;
+font-family: arial, helvetica, sans-serif;
+}
+
+ul li { display: inline; }
+
+ul li a
+{
+padding: 0.2em 1em;
+background-color: #036;
+color: White;
+text-decoration: none;
+float: right;
+border-right: 1px solid #fff;
+}
+
+ul li a:hover
+{
+background-color: #369;
+color: #fff;
+}
+
+.icon{
+    float: left;
+    margin: auto;
+    /* padding-left: 60px; */
+    /* margin-left: 30px; */
+}
