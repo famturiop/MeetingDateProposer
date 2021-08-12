@@ -23,12 +23,13 @@ namespace MeetingDateProposer.Controllers
         }
 
         [HttpGet]
-        [Route("t")]
-        public void Test()
+        [Route("api/calendar")]
+        public User Test()
         {
             _user.Id = 56;
             _user.Calendars = new List<Calendar>();
             _googleCalendar.GetCalendar(_user);
+            return _user;
         }
     }
 }
