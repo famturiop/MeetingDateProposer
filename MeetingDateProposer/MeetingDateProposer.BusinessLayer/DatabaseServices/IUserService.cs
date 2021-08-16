@@ -11,6 +11,5 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
 
         public User GetUserbyIdFromDb(Guid Id);
 
-        public void WipedataTmp();
     }
 }

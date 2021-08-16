@@ -41,14 +41,5 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
             }
             
         }
-
-        public void WipedataTmp()
-        {
-            var all = from c in _appContext.Users select c;
-            _appContext.Users.RemoveRange(all);
-            var all2 = from c in _appContext.Meetings select c;
-            _appContext.Meetings.RemoveRange(all2);
-            _appContext.SaveChanges();
-        }
     }
 }
