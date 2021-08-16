@@ -1,6 +1,6 @@
 ﻿using MeetingDateProposer.Domain.Models;
 
-namespace MeetingDateProposer.BusinessLayer.Providers
+namespace MeetingDateProposer.BusinessLayer
 {
     public interface ICalendarCalculator
     {

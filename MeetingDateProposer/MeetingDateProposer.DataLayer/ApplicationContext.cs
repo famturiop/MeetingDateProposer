@@ -44,6 +44,13 @@ namespace MeetingDateProposer.DataLayer
                 .IsRequired(true);
 
             modelBuilder.Entity<User>()
+                .Property(c => c.Id)
+                .HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Meeting>()
+                .Property(c => c.Id)
+                .HasDefaultValueSql("NEWID()");
+
+            modelBuilder.Entity<User>()
                 .HasMany<Calendar>(c => c.Calendars)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)
@@ -61,15 +68,5 @@ namespace MeetingDateProposer.DataLayer
 
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-            //var data = (JObject)JsonConvert.DeserializeObject("appsettings.json");
-            //string basepath = data["B"].Value<string>();
-            
-
-            //IConfigurationRoot Configuration = new ConfigurationBuilder().SetBasePath(basepath).AddJsonFile("appsettings.json").Build();
-
-            //optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-        //}
     }
 }

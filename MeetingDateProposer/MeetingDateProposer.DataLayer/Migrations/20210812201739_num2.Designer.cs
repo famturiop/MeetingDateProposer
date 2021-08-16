@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeetingDateProposer.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210522200625_4")]
-    partial class _4
+    [Migration("20210812201739_num2")]
+    partial class num2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,8 +28,8 @@ namespace MeetingDateProposer.DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -63,10 +63,13 @@ namespace MeetingDateProposer.DataLayer.Migrations
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.Meeting", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -75,10 +78,13 @@ namespace MeetingDateProposer.DataLayer.Migrations
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -87,11 +93,11 @@ namespace MeetingDateProposer.DataLayer.Migrations
 
             modelBuilder.Entity("MeetingUser", b =>
                 {
-                    b.Property<int>("ConnectedUsersId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ConnectedUsersId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserMeetingsId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserMeetingsId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ConnectedUsersId", "UserMeetingsId");
 

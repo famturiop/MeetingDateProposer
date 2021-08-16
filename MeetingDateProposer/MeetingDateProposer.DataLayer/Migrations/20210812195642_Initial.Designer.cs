@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeetingDateProposer.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210521141427_third")]
-    partial class third
+    [Migration("20210812195642_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,8 +28,8 @@ namespace MeetingDateProposer.DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -48,12 +48,10 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     b.Property<int>("CalendarId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("EventEnd")
-                        .IsRequired()
+                    b.Property<DateTime>("EventEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("EventStart")
-                        .IsRequired()
+                    b.Property<DateTime>("EventStart")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -63,16 +61,47 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     b.ToTable("CalendarEvents");
                 });
 
+            modelBuilder.Entity("MeetingDateProposer.Domain.Models.Meeting", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Meetings");
+                });
+
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MeetingUser", b =>
+                {
+                    b.Property<Guid>("ConnectedUsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserMeetingsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ConnectedUsersId", "UserMeetingsId");
+
+                    b.HasIndex("UserMeetingsId");
+
+                    b.ToTable("MeetingUser");
                 });
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.Calendar", b =>
@@ -80,7 +109,8 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     b.HasOne("MeetingDateProposer.Domain.Models.User", "User")
                         .WithMany("Calendars")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -90,9 +120,25 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     b.HasOne("MeetingDateProposer.Domain.Models.Calendar", "Calendar")
                         .WithMany("UserCalendar")
                         .HasForeignKey("CalendarId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Calendar");
+                });
+
+            modelBuilder.Entity("MeetingUser", b =>
+                {
+                    b.HasOne("MeetingDateProposer.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("ConnectedUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeetingDateProposer.Domain.Models.Meeting", null)
+                        .WithMany()
+                        .HasForeignKey("UserMeetingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.Calendar", b =>

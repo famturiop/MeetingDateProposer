@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MeetingDateProposer.Domain.Models
 {
@@ -7,6 +8,7 @@ namespace MeetingDateProposer.Domain.Models
         public object Credentials { get; set; }
         public List<Calendar> Calendars { get; set; }
         public List<Meeting> UserMeetings { get; set; }
-        public int Id { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

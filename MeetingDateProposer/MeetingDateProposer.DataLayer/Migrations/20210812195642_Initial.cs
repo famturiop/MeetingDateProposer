@@ -3,16 +3,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MeetingDateProposer.DataLayer.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Meetings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Meetings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,7 +37,7 @@ namespace MeetingDateProposer.DataLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,6 +45,30 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     table.ForeignKey(
                         name: "FK_Calendars_Users_UserId",
                         column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MeetingUser",
+                columns: table => new
+                {
+                    ConnectedUsersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserMeetingsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MeetingUser", x => new { x.ConnectedUsersId, x.UserMeetingsId });
+                    table.ForeignKey(
+                        name: "FK_MeetingUser_Meetings_UserMeetingsId",
+                        column: x => x.UserMeetingsId,
+                        principalTable: "Meetings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MeetingUser_Users_ConnectedUsersId",
+                        column: x => x.ConnectedUsersId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -68,6 +104,11 @@ namespace MeetingDateProposer.DataLayer.Migrations
                 name: "IX_Calendars_UserId",
                 table: "Calendars",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MeetingUser_UserMeetingsId",
+                table: "MeetingUser",
+                column: "UserMeetingsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -76,7 +117,13 @@ namespace MeetingDateProposer.DataLayer.Migrations
                 name: "CalendarEvents");
 
             migrationBuilder.DropTable(
+                name: "MeetingUser");
+
+            migrationBuilder.DropTable(
                 name: "Calendars");
+
+            migrationBuilder.DropTable(
+                name: "Meetings");
 
             migrationBuilder.DropTable(
                 name: "Users");

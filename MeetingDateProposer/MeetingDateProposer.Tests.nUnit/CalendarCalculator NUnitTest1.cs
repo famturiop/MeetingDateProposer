@@ -3,6 +3,7 @@ using MeetingDateProposer.Domain.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using MeetingDateProposer.BusinessLayer;
 using MeetingDateProposer.Domain.Utilities;
 
 namespace MeetingDateProposer.Tests.nUnit
@@ -22,8 +23,8 @@ namespace MeetingDateProposer.Tests.nUnit
             CalendarEvent Ev2 = new CalendarEvent() {EventStart = EvStart2, EventEnd = EvEnd2 };
             Calendar Calendar1 = new Calendar() {UserCalendar = new List<CalendarEvent>() {Ev1} };
             Calendar Calendar2 = new Calendar() {UserCalendar = new List<CalendarEvent>() {Ev2} };
-            User User1 = new User() { Credentials = null, Calendars = new List<Calendar>() { Calendar1 }, Id = 1};
-            User User2 = new User() { Credentials = null, Calendars = new List<Calendar>() { Calendar2 }, Id = 2};
+            User User1 = new User() { Credentials = null, Calendars = new List<Calendar>() { Calendar1 }, Id = Guid.NewGuid() };
+            User User2 = new User() { Credentials = null, Calendars = new List<Calendar>() { Calendar2 }, Id = Guid.NewGuid() };
             Meeting1.ConnectedUsers = new List<User>() { User1, User2 };
             CalendarEvent testEvent1 = new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = EvStart1 };
             CalendarEvent testEvent2 = new CalendarEvent() { EventStart = EvEnd2, EventEnd = DateTime.MaxValue };

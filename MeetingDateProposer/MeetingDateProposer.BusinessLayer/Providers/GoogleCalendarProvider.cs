@@ -34,7 +34,13 @@ namespace MeetingDateProposer.BusinessLayer.Providers
                 });
             }
 
-            user.Calendars.Add(calendar);
+            if (user.Calendars == null)
+            {
+                user.Calendars = new List<Calendar> {calendar};
+            }
+            else { user.Calendars.Add(calendar); }
+            
+
         }
 
         private UserCredential GetAccessToGoogle(string[] Scopes, User user)

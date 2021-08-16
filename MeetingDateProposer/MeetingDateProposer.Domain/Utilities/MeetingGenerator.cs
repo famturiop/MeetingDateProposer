@@ -11,11 +11,11 @@ namespace MeetingDateProposer.Domain.Utilities
         {
             Meeting testMeeting = new Meeting();
             testMeeting.ConnectedUsers = new List<User>();
-            for(int currentUser = 0; currentUser < numberofUsers; currentUser++)
+            for (int currentUser = 0; currentUser < numberofUsers; currentUser++)
             {
                 User testUser = new User()
                 {
-                    Id = currentUser,
+                    Id = Guid.NewGuid(),
                     Calendars = new List<Calendar>()
                 };
                 testUser.Calendars.Add(GenerateCalendar(numberofEvents));

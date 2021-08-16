@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using MeetingDateProposer.BusinessLayer;
+using MeetingDateProposer.BusinessLayer.DatabaseServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -44,12 +46,14 @@ namespace MeetingDateProposer
             });
 
 
-
+            services.AddSwaggerGen();
 
             //var tmp = new UserProvider(new ApplicationContext(DbContextOptions);
-            services.AddScoped<IUserProvider, UserProvider>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMeetingService, MeetingService>();
             services.AddScoped<ICalendarProvider, GoogleCalendarProvider>();
-
+            services.AddScoped<ICalendarCalculator, CalendarCalculator>();
+            
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -77,6 +81,17 @@ namespace MeetingDateProposer
             {
                 app.UseSpaStaticFiles();
             }
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
 
             app.UseRouting();
 

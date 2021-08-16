@@ -1,9 +1,9 @@
-﻿using MeetingDateProposer.Domain.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MeetingDateProposer.Domain.Models;
 
-namespace MeetingDateProposer.BusinessLayer.Providers
+namespace MeetingDateProposer.BusinessLayer
 {
     public class CalendarCalculator: ICalendarCalculator
     {
