@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer", "MeetingDateProposer\MeetingDateProposer.csproj", "{BE703E0F-C4F5-4CD1-8C38-D2A3B594CB8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.BusinessLayer", "MeetingDateProposer.BusinessLayer\MeetingDateProposer.BusinessLayer.csproj", "{8FC76A2A-A651-4D07-B5B7-0372706A0C59}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.DataLayer", "MeetingDateProposer.DataLayer\MeetingDateProposer.DataLayer.csproj", "{44FB2BCB-C75A-4D24-B19B-67EF66ACD98C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.Domain", "MeetingDateProposer.Domain\MeetingDateProposer.Domain.csproj", "{5307F48F-F317-4207-82D1-423B5BCF99EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.Tests.xUnit", "MeetingDateProposer.Tests.xUnit\MeetingDateProposer.Tests.xUnit.csproj", "{4198F9C8-C020-4749-892C-762A7B92D974}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.Tests.nUnit", "MeetingDateProposer.Tests.nUnit\MeetingDateProposer.Tests.nUnit.csproj", "{3DA11E09-AEB8-4EC9-9E12-EADA75B56815}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.DataLayer", "MeetingDateProposer.DataLayer\MeetingDateProposer.DataLayer.csproj", "{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingDateProposer.BusinessLayer", "MeetingDateProposer.BusinessLayer\MeetingDateProposer.BusinessLayer.csproj", "{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,6 @@ Global
 		{BE703E0F-C4F5-4CD1-8C38-D2A3B594CB8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE703E0F-C4F5-4CD1-8C38-D2A3B594CB8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE703E0F-C4F5-4CD1-8C38-D2A3B594CB8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FC76A2A-A651-4D07-B5B7-0372706A0C59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FC76A2A-A651-4D07-B5B7-0372706A0C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FC76A2A-A651-4D07-B5B7-0372706A0C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FC76A2A-A651-4D07-B5B7-0372706A0C59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44FB2BCB-C75A-4D24-B19B-67EF66ACD98C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44FB2BCB-C75A-4D24-B19B-67EF66ACD98C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44FB2BCB-C75A-4D24-B19B-67EF66ACD98C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44FB2BCB-C75A-4D24-B19B-67EF66ACD98C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5307F48F-F317-4207-82D1-423B5BCF99EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5307F48F-F317-4207-82D1-423B5BCF99EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5307F48F-F317-4207-82D1-423B5BCF99EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +37,14 @@ Global
 		{3DA11E09-AEB8-4EC9-9E12-EADA75B56815}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DA11E09-AEB8-4EC9-9E12-EADA75B56815}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DA11E09-AEB8-4EC9-9E12-EADA75B56815}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
