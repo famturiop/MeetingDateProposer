@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 using MeetingDateProposer.BusinessLayer;
 using MeetingDateProposer.BusinessLayer.DatabaseServices;
@@ -10,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.BusinessLayer.Providers;
+using MeetingDateProposer.Domain.Models;
+using MeetingDateProposer.Domain.Models.AccountViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeetingDateProposer
@@ -54,9 +59,25 @@ namespace MeetingDateProposer
             services.AddScoped<ICalendarProvider, GoogleCalendarProvider>();
             services.AddScoped<ICalendarCalculator, CalendarCalculator>();
             
+
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            //services.AddIdentity<User, IdentityRole>();
+            services.AddIdentity<User, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<ApplicationContext>();
+            
+            //services.AddIdentityServer().AddApiAuthorization<User, ApplicationContext>();
+
+            //services.AddAuthentication().AddIdentityServerJwt();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole",
+                    policy => policy.RequireRole(Enum.GetName(typeof(Roles),Roles.admin)));
+                options.AddPolicy("RequireUserRole",
+                    policy => policy.RequireRole(Enum.GetName(typeof(Roles), Roles.user)));
+            });
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,6 +115,10 @@ namespace MeetingDateProposer
 
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            //app.UseIdentityServer();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

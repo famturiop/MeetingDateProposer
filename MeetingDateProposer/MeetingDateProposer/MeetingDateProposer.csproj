@@ -29,6 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="appsettings.personal.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="appsettings.personal.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MeetingDateProposer.BusinessLayer\MeetingDateProposer.BusinessLayer.csproj" />
     <ProjectReference Include="..\MeetingDateProposer.Domain\MeetingDateProposer.Domain.csproj" />
   </ItemGroup>

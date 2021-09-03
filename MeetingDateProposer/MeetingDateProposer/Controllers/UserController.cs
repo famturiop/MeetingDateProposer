@@ -2,18 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MeetingDateProposer.BusinessLayer.DatabaseServices;
 using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MeetingDateProposer.Controllers
 {
     [Produces(MediaTypeNames.Application.Json)]
     [ApiController]
     [Route("api/[action]")]
+    [Authorize(Policy = "RequireAdminRole")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userProvider;
@@ -25,13 +28,13 @@ namespace MeetingDateProposer.Controllers
             _userCalendar = userCalendar;
         }
 
-
-        [HttpGet("")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public ActionResult<User> GetUserById(Guid userId)
         {
-            var user = _userProvider.GetUserbyIdFromDb(userId);
+            var user = _userProvider.GetUserByIdFromDb(userId);
             if (user == null)
             {
                 return NotFound();
@@ -40,8 +43,9 @@ namespace MeetingDateProposer.Controllers
         }
 
 
-        [HttpPost("")]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public ActionResult<User> CreateUser(string name)
         {
             User user = new User { Name = name };
@@ -50,5 +54,17 @@ namespace MeetingDateProposer.Controllers
             return Ok(user);
         }
 
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<User> DeleteUser(Guid userId)
+        {
+            var user = _userProvider.RemoveUserFromDb(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
     }
 }

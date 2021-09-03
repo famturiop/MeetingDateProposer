@@ -20,14 +20,14 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
             _appContext.SaveChanges();
         }
 
-        public Meeting GetMeetingbyIdFromDb(Guid id)
+        public Meeting GetMeetingByIdFromDb(Guid id)
         {
-            if (_appContext.Meetings.Where(u => u.Id == id).Any())
+            if (_appContext.Meetings.Any(u => u.Id == id))
             {
                 return _appContext.Meetings.Include(m => m.ConnectedUsers)
                     .ThenInclude(c => c.Calendars)
                     .ThenInclude(ce => ce.UserCalendar)
-                    .Where(u => u.Id == id).First();
+                    .First(u => u.Id == id);
             }
             else
             {
@@ -44,6 +44,21 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
             }
             else { meeting.ConnectedUsers.Add(user); }
             _appContext.SaveChanges();
+        }
+
+        public Meeting DeleteMeeting(Guid id)
+        {
+            if (_appContext.Meetings.Any(m => m.Id == id))
+            {
+                var meeting = _appContext.Meetings.First(m => m.Id == id);
+                _appContext.Meetings.Remove(meeting);
+                _appContext.SaveChanges();
+                return meeting;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

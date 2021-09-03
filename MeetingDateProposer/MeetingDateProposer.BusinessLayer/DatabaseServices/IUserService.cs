@@ -7,9 +7,9 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
     {
         public void AddUserToDb(User user);
 
-        public void RemoveUserFromDb(User user);
+        public User RemoveUserFromDb(Guid id);
 
-        public User GetUserbyIdFromDb(Guid Id);
+        public User GetUserByIdFromDb(Guid id);
 
     }
 }

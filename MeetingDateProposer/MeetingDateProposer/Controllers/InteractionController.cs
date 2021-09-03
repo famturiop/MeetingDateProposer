@@ -9,6 +9,7 @@ using MeetingDateProposer.BusinessLayer;
 using MeetingDateProposer.BusinessLayer.DatabaseServices;
 using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -31,13 +32,13 @@ namespace MeetingDateProposer.Controllers
             _calculator = calculator;
         }
 
-        [HttpPut("")]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Meeting> UpdateMeeting(Guid meetingId, Guid userId)
         {
-            var meeting = _meetingProvider.GetMeetingbyIdFromDb(meetingId);
-            var user = _userProvider.GetUserbyIdFromDb(userId);
+            var meeting = _meetingProvider.GetMeetingByIdFromDb(meetingId);
+            var user = _userProvider.GetUserByIdFromDb(userId);
             if (meeting == null) { return NotFound(); }
             if (user == null) { return NotFound(); }
             _meetingProvider.AddUserToMeeting(user, meeting);
@@ -49,7 +50,7 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Calendar> CalculateMeetingTime(Guid meetingId)
         {
-            var meeting = _meetingProvider.GetMeetingbyIdFromDb(meetingId);
+            var meeting = _meetingProvider.GetMeetingByIdFromDb(meetingId);
             if (meeting == null)
             {
                 return NotFound();
