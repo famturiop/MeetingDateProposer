@@ -2,15 +2,16 @@
 using System.Linq;
 using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.Domain.Models;
+using MeetingDateProposer.Domain.Models.AccountViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeetingDateProposer.BusinessLayer.DatabaseServices
 {
-    public class UserService: IUserService
+    public class AccountService: IAccountService
     {
         private readonly ApplicationContext _appContext;
 
-        public UserService(ApplicationContext applicationContext)
+        public AccountService(ApplicationContext applicationContext)
         {
             _appContext = applicationContext;
         }
@@ -21,12 +22,12 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
             _appContext.SaveChanges();
         }
 
-        public User RemoveUserFromDb(Guid id)
+        public AccountUser RemoveUserFromDb(Guid id)
         {
-            if (_appContext.ApplicationUsers.Any(u => u.Id == id))
+            if (_appContext.Users.Any(u => u.Id == id))
             {
-                var user = _appContext.ApplicationUsers.First(u => u.Id == id);
-                _appContext.ApplicationUsers.Remove(user);
+                var user = _appContext.Users.First(u => u.Id == id);
+                _appContext.Users.Remove(user);
                 _appContext.SaveChanges();
                 return user;
             }
@@ -36,12 +37,11 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
             }
         }
 
-        public User GetUserByIdFromDb(Guid id)
+        public AccountUser GetUserByIdFromDb(Guid id)
         {
-            if (_appContext.ApplicationUsers.Any(u => u.Id == id))
+            if (_appContext.Users.Any(u => u.Id == id))
             {
-                return _appContext.ApplicationUsers
-                    .Include(u => u.Calendars)
+                return _appContext.Users
                     .First(u => u.Id == id);
             }
             else

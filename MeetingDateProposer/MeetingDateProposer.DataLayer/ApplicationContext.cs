@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 using MeetingDateProposer.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4.EntityFramework.Options;
+using MeetingDateProposer.Domain.Models.AccountViewModels;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -11,15 +13,15 @@ using Microsoft.Extensions.Options;
 
 namespace MeetingDateProposer.DataLayer
 {
-    public sealed class ApplicationContext : IdentityDbContext<User,IdentityRole<Guid>,Guid>
+    public sealed class ApplicationContext : IdentityDbContext<AccountUser,IdentityRole<Guid>,Guid>
     {
         private readonly IConfiguration _config;
         public ApplicationContext(DbContextOptions options) : base(options)
         {
             
         }
-        
-        public override DbSet<User> Users { get; set; }
+        public override DbSet<AccountUser> Users { get; set; }
+        public DbSet<User> ApplicationUsers { get; set; }
         public DbSet<Calendar> Calendars { get; set; }
         public DbSet<CalendarEvent> CalendarEvents { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
@@ -34,6 +36,7 @@ namespace MeetingDateProposer.DataLayer
             modelBuilder.Entity<Meeting>().HasKey(k => k.Id);
             
             modelBuilder.Entity<User>().Ignore(c => c.Credentials);
+            modelBuilder.Entity<User>().ToTable("Users");
             //modelBuilder.Entity<User>()
             //    .Property(c => c.Calendars)
             //    .IsRequired(false);
@@ -90,15 +93,14 @@ namespace MeetingDateProposer.DataLayer
                 Name = "user",
                 NormalizedName = "USER"
             };
-            PasswordHasher<User> pass = new PasswordHasher<User>();
-            User admin = new User
+            PasswordHasher<AccountUser> pass = new PasswordHasher<AccountUser>();
+            AccountUser admin = new AccountUser
             {
                 Email = "test@test.com",
                 EmailConfirmed = true,
                 Id = Guid.Parse("4f4d9c6c-e823-457e-9bfa-b2d15922ca17"),
-                Name = "admin",
                 UserName = "test@test.com",
-                PasswordHash = pass.HashPassword(new User(), "qwerty"),
+                PasswordHash = pass.HashPassword(new AccountUser(), "qwerty"),
                 NormalizedUserName = "TEST@TEST.COM",
                 NormalizedEmail = "TEST@TEST.COM",
                 LockoutEnabled = true,
@@ -112,7 +114,7 @@ namespace MeetingDateProposer.DataLayer
                 RoleId = adminRole.Id
             };
             modelBuilder.Entity<IdentityRole<Guid>>().HasData(new IdentityRole<Guid>[] { adminRole, userRole });
-            modelBuilder.Entity<User>().HasData(new User[] { admin });
+            modelBuilder.Entity<AccountUser>().HasData(new AccountUser[] { admin });
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>[] {identityUserRole});
         }
     }

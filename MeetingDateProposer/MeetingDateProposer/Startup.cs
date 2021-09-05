@@ -64,7 +64,7 @@ namespace MeetingDateProposer
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //services.AddIdentity<User, IdentityRole>();
-            services.AddIdentity<User, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddIdentity<AccountUser, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationContext>();
             
             //services.AddIdentityServer().AddApiAuthorization<User, ApplicationContext>();

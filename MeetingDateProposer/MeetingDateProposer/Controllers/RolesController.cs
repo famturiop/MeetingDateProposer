@@ -19,10 +19,10 @@ namespace MeetingDateProposer.Controllers
     [Authorize(Policy = "RequireAdminRole")]
     public class RolesController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<AccountUser> _userManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-        public RolesController(RoleManager<IdentityRole<Guid>> roleManager, UserManager<User> userManager)
+        public RolesController(RoleManager<IdentityRole<Guid>> roleManager, UserManager<AccountUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -70,7 +70,7 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> EditAsync(string userId, List<string> roles)
         {
-            User user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
                 var userRoles = await _userManager.GetRolesAsync(user);

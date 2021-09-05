@@ -35,7 +35,7 @@ namespace TestApp
             SeedRolesAndUsers();
         }
 
-        public User RemoveUserFromDb(Guid id, ApplicationContext appContext)
+        public AccountUser RemoveUserFromDb(Guid id, ApplicationContext appContext)
         {
             //if (appContext.Users.Any(u => u.Id == id))
             //{
