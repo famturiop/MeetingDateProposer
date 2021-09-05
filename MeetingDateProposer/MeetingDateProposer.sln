@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.Tests.n
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.DataLayer", "MeetingDateProposer.DataLayer\MeetingDateProposer.DataLayer.csproj", "{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingDateProposer.BusinessLayer", "MeetingDateProposer.BusinessLayer\MeetingDateProposer.BusinessLayer.csproj", "{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.BusinessLayer", "MeetingDateProposer.BusinessLayer\MeetingDateProposer.BusinessLayer.csproj", "{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{BC179A52-C36D-49CF-BB2A-4240FF7D0899}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BE703E0F-C4F5-4CD1-8C38-D2A3B594CB8D} = {BE703E0F-C4F5-4CD1-8C38-D2A3B594CB8D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +50,10 @@ Global
 		{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC179A52-C36D-49CF-BB2A-4240FF7D0899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC179A52-C36D-49CF-BB2A-4240FF7D0899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC179A52-C36D-49CF-BB2A-4240FF7D0899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC179A52-C36D-49CF-BB2A-4240FF7D0899}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

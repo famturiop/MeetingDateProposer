@@ -6,12 +6,14 @@ using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace MeetingDateProposer.DataLayer
 {
     public sealed class ApplicationContext : IdentityDbContext<User,IdentityRole<Guid>,Guid>
     {
+        private readonly IConfiguration _config;
         public ApplicationContext(DbContextOptions options) : base(options)
         {
             
@@ -102,6 +104,7 @@ namespace MeetingDateProposer.DataLayer
                 LockoutEnabled = true,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
+
 
             var identityUserRole = new IdentityUserRole<Guid>
             {

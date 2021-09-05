@@ -1,8 +1,10 @@
-﻿namespace MeetingDateProposer.Domain.Models.AccountViewModels
+﻿using System.ComponentModel;
+
+namespace MeetingDateProposer.Domain.Models.AccountViewModels
 {
-    public enum Roles
+    public static class Roles
     {
-        admin,
-        user
+        public static readonly string Admin = "admin";
+        public static readonly string User = "user";
     }
 }

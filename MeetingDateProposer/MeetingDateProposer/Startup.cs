@@ -49,7 +49,7 @@ namespace MeetingDateProposer
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
+            
 
             services.AddSwaggerGen();
 
@@ -73,9 +73,9 @@ namespace MeetingDateProposer
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdminRole",
-                    policy => policy.RequireRole(Enum.GetName(typeof(Roles),Roles.admin)));
+                    policy => policy.RequireRole(Roles.User));
                 options.AddPolicy("RequireUserRole",
-                    policy => policy.RequireRole(Enum.GetName(typeof(Roles), Roles.user)));
+                    policy => policy.RequireRole(Roles.Admin));
             });
             services.AddControllersWithViews();
         }

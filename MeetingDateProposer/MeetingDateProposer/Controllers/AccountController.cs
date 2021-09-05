@@ -38,7 +38,7 @@ namespace MeetingDateProposer.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, Enum.GetName(typeof(Roles), Roles.user));
+                    await _userManager.AddToRoleAsync(user, Roles.User);
                     await _signInManager.SignInAsync(user, false);
                     return Ok();
                 }
