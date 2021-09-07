@@ -14,7 +14,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 {
     public class GoogleCalendarProvider : ICalendarProvider
     {
-        public void GetCalendar(User user)
+        public void GetCalendar(ApplicationUser user)
         {
             string[] Scopes = {CalendarService.Scope.CalendarReadonly};
             var credential = GetAccessToGoogle(Scopes, user); 
@@ -43,7 +43,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 
         }
 
-        private UserCredential GetAccessToGoogle(string[] Scopes, User user)
+        private UserCredential GetAccessToGoogle(string[] Scopes, ApplicationUser user)
         {
             UserCredential credential;
             LocalServerCodeReceiver redirectURI = new LocalServerCodeReceiver("You may close the page now.",

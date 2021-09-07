@@ -5,11 +5,11 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
 {
     public interface IUserService
     {
-        public void AddUserToDb(User user);
+        public void AddUserToDb(ApplicationUser user);
 
-        public User RemoveUserFromDb(Guid id);
+        public ApplicationUser RemoveUserFromDb(Guid id);
 
-        public User GetUserByIdFromDb(Guid id);
+        public ApplicationUser GetUserByIdFromDb(Guid id);
 
     }
 }

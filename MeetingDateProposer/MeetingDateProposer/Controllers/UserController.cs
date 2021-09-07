@@ -32,7 +32,7 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public ActionResult<User> GetUserById(Guid userId)
+        public ActionResult<ApplicationUser> GetUserById(Guid userId)
         {
             var user = _userProvider.GetUserByIdFromDb(userId);
             if (user == null)
@@ -46,9 +46,9 @@ namespace MeetingDateProposer.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public ActionResult<User> CreateUser(string name)
+        public ActionResult<ApplicationUser> CreateUser(string name)
         {
-            User user = new User { Name = name };
+            ApplicationUser user = new ApplicationUser { Name = name };
             _userCalendar.GetCalendar(user);
             _userProvider.AddUserToDb(user);
             return Ok(user);
@@ -57,7 +57,7 @@ namespace MeetingDateProposer.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<User> DeleteUser(Guid userId)
+        public ActionResult<ApplicationUser> DeleteUser(Guid userId)
         {
             var user = _userProvider.RemoveUserFromDb(userId);
             if (user == null)

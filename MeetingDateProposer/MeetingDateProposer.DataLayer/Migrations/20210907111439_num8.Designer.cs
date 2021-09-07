@@ -4,14 +4,16 @@ using MeetingDateProposer.DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingDateProposer.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210907111439_num8")]
+    partial class num8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,6 +100,24 @@ namespace MeetingDateProposer.DataLayer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4f4d9c6c-e823-457e-9bfa-b2d15922ca17"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d29e8a72-995f-47b4-8ec9-f739716884a1",
+                            Email = "test@test.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "TEST@TEST.COM",
+                            NormalizedUserName = "TEST@TEST.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHTU7kAsNifgesKiXJ2INlBOuln6F6zDqCulIXZTs0Nfx5qwybNZL1790RWUkjIxXA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7e18619e-f825-4826-805b-121758c66498",
+                            TwoFactorEnabled = false,
+                            UserName = "test@test.com"
+                        });
                 });
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.ApplicationUser", b =>
@@ -107,7 +127,7 @@ namespace MeetingDateProposer.DataLayer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<Guid?>("AccountUserId")
+                    b.Property<Guid>("AccountUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -116,8 +136,7 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountUserId")
-                        .IsUnique()
-                        .HasFilter("[AccountUserId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("ApplicationUsers");
                 });
@@ -203,6 +222,22 @@ namespace MeetingDateProposer.DataLayer.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d8dcd30c-1005-405a-d397-08d96a226c76"),
+                            ConcurrencyStamp = "c325895f-6cae-4abc-80fe-bc7324771ed4",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("5d106043-53f8-4a1b-8459-e5409d1b2b0a"),
+                            ConcurrencyStamp = "82e39fc8-7828-4d40-8c88-4a64c113c424",
+                            Name = "user",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -285,6 +320,13 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("4f4d9c6c-e823-457e-9bfa-b2d15922ca17"),
+                            RoleId = new Guid("d8dcd30c-1005-405a-d397-08d96a226c76")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -323,11 +365,9 @@ namespace MeetingDateProposer.DataLayer.Migrations
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("MeetingDateProposer.Domain.Models.AccountViewModels.AccountUser", "AccountUser")
+                    b.HasOne("MeetingDateProposer.Domain.Models.AccountViewModels.AccountUser", null)
                         .WithOne()
                         .HasForeignKey("MeetingDateProposer.Domain.Models.ApplicationUser", "AccountUserId");
-
-                    b.Navigation("AccountUser");
                 });
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.Calendar", b =>

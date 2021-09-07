@@ -81,7 +81,7 @@ namespace TestApp
             //};
             var builder = new ConfigurationBuilder().AddUserSecrets<Program>();
             _config = builder.Build();
-            User admin = _config.GetSection("admin").Get<User>();
+            ApplicationUser admin = _config.GetSection("admin").Get<ApplicationUser>();
             var identityUserRole = new IdentityUserRole<Guid>
             {
                 UserId = admin.Id,

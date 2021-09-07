@@ -16,7 +16,7 @@ namespace MeetingDateProposer.Tests.xUnit
             // Arrange
             Meeting meeting = new Meeting()
             {
-                ConnectedUsers = new List<User>(),
+                ConnectedUsers = new List<ApplicationUser>(),
                 Id = Guid.NewGuid()
             };
             var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
@@ -25,8 +25,8 @@ namespace MeetingDateProposer.Tests.xUnit
             var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 13, 0, 0), EventEnd = new DateTime(2021, 5, 8, 13, 30, 0) });
 
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
 
             var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
@@ -47,7 +47,7 @@ namespace MeetingDateProposer.Tests.xUnit
             // Arrange
             Meeting meeting = new Meeting()
             {
-                ConnectedUsers = new List<User>(),
+                ConnectedUsers = new List<ApplicationUser>(),
                 Id = Guid.NewGuid()
             };
             var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
@@ -56,8 +56,8 @@ namespace MeetingDateProposer.Tests.xUnit
             var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 13, 0, 0), EventEnd = new DateTime(2021, 5, 8, 15, 30, 0) });
 
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
 
             var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
@@ -78,7 +78,7 @@ namespace MeetingDateProposer.Tests.xUnit
             // Arrange
             Meeting meeting = new Meeting()
             {
-                ConnectedUsers = new List<User>(),
+                ConnectedUsers = new List<ApplicationUser>(),
                 Id = Guid.NewGuid()
             };
             var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
@@ -87,8 +87,8 @@ namespace MeetingDateProposer.Tests.xUnit
             var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 15, 0, 0), EventEnd = new DateTime(2021, 5, 8, 16, 30, 0) });
 
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
 
             var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
@@ -110,7 +110,7 @@ namespace MeetingDateProposer.Tests.xUnit
             // Arrange
             Meeting meeting = new Meeting()
             {
-                ConnectedUsers = new List<User>(),
+                ConnectedUsers = new List<ApplicationUser>(),
                 Id = Guid.NewGuid()
             };
             var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
@@ -119,8 +119,8 @@ namespace MeetingDateProposer.Tests.xUnit
             var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = new DateTime(2021, 5, 8, 13, 00, 0) });
 
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
 
             var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
@@ -141,15 +141,15 @@ namespace MeetingDateProposer.Tests.xUnit
             // Arrange
             Meeting meeting = new Meeting()
             {
-                ConnectedUsers = new List<User>(),
+                ConnectedUsers = new List<ApplicationUser>(),
                 Id = Guid.NewGuid()
             };
             var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
 
             var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
 
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
 
             var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = DateTime.MaxValue });
@@ -169,7 +169,7 @@ namespace MeetingDateProposer.Tests.xUnit
             // Arrange
             Meeting meeting = new Meeting()
             {
-                ConnectedUsers = new List<User>(),
+                ConnectedUsers = new List<ApplicationUser>(),
                 Id = Guid.NewGuid()
             };
             var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
@@ -178,8 +178,8 @@ namespace MeetingDateProposer.Tests.xUnit
             var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = DateTime.MaxValue });
 
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
 
             var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
 
@@ -198,13 +198,13 @@ namespace MeetingDateProposer.Tests.xUnit
             // Arrange
             Meeting meeting = new Meeting()
             {
-                ConnectedUsers = new List<User>(),
+                ConnectedUsers = new List<ApplicationUser>(),
                 Id = Guid.NewGuid()
             };
             var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             UserCal1.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = new DateTime(2021, 5, 8, 14, 0, 0) });
 
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
 
             var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
@@ -248,7 +248,7 @@ namespace MeetingDateProposer.Tests.xUnit
             // Arrange
             Meeting meeting = new Meeting()
             {
-                ConnectedUsers = new List<User>(),
+                ConnectedUsers = new List<ApplicationUser>(),
                 Id = Guid.NewGuid()
             };
             var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
@@ -257,8 +257,8 @@ namespace MeetingDateProposer.Tests.xUnit
             var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
             UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 13, 0, 0), EventEnd = new DateTime(2021, 5, 8, 13, 30, 0) });
 
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
-            meeting.ConnectedUsers.Add(new User() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal1 }, Credentials = null, Id = Guid.NewGuid() });
+            meeting.ConnectedUsers.Add(new ApplicationUser() { Calendars = new List<Calendar>() { UserCal2 }, Credentials = null, Id = Guid.NewGuid() });
 
             var calculatorUT = new CalendarCalculator();
 

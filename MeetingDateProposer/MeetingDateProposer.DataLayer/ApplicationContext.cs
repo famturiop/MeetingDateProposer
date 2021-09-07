@@ -15,13 +15,12 @@ namespace MeetingDateProposer.DataLayer
 {
     public sealed class ApplicationContext : IdentityDbContext<AccountUser,IdentityRole<Guid>,Guid>
     {
-        private readonly IConfiguration _config;
         public ApplicationContext(DbContextOptions options) : base(options)
         {
             
         }
         public override DbSet<AccountUser> Users { get; set; }
-        public DbSet<User> ApplicationUsers { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Calendar> Calendars { get; set; }
         public DbSet<CalendarEvent> CalendarEvents { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
@@ -30,13 +29,16 @@ namespace MeetingDateProposer.DataLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasKey(k => k.Id);
+            modelBuilder.Entity<ApplicationUser>(b =>
+            {
+                b.HasKey(k => k.Id);
+                b.Ignore(c => c.Credentials);
+            });
             modelBuilder.Entity<Calendar>().HasKey(k => k.Id);
             modelBuilder.Entity<CalendarEvent>().HasKey(k => k.Id);
             modelBuilder.Entity<Meeting>().HasKey(k => k.Id);
             
-            modelBuilder.Entity<User>().Ignore(c => c.Credentials);
-            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<ApplicationUser>().Ignore(c => c.Credentials);
             //modelBuilder.Entity<User>()
             //    .Property(c => c.Calendars)
             //    .IsRequired(false);
@@ -50,14 +52,14 @@ namespace MeetingDateProposer.DataLayer
                 .Property(c => c.EventEnd)
                 .IsRequired(true);
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<ApplicationUser>()
                 .Property(c => c.Id)
                 .HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<Meeting>()
                 .Property(c => c.Id)
                 .HasDefaultValueSql("NEWID()");
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<ApplicationUser>()
                 .HasMany<Calendar>(c => c.Calendars)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)
@@ -70,10 +72,15 @@ namespace MeetingDateProposer.DataLayer
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired(true);
             modelBuilder.Entity<Meeting>()
-                .HasMany<User>(c => c.ConnectedUsers)
+                .HasMany<ApplicationUser>(c => c.ConnectedUsers)
                 .WithMany(c => c.UserMeetings);
+            modelBuilder.Entity<AccountUser>()
+                .HasOne<ApplicationUser>()
+                .WithOne(c => c.AccountUser)
+                .HasForeignKey<ApplicationUser>(c => c.AccountUserId)
+                .IsRequired(false);
 
-            SeedRolesAndUsers(modelBuilder);
+            //SeedRolesAndUsers(modelBuilder);
             
             base.OnModelCreating(modelBuilder);
         }

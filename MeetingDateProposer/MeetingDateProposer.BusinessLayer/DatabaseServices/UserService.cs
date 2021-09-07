@@ -15,13 +15,13 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
             _appContext = applicationContext;
         }
 
-        public void AddUserToDb(User user)
+        public void AddUserToDb(ApplicationUser user)
         {
             _appContext.ApplicationUsers.Add(user);
             _appContext.SaveChanges();
         }
 
-        public User RemoveUserFromDb(Guid id)
+        public ApplicationUser RemoveUserFromDb(Guid id)
         {
             if (_appContext.ApplicationUsers.Any(u => u.Id == id))
             {
@@ -36,7 +36,7 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
             }
         }
 
-        public User GetUserByIdFromDb(Guid id)
+        public ApplicationUser GetUserByIdFromDb(Guid id)
         {
             if (_appContext.ApplicationUsers.Any(u => u.Id == id))
             {

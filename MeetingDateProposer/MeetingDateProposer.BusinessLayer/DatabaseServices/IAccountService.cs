@@ -6,7 +6,7 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
 {
     public interface IAccountService
     {
-        public void AddUserToDb(User user);
+        public void AddUserToDb(ApplicationUser user);
 
         public AccountUser RemoveUserFromDb(Guid id);
 

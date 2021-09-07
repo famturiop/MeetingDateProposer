@@ -4,14 +4,16 @@ using MeetingDateProposer.DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingDateProposer.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210907112825_num9")]
+    partial class num9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,6 +100,24 @@ namespace MeetingDateProposer.DataLayer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4f4d9c6c-e823-457e-9bfa-b2d15922ca17"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "39015412-eb96-4113-a447-cf447107d691",
+                            Email = "test@test.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "TEST@TEST.COM",
+                            NormalizedUserName = "TEST@TEST.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDpEaIuFD85WQ15+4F2tFjxMaLhDLJFpvUOCT/22vy0rNOsRyFaDWkMIWdVAa/3xfQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "b79f4c60-d19d-42c5-90a6-efb865ef8cc4",
+                            TwoFactorEnabled = false,
+                            UserName = "test@test.com"
+                        });
                 });
 
             modelBuilder.Entity("MeetingDateProposer.Domain.Models.ApplicationUser", b =>
@@ -203,6 +223,22 @@ namespace MeetingDateProposer.DataLayer.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d8dcd30c-1005-405a-d397-08d96a226c76"),
+                            ConcurrencyStamp = "fc343ed8-2418-4994-bcfc-572faa808437",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("5d106043-53f8-4a1b-8459-e5409d1b2b0a"),
+                            ConcurrencyStamp = "26efb17d-4d86-4c3f-9e83-dabc30e57f6c",
+                            Name = "user",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -285,6 +321,13 @@ namespace MeetingDateProposer.DataLayer.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("4f4d9c6c-e823-457e-9bfa-b2d15922ca17"),
+                            RoleId = new Guid("d8dcd30c-1005-405a-d397-08d96a226c76")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>

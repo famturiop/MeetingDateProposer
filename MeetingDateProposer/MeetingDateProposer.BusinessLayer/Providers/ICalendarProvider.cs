@@ -4,7 +4,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 {
     public  interface ICalendarProvider
     {
-        public void GetCalendar(User user);
+        public void GetCalendar(ApplicationUser user);
 
     }
 }

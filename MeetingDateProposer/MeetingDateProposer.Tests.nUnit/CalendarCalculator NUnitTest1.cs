@@ -23,9 +23,9 @@ namespace MeetingDateProposer.Tests.nUnit
             CalendarEvent Ev2 = new CalendarEvent() {EventStart = EvStart2, EventEnd = EvEnd2 };
             Calendar Calendar1 = new Calendar() {UserCalendar = new List<CalendarEvent>() {Ev1} };
             Calendar Calendar2 = new Calendar() {UserCalendar = new List<CalendarEvent>() {Ev2} };
-            User User1 = new User() { Credentials = null, Calendars = new List<Calendar>() { Calendar1 }, Id = Guid.NewGuid() };
-            User User2 = new User() { Credentials = null, Calendars = new List<Calendar>() { Calendar2 }, Id = Guid.NewGuid() };
-            Meeting1.ConnectedUsers = new List<User>() { User1, User2 };
+            ApplicationUser User1 = new ApplicationUser() { Credentials = null, Calendars = new List<Calendar>() { Calendar1 }, Id = Guid.NewGuid() };
+            ApplicationUser User2 = new ApplicationUser() { Credentials = null, Calendars = new List<Calendar>() { Calendar2 }, Id = Guid.NewGuid() };
+            Meeting1.ConnectedUsers = new List<ApplicationUser>() { User1, User2 };
             CalendarEvent testEvent1 = new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = EvStart1 };
             CalendarEvent testEvent2 = new CalendarEvent() { EventStart = EvEnd2, EventEnd = DateTime.MaxValue };
             Calendar testCalendar = new Calendar() { UserCalendar = new List<CalendarEvent>() {testEvent1, testEvent2} };

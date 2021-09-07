@@ -35,12 +35,12 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
             }
         }
 
-        public void AddUserToMeeting(User user, Meeting meeting)
+        public void AddUserToMeeting(ApplicationUser user, Meeting meeting)
         {
             _appContext.Meetings.Update(meeting);
             if (meeting.ConnectedUsers == null)
             {
-                meeting.ConnectedUsers = new List<User> { user };
+                meeting.ConnectedUsers = new List<ApplicationUser> { user };
             }
             else { meeting.ConnectedUsers.Add(user); }
             _appContext.SaveChanges();

@@ -5,6 +5,5 @@ namespace MeetingDateProposer.Domain.Models.AccountViewModels
 {
     public class AccountUser : IdentityUser<Guid>
     {
-        
     }
 }

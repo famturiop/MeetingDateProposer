@@ -10,10 +10,10 @@ namespace MeetingDateProposer.Domain.Utilities
         public Meeting GenerateMeeting(int numberofUsers, int numberofEvents)
         {
             Meeting testMeeting = new Meeting();
-            testMeeting.ConnectedUsers = new List<User>();
+            testMeeting.ConnectedUsers = new List<ApplicationUser>();
             for (int currentUser = 0; currentUser < numberofUsers; currentUser++)
             {
-                User testUser = new User()
+                ApplicationUser testUser = new ApplicationUser()
                 {
                     Id = Guid.NewGuid(),
                     Calendars = new List<Calendar>()

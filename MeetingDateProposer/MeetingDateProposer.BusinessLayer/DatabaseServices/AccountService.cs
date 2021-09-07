@@ -16,7 +16,7 @@ namespace MeetingDateProposer.BusinessLayer.DatabaseServices
             _appContext = applicationContext;
         }
 
-        public void AddUserToDb(User user)
+        public void AddUserToDb(ApplicationUser user)
         {
             _appContext.ApplicationUsers.Add(user);
             _appContext.SaveChanges();

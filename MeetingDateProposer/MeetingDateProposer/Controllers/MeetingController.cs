@@ -44,7 +44,7 @@ namespace MeetingDateProposer.Controllers
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
-        public ActionResult<User> CreateMeeting(string name)
+        public ActionResult<ApplicationUser> CreateMeeting(string name)
         {
             Meeting meeting = new Meeting {Name = name};
             _meetingProvider.AddMeetingToDb(meeting);
@@ -54,7 +54,7 @@ namespace MeetingDateProposer.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<User> DeleteMeeting(Guid meetingId)
+        public ActionResult<ApplicationUser> DeleteMeeting(Guid meetingId)
         {
             var meeting = _meetingProvider.DeleteMeeting(meetingId);
             if (meeting == null)
