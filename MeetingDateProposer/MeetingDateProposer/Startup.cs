@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.BusinessLayer.Providers;
+using MeetingDateProposer.DataLayer.Services;
 using MeetingDateProposer.Domain.Models;
 using MeetingDateProposer.Domain.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authentication;
@@ -41,6 +42,8 @@ namespace MeetingDateProposer
                     });
             });
 
+            
+
             //services.AddControllersWithViews();
             services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
@@ -58,7 +61,7 @@ namespace MeetingDateProposer
             services.AddScoped<IMeetingService, MeetingService>();
             services.AddScoped<ICalendarProvider, GoogleCalendarProvider>();
             services.AddScoped<ICalendarCalculator, CalendarCalculator>();
-            
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -113,7 +116,6 @@ namespace MeetingDateProposer
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-
             app.UseRouting();
 
             app.UseAuthentication();
@@ -146,9 +148,14 @@ namespace MeetingDateProposer
             //    }
             //});
 
+            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer>();
+                dbInitializer.Initialize();
+                dbInitializer.Seed();
+            }
 
-
-            
         }
     }
 }

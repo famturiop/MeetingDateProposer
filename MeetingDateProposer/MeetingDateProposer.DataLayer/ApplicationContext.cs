@@ -17,7 +17,6 @@ namespace MeetingDateProposer.DataLayer
     {
         public ApplicationContext(DbContextOptions options) : base(options)
         {
-            
         }
         public override DbSet<AccountUser> Users { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
@@ -33,52 +32,50 @@ namespace MeetingDateProposer.DataLayer
             {
                 b.HasKey(k => k.Id);
                 b.Ignore(c => c.Credentials);
+                b.Property(c => c.Id).HasDefaultValueSql("NEWID()");
+                b.HasMany<Calendar>(c => c.Calendars)
+                    .WithOne(c => c.User)
+                    .HasForeignKey(c => c.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired(true);
+
             });
-            modelBuilder.Entity<Calendar>().HasKey(k => k.Id);
-            modelBuilder.Entity<CalendarEvent>().HasKey(k => k.Id);
-            modelBuilder.Entity<Meeting>().HasKey(k => k.Id);
-            
-            modelBuilder.Entity<ApplicationUser>().Ignore(c => c.Credentials);
-            //modelBuilder.Entity<User>()
-            //    .Property(c => c.Calendars)
-            //    .IsRequired(false);
-            //modelBuilder.Entity<Calendar>()
-            //    .Property(c => c.UserCalendar)
-            //    .IsRequired(false);
-            modelBuilder.Entity<CalendarEvent>()
-                .Property(c => c.EventStart)
-                .IsRequired(true);
-            modelBuilder.Entity<CalendarEvent>()
-                .Property(c => c.EventEnd)
-                .IsRequired(true);
 
-            modelBuilder.Entity<ApplicationUser>()
-                .Property(c => c.Id)
-                .HasDefaultValueSql("NEWID()");
-            modelBuilder.Entity<Meeting>()
-                .Property(c => c.Id)
-                .HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Calendar>(b =>
+            {
+                b.HasKey(k => k.Id);
+                b.HasMany<CalendarEvent>(c => c.UserCalendar)
+                    .WithOne(c => c.Calendar)
+                    .HasForeignKey(c => c.CalendarId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired(true);
+            });
 
-            modelBuilder.Entity<ApplicationUser>()
-                .HasMany<Calendar>(c => c.Calendars)
-                .WithOne(c => c.User)
-                .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired(true);
-            modelBuilder.Entity<Calendar>()
-                .HasMany<CalendarEvent>(c => c.UserCalendar)
-                .WithOne(c => c.Calendar)
-                .HasForeignKey(c => c.CalendarId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired(true);
-            modelBuilder.Entity<Meeting>()
-                .HasMany<ApplicationUser>(c => c.ConnectedUsers)
-                .WithMany(c => c.UserMeetings);
-            modelBuilder.Entity<AccountUser>()
-                .HasOne<ApplicationUser>()
-                .WithOne(c => c.AccountUser)
-                .HasForeignKey<ApplicationUser>(c => c.AccountUserId)
-                .IsRequired(false);
+            modelBuilder.Entity<CalendarEvent>(b =>
+            {
+                b.HasKey(k => k.Id);
+                b.Property(c => c.EventStart)
+                    .IsRequired(true);
+                b.Property(c => c.EventEnd)
+                    .IsRequired(true);
+            });
+
+            modelBuilder.Entity<Meeting>(b =>
+            {
+                b.HasKey(k => k.Id);
+                b.Property(c => c.Id)
+                    .HasDefaultValueSql("NEWID()");
+                b.HasMany<ApplicationUser>(c => c.ConnectedUsers)
+                    .WithMany(c => c.UserMeetings);
+            });
+
+            modelBuilder.Entity<AccountUser>(b =>
+            {
+                b.HasOne<ApplicationUser>()
+                    .WithOne(c => c.AccountUser)
+                    .HasForeignKey<ApplicationUser>(c => c.AccountUserId)
+                    .IsRequired(false);
+            });
 
             //SeedRolesAndUsers(modelBuilder);
             
@@ -124,5 +121,6 @@ namespace MeetingDateProposer.DataLayer
             modelBuilder.Entity<AccountUser>().HasData(new AccountUser[] { admin });
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>[] {identityUserRole});
         }
+
     }
 }
