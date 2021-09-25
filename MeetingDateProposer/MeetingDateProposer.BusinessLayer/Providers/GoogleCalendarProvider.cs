@@ -8,7 +8,8 @@ using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using MeetingDateProposer.Domain.Models;
-using Calendar = MeetingDateProposer.Domain.Models.Calendar;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
+using Calendar = MeetingDateProposer.Domain.Models.ApplicationModels.Calendar;
 
 namespace MeetingDateProposer.BusinessLayer.Providers
 {

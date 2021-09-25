@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.Domain.Models;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace MeetingDateProposer.Controllers
@@ -18,11 +19,11 @@ namespace MeetingDateProposer.Controllers
     [Authorize(Policy = "RequireAdminRole")]
     public class MeetingController : ControllerBase
     {
-        private readonly IMeetingService _meetingProvider;
+        private readonly IMeetingService _meetingService;
 
-        public MeetingController(IMeetingService meetingProvider)
+        public MeetingController(IMeetingService meetingService)
         {
-            _meetingProvider = meetingProvider;
+            _meetingService = meetingService;
         }
 
         [HttpGet("")]
@@ -31,7 +32,7 @@ namespace MeetingDateProposer.Controllers
         [AllowAnonymous]
         public ActionResult<Meeting> GetMeetingById(Guid meetingId)
         {
-            var meeting = _meetingProvider.GetMeetingByIdFromDb(meetingId);
+            var meeting = _meetingService.GetMeetingByIdFromDb(meetingId);
             if (meeting == null)
             {
                 return NotFound();
@@ -47,7 +48,7 @@ namespace MeetingDateProposer.Controllers
         public ActionResult<ApplicationUser> CreateMeeting(string name)
         {
             Meeting meeting = new Meeting {Name = name};
-            _meetingProvider.AddMeetingToDb(meeting);
+            _meetingService.AddMeetingToDb(meeting);
             return CreatedAtAction(nameof(GetMeetingById), new {meetingId = meeting.Id}, meeting);
         }
 
@@ -56,7 +57,7 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<ApplicationUser> DeleteMeeting(Guid meetingId)
         {
-            var meeting = _meetingProvider.DeleteMeeting(meetingId);
+            var meeting = _meetingService.DeleteMeeting(meetingId);
             if (meeting == null)
             {
                 return NotFound();

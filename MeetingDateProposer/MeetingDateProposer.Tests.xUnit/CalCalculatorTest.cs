@@ -5,6 +5,7 @@ using MeetingDateProposer.BusinessLayer.Providers;
 using System.Collections.Generic;
 using System;
 using MeetingDateProposer.BusinessLayer;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 
 namespace MeetingDateProposer.Tests.xUnit
 {

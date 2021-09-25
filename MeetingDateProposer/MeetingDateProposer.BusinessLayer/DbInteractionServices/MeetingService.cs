@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.Domain.Models;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeetingDateProposer.BusinessLayer.DbInteractionServices

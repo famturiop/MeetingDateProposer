@@ -4,7 +4,6 @@ using MeetingDateProposer.Domain.Models.AccountModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MeetingDateProposer.DataLayer.Services
 {

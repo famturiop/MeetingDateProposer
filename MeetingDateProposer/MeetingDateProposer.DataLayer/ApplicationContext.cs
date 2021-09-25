@@ -5,6 +5,7 @@ using MeetingDateProposer.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4.EntityFramework.Options;
 using MeetingDateProposer.Domain.Models.AccountModels;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

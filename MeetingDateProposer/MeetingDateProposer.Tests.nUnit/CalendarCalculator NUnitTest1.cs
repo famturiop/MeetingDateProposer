@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using MeetingDateProposer.BusinessLayer;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 using MeetingDateProposer.Domain.Utilities;
 
 namespace MeetingDateProposer.Tests.nUnit

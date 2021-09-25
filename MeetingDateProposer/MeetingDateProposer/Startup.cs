@@ -11,12 +11,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.BusinessLayer.Providers;
-using MeetingDateProposer.DataLayer.Services;
 using MeetingDateProposer.Domain.Models;
 using MeetingDateProposer.Domain.Models.AccountModels;
+using MeetingDateProposer.Utilities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MeetingDateProposer.DataLayer.Services;
 
 namespace MeetingDateProposer
 {
@@ -91,6 +92,7 @@ namespace MeetingDateProposer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.InitializeDbAndSeed();
             }
             else
             {
@@ -147,14 +149,6 @@ namespace MeetingDateProposer
             //        spa.UseAngularCliServer(npmScript: "start");
             //    }
             //});
-
-            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())
-            {
-                var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer>();
-                dbInitializer.Initialize();
-                dbInitializer.Seed();
-            }
 
         }
     }

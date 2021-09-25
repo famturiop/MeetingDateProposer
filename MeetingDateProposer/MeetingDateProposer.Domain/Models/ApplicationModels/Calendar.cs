@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MeetingDateProposer.Domain.Models
+namespace MeetingDateProposer.Domain.Models.ApplicationModels
 {
     public class Calendar
     {

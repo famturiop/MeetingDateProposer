@@ -1,5 +1,6 @@
 ﻿using System;
 using MeetingDateProposer.Domain.Models;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 
 namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {

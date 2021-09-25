@@ -9,6 +9,7 @@ using MeetingDateProposer.BusinessLayer;
 using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.Domain.Models;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace MeetingDateProposer.Controllers
@@ -16,18 +17,18 @@ namespace MeetingDateProposer.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     [ApiController]
     [Route("api/[action]")]
-    public class InteractionController : ControllerBase
+    public class UserMeetingInteractionController : ControllerBase
     {
-        private readonly IUserService _userProvider;
-        private readonly IMeetingService _meetingProvider;
+        private readonly IUserService _userService;
+        private readonly IMeetingService _meetingService;
         private readonly ICalendarProvider _userCalendar;
         private readonly ICalendarCalculator _calculator;
 
-        public InteractionController(IUserService userProvider, IMeetingService meetingProvider, 
+        public UserMeetingInteractionController(IUserService userService, IMeetingService meetingService, 
             ICalendarProvider userCalendar, ICalendarCalculator calculator)
         {
-            _userProvider = userProvider;
-            _meetingProvider = meetingProvider;
+            _userService = userService;
+            _meetingService = meetingService;
             _userCalendar = userCalendar;
             _calculator = calculator;
         }
@@ -37,11 +38,11 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Meeting> UpdateMeeting(Guid meetingId, Guid userId)
         {
-            var meeting = _meetingProvider.GetMeetingByIdFromDb(meetingId);
-            var user = _userProvider.GetUserByIdFromDb(userId);
+            var meeting = _meetingService.GetMeetingByIdFromDb(meetingId);
+            var user = _userService.GetUserByIdFromDb(userId);
             if (meeting == null) { return NotFound(); }
             if (user == null) { return NotFound(); }
-            _meetingProvider.AddUserToMeeting(user, meeting);
+            _meetingService.AddUserToMeeting(user, meeting);
             return Ok(meeting);
         }
 
@@ -50,7 +51,7 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Calendar> CalculateMeetingTime(Guid meetingId)
         {
-            var meeting = _meetingProvider.GetMeetingByIdFromDb(meetingId);
+            var meeting = _meetingService.GetMeetingByIdFromDb(meetingId);
             if (meeting == null)
             {
                 return NotFound();

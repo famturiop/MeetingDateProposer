@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.Domain.Models;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace MeetingDateProposer.Controllers
@@ -17,14 +18,14 @@ namespace MeetingDateProposer.Controllers
     [ApiController]
     [Route("api/[action]")]
     [Authorize(Policy = "RequireAdminRole")]
-    public class UserController : ControllerBase
+    public class ApplicationUserController : ControllerBase
     {
-        private readonly IUserService _userProvider;
+        private readonly IUserService _userService;
         private readonly ICalendarProvider _userCalendar;
 
-        public UserController(IUserService userProvider, ICalendarProvider userCalendar)
+        public ApplicationUserController(IUserService userService, ICalendarProvider userCalendar)
         {
-            _userProvider = userProvider;
+            _userService = userService;
             _userCalendar = userCalendar;
         }
 
@@ -34,7 +35,7 @@ namespace MeetingDateProposer.Controllers
         [AllowAnonymous]
         public ActionResult<ApplicationUser> GetUserById(Guid userId)
         {
-            var user = _userProvider.GetUserByIdFromDb(userId);
+            var user = _userService.GetUserByIdFromDb(userId);
             if (user == null)
             {
                 return NotFound();
@@ -50,7 +51,7 @@ namespace MeetingDateProposer.Controllers
         {
             ApplicationUser user = new ApplicationUser { Name = name };
             _userCalendar.GetCalendar(user);
-            _userProvider.AddUserToDb(user);
+            _userService.AddUserToDb(user);
             return Ok(user);
         }
 
@@ -59,12 +60,12 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<ApplicationUser> DeleteUser(Guid userId)
         {
-            var user = _userProvider.RemoveUserFromDb(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return Ok(user);
+            _userService.RemoveUserFromDb(userId);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+            return Ok();
         }
     }
 }
