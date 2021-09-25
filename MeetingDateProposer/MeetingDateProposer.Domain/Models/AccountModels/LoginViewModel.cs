@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MeetingDateProposer.Domain.Models.AccountViewModels
+namespace MeetingDateProposer.Domain.Models.AccountModels
 {
     public class LoginViewModel
     {

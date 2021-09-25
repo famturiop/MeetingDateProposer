@@ -7,7 +7,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.AccountViewModels;
+using MeetingDateProposer.Domain.Models.AccountModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace MeetingDateProposer.Controllers

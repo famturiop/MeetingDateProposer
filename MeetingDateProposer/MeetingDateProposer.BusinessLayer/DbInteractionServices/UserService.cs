@@ -4,7 +4,7 @@ using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace MeetingDateProposer.BusinessLayer.DatabaseServices
+namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {
     public class UserService: IUserService
     {

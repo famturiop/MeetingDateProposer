@@ -2,10 +2,9 @@
 using System.Linq;
 using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.AccountViewModels;
-using Microsoft.EntityFrameworkCore;
+using MeetingDateProposer.Domain.Models.AccountModels;
 
-namespace MeetingDateProposer.BusinessLayer.DatabaseServices
+namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {
     public class AccountService: IAccountService
     {

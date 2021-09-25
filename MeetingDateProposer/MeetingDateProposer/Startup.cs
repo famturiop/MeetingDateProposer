@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using MeetingDateProposer.BusinessLayer;
-using MeetingDateProposer.BusinessLayer.DatabaseServices;
+using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +13,7 @@ using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.DataLayer.Services;
 using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.AccountViewModels;
+using MeetingDateProposer.Domain.Models.AccountModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

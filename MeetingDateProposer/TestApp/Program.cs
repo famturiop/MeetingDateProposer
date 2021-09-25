@@ -7,7 +7,7 @@ using MeetingDateProposer.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
-using MeetingDateProposer.Domain.Models.AccountViewModels;
+using MeetingDateProposer.Domain.Models.AccountModels;
 using Microsoft.Extensions.Configuration;
 
 namespace TestApp

@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
-namespace MeetingDateProposer.Domain.Models.AccountViewModels
+namespace MeetingDateProposer.Domain.Models.AccountModels
 {
     public class ChangeRoleViewModel
     {

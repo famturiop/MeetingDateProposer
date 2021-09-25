@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace MeetingDateProposer.Domain.Models.AccountViewModels
+﻿namespace MeetingDateProposer.Domain.Models.AccountModels
 {
     public static class Roles
     {

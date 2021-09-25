@@ -1,8 +1,8 @@
 ﻿using System;
 using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.AccountViewModels;
+using MeetingDateProposer.Domain.Models.AccountModels;
 
-namespace MeetingDateProposer.BusinessLayer.DatabaseServices
+namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {
     public interface IAccountService
     {

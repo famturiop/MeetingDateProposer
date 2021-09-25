@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using MeetingDateProposer.BusinessLayer.DatabaseServices;
+using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.Domain.Models;
 using Microsoft.AspNetCore.Authorization;

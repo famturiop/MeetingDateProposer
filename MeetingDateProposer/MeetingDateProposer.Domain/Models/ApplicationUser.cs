@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MeetingDateProposer.Domain.Models.AccountViewModels;
+using MeetingDateProposer.Domain.Models.AccountModels;
 
 namespace MeetingDateProposer.Domain.Models
 {

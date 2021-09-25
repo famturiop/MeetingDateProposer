@@ -1,7 +1,7 @@
 ﻿using System;
 using MeetingDateProposer.Domain.Models;
 
-namespace MeetingDateProposer.BusinessLayer.DatabaseServices
+namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {
     public interface IMeetingService
     {

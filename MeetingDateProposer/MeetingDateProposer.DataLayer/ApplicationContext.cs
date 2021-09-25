@@ -4,7 +4,7 @@ using System.Net.Mime;
 using MeetingDateProposer.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4.EntityFramework.Options;
-using MeetingDateProposer.Domain.Models.AccountViewModels;
+using MeetingDateProposer.Domain.Models.AccountModels;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -77,49 +77,7 @@ namespace MeetingDateProposer.DataLayer
                     .IsRequired(false);
             });
 
-            //SeedRolesAndUsers(modelBuilder);
-            
             base.OnModelCreating(modelBuilder);
-        }
-
-        private void SeedRolesAndUsers(ModelBuilder modelBuilder)
-        {
-
-            IdentityRole<Guid> adminRole = new IdentityRole<Guid>
-            {
-                Id = Guid.Parse("D8DCD30C-1005-405A-D397-08D96A226C76"),
-                Name = "admin",
-                NormalizedName = "ADMIN"
-            };
-            IdentityRole<Guid> userRole = new IdentityRole<Guid>
-            {
-                Id = Guid.Parse("5d106043-53f8-4a1b-8459-e5409d1b2b0a"),
-                Name = "user",
-                NormalizedName = "USER"
-            };
-            PasswordHasher<AccountUser> pass = new PasswordHasher<AccountUser>();
-            AccountUser admin = new AccountUser
-            {
-                Email = "test@test.com",
-                EmailConfirmed = true,
-                Id = Guid.Parse("4f4d9c6c-e823-457e-9bfa-b2d15922ca17"),
-                UserName = "test@test.com",
-                PasswordHash = pass.HashPassword(new AccountUser(), "qwerty"),
-                NormalizedUserName = "TEST@TEST.COM",
-                NormalizedEmail = "TEST@TEST.COM",
-                LockoutEnabled = true,
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-
-
-            var identityUserRole = new IdentityUserRole<Guid>
-            {
-                UserId = admin.Id,
-                RoleId = adminRole.Id
-            };
-            modelBuilder.Entity<IdentityRole<Guid>>().HasData(new IdentityRole<Guid>[] { adminRole, userRole });
-            modelBuilder.Entity<AccountUser>().HasData(new AccountUser[] { admin });
-            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>[] {identityUserRole});
         }
 
     }
