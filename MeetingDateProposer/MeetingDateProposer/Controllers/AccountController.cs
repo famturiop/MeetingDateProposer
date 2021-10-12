@@ -46,7 +46,7 @@ namespace MeetingDateProposer.Controllers
                 {
                     foreach (var error in result.Errors)
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        ModelState.AddModelError("", error.Description);
                     }
                 }
             }
@@ -62,11 +62,12 @@ namespace MeetingDateProposer.Controllers
             if (ModelState.IsValid)
             {
                 var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                    await _signInManager
+                        .PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
 
-                    return Ok();
+                    return Ok(result);
                 }
                 else
                 {

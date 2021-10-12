@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.Domain.Models;
+using MeetingDateProposer.Domain.Models.AccountModels;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.Authorization;
 
@@ -17,7 +18,7 @@ namespace MeetingDateProposer.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     [ApiController]
     [Route("api/[action]")]
-    [Authorize(Policy = "RequireAdminRole")]
+    [Authorize(Roles = Roles.Admin)]
     public class ApplicationUserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -56,15 +57,10 @@ namespace MeetingDateProposer.Controllers
         }
 
         [HttpDelete]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<ApplicationUser> DeleteUser(Guid userId)
         {
             _userService.RemoveUserFromDb(userId);
-            //if (user == null)
-            //{
-            //    return NotFound();
-            //}
             return Ok();
         }
     }

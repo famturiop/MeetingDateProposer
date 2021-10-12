@@ -16,7 +16,7 @@ namespace MeetingDateProposer.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     [Route("api/[action]")]
     [ApiController]
-    [Authorize(Policy = "RequireAdminRole")]
+    [Authorize(Roles = Roles.Admin)]
     public class RolesController : ControllerBase
     {
         private readonly UserManager<AccountUser> _userManager;

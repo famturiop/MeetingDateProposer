@@ -74,13 +74,7 @@ namespace MeetingDateProposer
             //services.AddIdentityServer().AddApiAuthorization<User, ApplicationContext>();
 
             //services.AddAuthentication().AddIdentityServerJwt();
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdminRole",
-                    policy => policy.RequireRole(Roles.User));
-                options.AddPolicy("RequireUserRole",
-                    policy => policy.RequireRole(Roles.Admin));
-            });
+            services.AddAuthorization();
             services.AddControllersWithViews();
         }
 

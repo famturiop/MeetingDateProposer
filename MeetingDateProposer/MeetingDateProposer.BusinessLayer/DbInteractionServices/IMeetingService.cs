@@ -9,6 +9,6 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
         public void AddMeetingToDb(Meeting meeting);
         public Meeting GetMeetingByIdFromDb(Guid id);
         public void AddUserToMeeting(ApplicationUser user, Meeting meeting);
-        public Meeting DeleteMeeting(Guid id);
+        public void DeleteMeeting(Guid id);
     }
 }
