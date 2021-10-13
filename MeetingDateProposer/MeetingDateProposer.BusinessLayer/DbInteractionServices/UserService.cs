@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.Domain.Models;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
@@ -16,27 +17,27 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
             _appContext = applicationContext;
         }
 
-        public void AddUserToDb(ApplicationUser user)
+        public async Task AddUserToDbAsync(ApplicationUser user)
         {
-            _appContext.ApplicationUsers.Add(user);
-            _appContext.SaveChanges();
+            await _appContext.ApplicationUsers.AddAsync(user);
+            await _appContext.SaveChangesAsync();
         }
 
-        public void RemoveUserFromDb(Guid id)
+        public async Task RemoveUserFromDbAsync(Guid id)
         {
-            var user = _appContext.ApplicationUsers.FirstOrDefault(u => u.Id == id);
+            var user = await _appContext.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == id);
             if (user != null)
             {
                 _appContext.ApplicationUsers.Remove(user);
-                _appContext.SaveChanges();
+                await _appContext.SaveChangesAsync();
             }
         }
 
-        public ApplicationUser GetUserByIdFromDb(Guid id)
+        public Task<ApplicationUser> GetUserByIdFromDbAsync(Guid id)
         {
             return _appContext.ApplicationUsers
                 .Include(u => u.Calendars)
-                .FirstOrDefault(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.Domain.Models;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
@@ -15,24 +16,24 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
         {
             _appContext = applicationContext;
         }
-        public void AddMeetingToDb(Meeting meeting)
+        public async Task AddMeetingToDbAsync(Meeting meeting)
         {
-            _appContext.Meetings.Add(meeting);
-            _appContext.SaveChanges();
+            await _appContext.Meetings.AddAsync(meeting);
+            await _appContext.SaveChangesAsync();
         }
 
-        public Meeting GetMeetingByIdFromDb(Guid id)
+        public Task<Meeting> GetMeetingByIdFromDbAsync(Guid id)
         {
             return _appContext.Meetings
                 .Include(m => m.ConnectedUsers)
                 .ThenInclude(c => c.Calendars)
                 .ThenInclude(ce => ce.UserCalendar)
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public void AddUserToMeeting(ApplicationUser user, Meeting meeting)
+        public async Task AddUserToMeetingAsync(ApplicationUser user, Meeting meeting)
         {
-            _appContext.Meetings.Update(meeting);
+            
             if (meeting.ConnectedUsers == null)
             {
                 meeting.ConnectedUsers = new List<ApplicationUser> { user };
@@ -41,16 +42,17 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
             {
                 meeting.ConnectedUsers.Add(user);
             }
-            _appContext.SaveChanges();
+            _appContext.Meetings.Update(meeting);
+            await _appContext.SaveChangesAsync();
         }
 
-        public void DeleteMeeting(Guid id)
+        public async Task DeleteMeetingAsync(Guid id)
         {
-            var meeting = _appContext.Meetings.FirstOrDefault(m => m.Id == id);
+            var meeting = await _appContext.Meetings.FirstOrDefaultAsync(m => m.Id == id);
             if (meeting != null)
             {
                 _appContext.Meetings.Remove(meeting);
-                _appContext.SaveChanges();
+                await _appContext.SaveChangesAsync();
             }
         }
     }

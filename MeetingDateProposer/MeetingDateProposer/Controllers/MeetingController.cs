@@ -31,9 +31,9 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public ActionResult<Meeting> GetMeetingById(Guid meetingId)
+        public async Task<ActionResult<Meeting>> GetMeetingByIdAsync(Guid meetingId)
         {
-            var meeting = _meetingService.GetMeetingByIdFromDb(meetingId);
+            var meeting = await _meetingService.GetMeetingByIdFromDbAsync(meetingId);
             if (meeting == null)
             {
                 return NotFound();
@@ -46,19 +46,19 @@ namespace MeetingDateProposer.Controllers
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
-        public ActionResult<ApplicationUser> CreateMeeting(string name)
+        public async Task<ActionResult<ApplicationUser>> CreateMeetingAsync(string name)
         {
             Meeting meeting = new Meeting {Name = name};
-            _meetingService.AddMeetingToDb(meeting);
-            return CreatedAtAction(nameof(GetMeetingById), new {meetingId = meeting.Id}, meeting);
+            await _meetingService.AddMeetingToDbAsync(meeting);
+            return CreatedAtAction(nameof(GetMeetingByIdAsync), new {meetingId = meeting.Id}, meeting);
         }
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<ApplicationUser> DeleteMeeting(Guid meetingId)
+        public async Task<ActionResult<ApplicationUser>> DeleteMeetingAsync(Guid meetingId)
         {
-             _meetingService.DeleteMeeting(meetingId);
+             await _meetingService.DeleteMeetingAsync(meetingId);
              return Ok();
 
         }

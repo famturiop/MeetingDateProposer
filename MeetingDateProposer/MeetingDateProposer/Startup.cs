@@ -43,21 +43,19 @@ namespace MeetingDateProposer
                     });
             });
 
-            
-
             //services.AddControllersWithViews();
-            services.AddControllers().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            services.AddControllers(options => 
+                    options.SuppressAsyncSuffixInActionNames = false)
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
             
-
             services.AddSwaggerGen();
 
-            //var tmp = new UserProvider(new ApplicationContext(DbContextOptions);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMeetingService, MeetingService>();
             services.AddScoped<ICalendarProvider, GoogleCalendarProvider>();
@@ -67,12 +65,10 @@ namespace MeetingDateProposer
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddIdentity<User, IdentityRole>();
             services.AddIdentity<AccountUser, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationContext>();
             
             //services.AddIdentityServer().AddApiAuthorization<User, ApplicationContext>();
-
             //services.AddAuthentication().AddIdentityServerJwt();
             services.AddAuthorization();
             services.AddControllersWithViews();

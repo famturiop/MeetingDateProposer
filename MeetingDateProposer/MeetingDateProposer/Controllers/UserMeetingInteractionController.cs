@@ -36,22 +36,22 @@ namespace MeetingDateProposer.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Meeting> UpdateMeeting(Guid meetingId, Guid userId)
+        public async Task<ActionResult<Meeting>> UpdateMeetingAsync(Guid meetingId, Guid userId)
         {
-            var meeting = _meetingService.GetMeetingByIdFromDb(meetingId);
-            var user = _userService.GetUserByIdFromDb(userId);
+            var meeting = await _meetingService.GetMeetingByIdFromDbAsync(meetingId);
+            var user = await _userService.GetUserByIdFromDbAsync(userId);
             if (meeting == null) { return NotFound(); }
             if (user == null) { return NotFound(); }
-            _meetingService.AddUserToMeeting(user, meeting);
+            await _meetingService.AddUserToMeetingAsync(user, meeting);
             return Ok(meeting);
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Calendar> CalculateMeetingTime(Guid meetingId)
+        public async Task<ActionResult<Calendar>> CalculateMeetingTimeAsync(Guid meetingId)
         {
-            var meeting = _meetingService.GetMeetingByIdFromDb(meetingId);
+            var meeting = await _meetingService.GetMeetingByIdFromDbAsync(meetingId);
             if (meeting == null)
             {
                 return NotFound();

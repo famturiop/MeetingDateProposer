@@ -34,9 +34,9 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public ActionResult<ApplicationUser> GetUserById(Guid userId)
+        public async Task<ActionResult<ApplicationUser>> GetUserByIdAsync(Guid userId)
         {
-            var user = _userService.GetUserByIdFromDb(userId);
+            var user = await _userService.GetUserByIdFromDbAsync(userId);
             if (user == null)
             {
                 return NotFound();
@@ -48,19 +48,19 @@ namespace MeetingDateProposer.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public ActionResult<ApplicationUser> CreateUser(string name)
+        public async Task<ActionResult<ApplicationUser>> CreateUserAsync(string name)
         {
             ApplicationUser user = new ApplicationUser { Name = name };
             _userCalendar.GetCalendar(user);
-            _userService.AddUserToDb(user);
+            await _userService.AddUserToDbAsync(user);
             return Ok(user);
         }
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<ApplicationUser> DeleteUser(Guid userId)
+        public async Task<ActionResult<ApplicationUser>> DeleteUserAsync(Guid userId)
         {
-            _userService.RemoveUserFromDb(userId);
+            await _userService.RemoveUserFromDbAsync(userId);
             return Ok();
         }
     }

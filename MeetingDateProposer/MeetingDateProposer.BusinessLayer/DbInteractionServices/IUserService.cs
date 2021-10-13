@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MeetingDateProposer.Domain.Models;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 
@@ -6,11 +7,11 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {
     public interface IUserService
     {
-        public void AddUserToDb(ApplicationUser user);
+        public Task AddUserToDbAsync(ApplicationUser user);
 
-        public void RemoveUserFromDb(Guid id);
+        public Task RemoveUserFromDbAsync(Guid id);
 
-        public ApplicationUser GetUserByIdFromDb(Guid id);
+        public Task<ApplicationUser> GetUserByIdFromDbAsync(Guid id);
 
     }
 }
