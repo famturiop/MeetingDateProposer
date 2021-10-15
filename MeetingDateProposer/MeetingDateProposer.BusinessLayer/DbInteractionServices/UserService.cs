@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using MeetingDateProposer.DataLayer;
-using MeetingDateProposer.Domain.Models;
+﻿using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {

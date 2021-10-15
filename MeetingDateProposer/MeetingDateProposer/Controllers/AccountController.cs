@@ -20,7 +20,6 @@ namespace MeetingDateProposer.Controllers
         private readonly UserManager<AccountUser> _userManager;
         private readonly SignInManager<AccountUser> _signInManager;
 
-
         public AccountController(UserManager<AccountUser> userManager, SignInManager<AccountUser> signInManager)
         {
             _userManager = userManager;
@@ -34,7 +33,12 @@ namespace MeetingDateProposer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AccountUser { Email = model.Email, UserName = model.Email };
+                var user = new AccountUser
+                {
+                    Email = model.Email, 
+                    UserName = model.Email
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -42,17 +46,14 @@ namespace MeetingDateProposer.Controllers
                     await _signInManager.SignInAsync(user, false);
                     return Ok();
                 }
-                else
+
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
+                    ModelState.AddModelError("", error.Description);
                 }
             }
             return BadRequest(ModelState);
         }
-
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -61,8 +62,7 @@ namespace MeetingDateProposer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result =
-                    await _signInManager
+                var result = await _signInManager
                         .PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {

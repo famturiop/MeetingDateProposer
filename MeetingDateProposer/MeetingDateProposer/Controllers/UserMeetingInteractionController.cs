@@ -21,15 +21,15 @@ namespace MeetingDateProposer.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMeetingService _meetingService;
-        private readonly ICalendarProvider _userCalendar;
         private readonly ICalendarCalculator _calculator;
 
-        public UserMeetingInteractionController(IUserService userService, IMeetingService meetingService, 
-            ICalendarProvider userCalendar, ICalendarCalculator calculator)
+        public UserMeetingInteractionController(
+            IUserService userService, 
+            IMeetingService meetingService,
+            ICalendarCalculator calculator)
         {
             _userService = userService;
             _meetingService = meetingService;
-            _userCalendar = userCalendar;
             _calculator = calculator;
         }
 
@@ -40,8 +40,10 @@ namespace MeetingDateProposer.Controllers
         {
             var meeting = await _meetingService.GetMeetingByIdFromDbAsync(meetingId);
             var user = await _userService.GetUserByIdFromDbAsync(userId);
-            if (meeting == null) { return NotFound(); }
-            if (user == null) { return NotFound(); }
+            if (meeting == null || user == null)
+            {
+                return NotFound();
+            }
             await _meetingService.AddUserToMeetingAsync(user, meeting);
             return Ok(meeting);
         }

@@ -38,17 +38,18 @@ namespace MeetingDateProposer.Controllers
             {
                 return NotFound();
             }
-
             return Ok(meeting);
         }
-
 
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
         public async Task<ActionResult<ApplicationUser>> CreateMeetingAsync(string name)
         {
-            Meeting meeting = new Meeting {Name = name};
+            var meeting = new Meeting
+            {
+                Name = name
+            };
             await _meetingService.AddMeetingToDbAsync(meeting);
             return CreatedAtAction(nameof(GetMeetingByIdAsync), new {meetingId = meeting.Id}, meeting);
         }
@@ -60,7 +61,6 @@ namespace MeetingDateProposer.Controllers
         {
              await _meetingService.DeleteMeetingAsync(meetingId);
              return Ok();
-
         }
     }
 }

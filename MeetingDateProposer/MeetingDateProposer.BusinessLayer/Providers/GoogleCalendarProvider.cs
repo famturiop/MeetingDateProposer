@@ -17,8 +17,8 @@ namespace MeetingDateProposer.BusinessLayer.Providers
     {
         public void GetCalendar(ApplicationUser user)
         {
-            string[] Scopes = {CalendarService.Scope.CalendarReadonly};
-            var credential = GetAccessToGoogle(Scopes, user); 
+            string[] scopes = {CalendarService.Scope.CalendarReadonly};
+            var credential = GetAccessToGoogle(scopes, user); 
             var events = SendRequestToGoogle(credential);
 
             var calendar = new Calendar
@@ -44,20 +44,18 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 
         }
 
-        private UserCredential GetAccessToGoogle(string[] Scopes, ApplicationUser user)
+        private UserCredential GetAccessToGoogle(string[] scopes, ApplicationUser user)
         {
-            UserCredential credential;
-            LocalServerCodeReceiver redirectURI = new LocalServerCodeReceiver("You may close the page now.",
+            LocalServerCodeReceiver redirectUri = new LocalServerCodeReceiver("You may close the page now.",
                 LocalServerCodeReceiver.CallbackUriChooserStrategy.Default);
-            using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
-                return credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                return GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
+                    scopes,
                     user.Id.ToString(),
                     CancellationToken.None,
-                    new NullDataStore(), redirectURI).Result;
+                    new NullDataStore(), redirectUri).Result;
             }
         }
 

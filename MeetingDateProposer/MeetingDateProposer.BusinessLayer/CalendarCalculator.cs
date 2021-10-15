@@ -16,7 +16,9 @@ namespace MeetingDateProposer.BusinessLayer
                 UserCalendar = new List<CalendarEvent>()
             };
 
-            currentMeeting.ConnectedUsers.ForEach(c1 => c1.Calendars.ForEach(c2 => jointCalendar.UserCalendar.AddRange(c2.UserCalendar)));
+            currentMeeting.ConnectedUsers.ForEach(c1 => 
+                c1.Calendars.ForEach(c2 => 
+                    jointCalendar.UserCalendar.AddRange(c2.UserCalendar)));
             
 
             if (jointCalendar.UserCalendar.Count != 0)

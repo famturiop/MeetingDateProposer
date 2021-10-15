@@ -44,13 +44,15 @@ namespace MeetingDateProposer.Controllers
             return Ok(user);
         }
 
-
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
         public async Task<ActionResult<ApplicationUser>> CreateUserAsync(string name)
         {
-            ApplicationUser user = new ApplicationUser { Name = name };
+            var user = new ApplicationUser
+            {
+                Name = name
+            };
             _userCalendar.GetCalendar(user);
             await _userService.AddUserToDbAsync(user);
             return Ok(user);
