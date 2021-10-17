@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MeetingDateProposer.Domain.Models.ApplicationModels;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.ApplicationModels;
 
 namespace MeetingDateProposer.Domain.Utilities
 {

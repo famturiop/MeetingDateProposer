@@ -1,14 +1,13 @@
-﻿using System;
+﻿using MeetingDateProposer.Domain.Models.ApplicationModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.ApplicationModels;
 
 namespace MeetingDateProposer.BusinessLayer
 {
-    public class CalendarCalculator: ICalendarCalculator
+    public class CalendarCalculator : ICalendarCalculator
     {
-        
+
         public Calendar CalculateAvailableMeetingTime(Meeting currentMeeting)
         {
             var jointCalendar = new Calendar
@@ -16,10 +15,10 @@ namespace MeetingDateProposer.BusinessLayer
                 UserCalendar = new List<CalendarEvent>()
             };
 
-            currentMeeting.ConnectedUsers.ForEach(c1 => 
-                c1.Calendars.ForEach(c2 => 
+            currentMeeting.ConnectedUsers.ForEach(c1 =>
+                c1.Calendars.ForEach(c2 =>
                     jointCalendar.UserCalendar.AddRange(c2.UserCalendar)));
-            
+
 
             if (jointCalendar.UserCalendar.Count != 0)
             {
@@ -57,7 +56,7 @@ namespace MeetingDateProposer.BusinessLayer
                 throw new Exception("A null Event time was detected.");
             }
 
-            Action<CalendarEvent> CalEventInsertedDelegate = (calEvnt) => 
+            Action<CalendarEvent> CalEventInsertedDelegate = (calEvnt) =>
             {
                 calEvnt.EventStart = (DateTime)calEvnt.EventStart;
                 calEvnt.EventEnd = (DateTime)calEvnt.EventEnd;
@@ -94,7 +93,7 @@ namespace MeetingDateProposer.BusinessLayer
             {
                 var UnitedCalEvent = new CalendarEvent
                 {
-                    EventStart = calendarList[IntersectedEventIndex - 1].EventStart, 
+                    EventStart = calendarList[IntersectedEventIndex - 1].EventStart,
                     EventEnd = calendarList[IntersectedEventIndex].EventEnd
                 };
 
@@ -112,7 +111,7 @@ namespace MeetingDateProposer.BusinessLayer
         private static List<CalendarEvent> GetAvailableSchedule(List<CalendarEvent> calendarList)
         {
             var calendarListModified = new List<CalendarEvent>();
-            
+
             if (calendarList.First().EventStart != DateTime.MinValue)
             {
                 calendarListModified.Add(new CalendarEvent()

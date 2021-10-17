@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MeetingDateProposer.Domain.Models.AccountModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.AccountModels;
-using Microsoft.AspNetCore.Authorization;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -35,7 +30,7 @@ namespace MeetingDateProposer.Controllers
             {
                 var user = new AccountUser
                 {
-                    Email = model.Email, 
+                    Email = model.Email,
                     UserName = model.Email
                 };
 

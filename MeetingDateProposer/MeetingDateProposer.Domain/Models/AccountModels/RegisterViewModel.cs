@@ -11,7 +11,7 @@ namespace MeetingDateProposer.Domain.Models.AccountModels
 
         [Required]
         [StringLength(ValidationRules.PasswordMaxLength,
-            ErrorMessage = "The {0} must be at least {2} characters long.", 
+            ErrorMessage = "The {0} must be at least {2} characters long.",
             MinimumLength = ValidationRules.PasswordMinLength)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -19,7 +19,7 @@ namespace MeetingDateProposer.Domain.Models.AccountModels
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", 
+        [Compare("Password",
             ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }

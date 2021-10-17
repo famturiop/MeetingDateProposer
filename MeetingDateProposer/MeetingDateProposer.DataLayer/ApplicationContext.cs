@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Mime;
-using MeetingDateProposer.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using IdentityServer4.EntityFramework.Options;
-using MeetingDateProposer.Domain.Models.AccountModels;
+﻿using MeetingDateProposer.Domain.Models.AccountModels;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace MeetingDateProposer.DataLayer
 {
-    public sealed class ApplicationContext : IdentityDbContext<AccountUser,IdentityRole<Guid>,Guid>
+    public sealed class ApplicationContext : IdentityDbContext<AccountUser, IdentityRole<Guid>, Guid>
     {
         public ApplicationContext(DbContextOptions options) : base(options)
         {
@@ -25,7 +18,7 @@ namespace MeetingDateProposer.DataLayer
         public DbSet<CalendarEvent> CalendarEvents { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
         public override DbSet<IdentityRole<Guid>> Roles { get; set; }
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

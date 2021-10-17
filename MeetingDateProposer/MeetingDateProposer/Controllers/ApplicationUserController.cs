@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using MeetingDateProposer.BusinessLayer.DbInteractionServices;
+﻿using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.BusinessLayer.Providers;
-using MeetingDateProposer.Domain.Models;
 using MeetingDateProposer.Domain.Models.AccountModels;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net.Mime;
+using System.Threading.Tasks;
 
 namespace MeetingDateProposer.Controllers
 {

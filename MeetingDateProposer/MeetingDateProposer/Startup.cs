@@ -1,23 +1,19 @@
-using System;
-using System.Text.Json.Serialization;
 using MeetingDateProposer.BusinessLayer;
 using MeetingDateProposer.BusinessLayer.DbInteractionServices;
+using MeetingDateProposer.BusinessLayer.Providers;
+using MeetingDateProposer.DataLayer;
+using MeetingDateProposer.DataLayer.Services;
+using MeetingDateProposer.Domain.Models.AccountModels;
+using MeetingDateProposer.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MeetingDateProposer.DataLayer;
-using MeetingDateProposer.BusinessLayer.Providers;
-using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.AccountModels;
-using MeetingDateProposer.Utilities;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using MeetingDateProposer.DataLayer.Services;
+using System;
+using System.Text.Json.Serialization;
 
 namespace MeetingDateProposer
 {
@@ -44,7 +40,7 @@ namespace MeetingDateProposer
             });
 
             //services.AddControllersWithViews();
-            services.AddControllers(options => 
+            services.AddControllers(options =>
                     options.SuppressAsyncSuffixInActionNames = false)
                 .AddJsonOptions(options =>
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
@@ -53,7 +49,7 @@ namespace MeetingDateProposer
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            
+
             services.AddSwaggerGen();
 
             services.AddScoped<IUserService, UserService>();
@@ -67,7 +63,7 @@ namespace MeetingDateProposer
 
             services.AddIdentity<AccountUser, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationContext>();
-            
+
             //services.AddIdentityServer().AddApiAuthorization<User, ApplicationContext>();
             //services.AddAuthentication().AddIdentityServerJwt();
             services.AddAuthorization();
@@ -90,7 +86,7 @@ namespace MeetingDateProposer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())

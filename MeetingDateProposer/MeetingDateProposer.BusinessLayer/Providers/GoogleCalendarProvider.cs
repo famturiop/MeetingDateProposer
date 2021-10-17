@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using Google.Apis.Auth.OAuth2;
+﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
-using MeetingDateProposer.Domain.Models;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 using Calendar = MeetingDateProposer.Domain.Models.ApplicationModels.Calendar;
 
 namespace MeetingDateProposer.BusinessLayer.Providers
@@ -17,8 +16,8 @@ namespace MeetingDateProposer.BusinessLayer.Providers
     {
         public void GetCalendar(ApplicationUser user)
         {
-            string[] scopes = {CalendarService.Scope.CalendarReadonly};
-            var credential = GetAccessToGoogle(scopes, user); 
+            string[] scopes = { CalendarService.Scope.CalendarReadonly };
+            var credential = GetAccessToGoogle(scopes, user);
             var events = SendRequestToGoogle(credential);
 
             var calendar = new Calendar
@@ -37,10 +36,10 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 
             if (user.Calendars == null)
             {
-                user.Calendars = new List<Calendar> {calendar};
+                user.Calendars = new List<Calendar> { calendar };
             }
             else { user.Calendars.Add(calendar); }
-            
+
 
         }
 

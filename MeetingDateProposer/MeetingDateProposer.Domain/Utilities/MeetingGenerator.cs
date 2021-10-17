@@ -1,7 +1,6 @@
-﻿using System;
+﻿using MeetingDateProposer.Domain.Models.ApplicationModels;
+using System;
 using System.Collections.Generic;
-using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.ApplicationModels;
 
 namespace MeetingDateProposer.Domain.Utilities
 {
@@ -39,7 +38,7 @@ namespace MeetingDateProposer.Domain.Utilities
                 EventEnd = DateTime.Now
             };
 
-            for (int generateNextEvent=0; generateNextEvent < numberofEvents; generateNextEvent++)
+            for (int generateNextEvent = 0; generateNextEvent < numberofEvents; generateNextEvent++)
             {
                 calendarEvent = GenerateCalendarEvent(calendarEvent);
                 testCalendar.UserCalendar.Add(calendarEvent);
@@ -58,7 +57,7 @@ namespace MeetingDateProposer.Domain.Utilities
 
             TimeSpan nextEventInsertedTimeSpan = TimeSpan.FromSeconds(time + (timePlusInterval - time) * rnd.NextDouble());
             DateTime nextEventTimeStart = DateTime.MinValue.Add(nextEventInsertedTimeSpan);
-            var nextEventTimeEnd = nextEventTimeStart.AddHours(rnd.Next(0,3)).AddMinutes(rnd.Next(0, 59));
+            var nextEventTimeEnd = nextEventTimeStart.AddHours(rnd.Next(0, 3)).AddMinutes(rnd.Next(0, 59));
 
             return new CalendarEvent
             {

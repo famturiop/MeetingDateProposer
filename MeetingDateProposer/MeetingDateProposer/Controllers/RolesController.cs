@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MeetingDateProposer.Domain.Models.AccountModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using IdentityServer4.Extensions;
-using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.AccountModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 
 namespace MeetingDateProposer.Controllers
 {

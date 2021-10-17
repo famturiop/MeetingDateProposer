@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using MeetingDateProposer.DataLayer;
-using MeetingDateProposer.Domain.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
+﻿using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.Domain.Models.AccountModels;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Linq;
 
 namespace TestApp
 {
@@ -88,7 +84,7 @@ namespace TestApp
                 UserId = admin.Id,
                 RoleId = adminRole.Id
             };
-            
+
         }
     }
 }

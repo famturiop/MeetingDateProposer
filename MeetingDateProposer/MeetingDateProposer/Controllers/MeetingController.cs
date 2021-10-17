@@ -1,16 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using MeetingDateProposer.BusinessLayer.DbInteractionServices;
-using MeetingDateProposer.BusinessLayer.Providers;
-using MeetingDateProposer.Domain.Models;
+﻿using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.Domain.Models.AccountModels;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net.Mime;
+using System.Threading.Tasks;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -51,7 +47,7 @@ namespace MeetingDateProposer.Controllers
                 Name = name
             };
             await _meetingService.AddMeetingToDbAsync(meeting);
-            return CreatedAtAction(nameof(GetMeetingByIdAsync), new {meetingId = meeting.Id}, meeting);
+            return CreatedAtAction(nameof(GetMeetingByIdAsync), new { meetingId = meeting.Id }, meeting);
         }
 
         [HttpDelete]
@@ -59,8 +55,8 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ApplicationUser>> DeleteMeetingAsync(Guid meetingId)
         {
-             await _meetingService.DeleteMeetingAsync(meetingId);
-             return Ok();
+            await _meetingService.DeleteMeetingAsync(meetingId);
+            return Ok();
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using Xunit;
-using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Utilities;
-using MeetingDateProposer.BusinessLayer.Providers;
-using System.Collections.Generic;
-using System;
-using MeetingDateProposer.BusinessLayer;
+﻿using MeetingDateProposer.BusinessLayer;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
+using MeetingDateProposer.Domain.Utilities;
+using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace MeetingDateProposer.Tests.xUnit
 {
@@ -234,7 +232,7 @@ namespace MeetingDateProposer.Tests.xUnit
 
             // Assert
             Assert.NotEmpty(result.UserCalendar);
-            foreach(var user in myMeeting.ConnectedUsers)
+            foreach (var user in myMeeting.ConnectedUsers)
             {
                 foreach (var cal in user.Calendars[0].UserCalendar)
                 {
@@ -270,6 +268,6 @@ namespace MeetingDateProposer.Tests.xUnit
             Assert.ThrowsAny<Exception>(test);
         }
 
-        
+
     }
 }

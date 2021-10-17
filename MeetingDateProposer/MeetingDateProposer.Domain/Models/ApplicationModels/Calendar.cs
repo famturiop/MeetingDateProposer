@@ -10,7 +10,7 @@ namespace MeetingDateProposer.Domain.Models.ApplicationModels
         public ApplicationUser User { get; set; }
 
         public Guid UserId { get; set; }
-        
+
         public List<CalendarEvent> UserCalendar { get; set; }
     }
 }

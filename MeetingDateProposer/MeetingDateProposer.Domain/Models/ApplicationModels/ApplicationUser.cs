@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MeetingDateProposer.Domain.Models.AccountModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MeetingDateProposer.Domain.Models.AccountModels;
 
 namespace MeetingDateProposer.Domain.Models.ApplicationModels
 {

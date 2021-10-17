@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {
-    public class UserService: IUserService
+    public class UserService : IUserService
     {
         private readonly ApplicationContext _appContext;
 

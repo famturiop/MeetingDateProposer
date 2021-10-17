@@ -1,11 +1,9 @@
-using MeetingDateProposer.BusinessLayer.Providers;
-using MeetingDateProposer.Domain.Models;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using MeetingDateProposer.BusinessLayer;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using MeetingDateProposer.Domain.Utilities;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace MeetingDateProposer.Tests.nUnit
 {
@@ -20,16 +18,16 @@ namespace MeetingDateProposer.Tests.nUnit
             DateTime EvEnd1 = new DateTime(2021, 6, 7);
             DateTime EvStart2 = new DateTime(2021, 6, 5);
             DateTime EvEnd2 = new DateTime(2021, 6, 8);
-            CalendarEvent Ev1 = new CalendarEvent() {EventStart = EvStart1, EventEnd = EvEnd1 };
-            CalendarEvent Ev2 = new CalendarEvent() {EventStart = EvStart2, EventEnd = EvEnd2 };
-            Calendar Calendar1 = new Calendar() {UserCalendar = new List<CalendarEvent>() {Ev1} };
-            Calendar Calendar2 = new Calendar() {UserCalendar = new List<CalendarEvent>() {Ev2} };
+            CalendarEvent Ev1 = new CalendarEvent() { EventStart = EvStart1, EventEnd = EvEnd1 };
+            CalendarEvent Ev2 = new CalendarEvent() { EventStart = EvStart2, EventEnd = EvEnd2 };
+            Calendar Calendar1 = new Calendar() { UserCalendar = new List<CalendarEvent>() { Ev1 } };
+            Calendar Calendar2 = new Calendar() { UserCalendar = new List<CalendarEvent>() { Ev2 } };
             ApplicationUser User1 = new ApplicationUser() { Credentials = null, Calendars = new List<Calendar>() { Calendar1 }, Id = Guid.NewGuid() };
             ApplicationUser User2 = new ApplicationUser() { Credentials = null, Calendars = new List<Calendar>() { Calendar2 }, Id = Guid.NewGuid() };
             Meeting1.ConnectedUsers = new List<ApplicationUser>() { User1, User2 };
             CalendarEvent testEvent1 = new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = EvStart1 };
             CalendarEvent testEvent2 = new CalendarEvent() { EventStart = EvEnd2, EventEnd = DateTime.MaxValue };
-            Calendar testCalendar = new Calendar() { UserCalendar = new List<CalendarEvent>() {testEvent1, testEvent2} };
+            Calendar testCalendar = new Calendar() { UserCalendar = new List<CalendarEvent>() { testEvent1, testEvent2 } };
             CalendarCalculator myCalenCalc = new CalendarCalculator();
             ///Act
             Calendar Result = myCalenCalc.CalculateAvailableMeetingTime(Meeting1);

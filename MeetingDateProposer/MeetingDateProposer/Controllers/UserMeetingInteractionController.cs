@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MeetingDateProposer.BusinessLayer;
+using MeetingDateProposer.BusinessLayer.DbInteractionServices;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using MeetingDateProposer.BusinessLayer;
-using MeetingDateProposer.BusinessLayer.DbInteractionServices;
-using MeetingDateProposer.BusinessLayer.Providers;
-using MeetingDateProposer.Domain.Models;
-using MeetingDateProposer.Domain.Models.ApplicationModels;
-using Microsoft.AspNetCore.Authorization;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -24,7 +19,7 @@ namespace MeetingDateProposer.Controllers
         private readonly ICalendarCalculator _calculator;
 
         public UserMeetingInteractionController(
-            IUserService userService, 
+            IUserService userService,
             IMeetingService meetingService,
             ICalendarCalculator calculator)
         {

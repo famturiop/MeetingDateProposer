@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using MeetingDateProposer.Domain.Models.AccountModels;
+﻿using MeetingDateProposer.Domain.Models.AccountModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Linq;
 
 namespace MeetingDateProposer.DataLayer.Services
 {

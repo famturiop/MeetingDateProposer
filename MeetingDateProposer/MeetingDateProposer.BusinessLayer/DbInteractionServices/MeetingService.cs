@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {
-    public class MeetingService: IMeetingService
+    public class MeetingService : IMeetingService
     {
         private readonly ApplicationContext _appContext;
         public MeetingService(ApplicationContext applicationContext)
@@ -32,7 +32,7 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 
         public async Task AddUserToMeetingAsync(ApplicationUser user, Meeting meeting)
         {
-            
+
             if (meeting.ConnectedUsers == null)
             {
                 meeting.ConnectedUsers = new List<ApplicationUser> { user };
