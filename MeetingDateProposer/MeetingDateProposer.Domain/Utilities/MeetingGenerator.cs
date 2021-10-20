@@ -6,14 +6,15 @@ namespace MeetingDateProposer.Domain.Utilities
 {
     public class MeetingGenerator
     {
-
         public Meeting GenerateMeeting(int numberofUsers, int numberofEvents)
         {
-            Meeting testMeeting = new Meeting();
+            var testMeeting = new Meeting();
+
             testMeeting.ConnectedUsers = new List<ApplicationUser>();
+
             for (int currentUser = 0; currentUser < numberofUsers; currentUser++)
             {
-                ApplicationUser testUser = new ApplicationUser()
+                var testUser = new ApplicationUser()
                 {
                     Id = Guid.NewGuid(),
                     Calendars = new List<Calendar>()
@@ -27,12 +28,12 @@ namespace MeetingDateProposer.Domain.Utilities
 
         public Calendar GenerateCalendar(int numberofEvents)
         {
-            Calendar testCalendar = new Calendar
+            var testCalendar = new Calendar
             {
                 UserCalendar = new List<CalendarEvent>()
             };
 
-            CalendarEvent calendarEvent = new CalendarEvent
+            var calendarEvent = new CalendarEvent
             {
                 EventStart = DateTime.Now,
                 EventEnd = DateTime.Now
@@ -54,9 +55,8 @@ namespace MeetingDateProposer.Domain.Utilities
             var timePlusInterval = (prevEventTimeEnd - DateTime.MinValue + new TimeSpan(0, 2, 0, 0)).TotalSeconds;
 
             var rnd = new Random();
-
-            TimeSpan nextEventInsertedTimeSpan = TimeSpan.FromSeconds(time + (timePlusInterval - time) * rnd.NextDouble());
-            DateTime nextEventTimeStart = DateTime.MinValue.Add(nextEventInsertedTimeSpan);
+            var nextEventInsertedTimeSpan = TimeSpan.FromSeconds(time + (timePlusInterval - time) * rnd.NextDouble());
+            var nextEventTimeStart = DateTime.MinValue.Add(nextEventInsertedTimeSpan);
             var nextEventTimeEnd = nextEventTimeStart.AddHours(rnd.Next(0, 3)).AddMinutes(rnd.Next(0, 59));
 
             return new CalendarEvent

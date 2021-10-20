@@ -9,12 +9,10 @@ namespace MeetingDateProposer.Utilities
         public static void InitializeDbAndSeed(this IApplicationBuilder app)
         {
             var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())
-            {
-                var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer>();
-                dbInitializer.Initialize();
-                dbInitializer.Seed();
-            }
+            using var scope = scopeFactory.CreateScope();
+            var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer>();
+            dbInitializer.Initialize();
+            dbInitializer.Seed();
         }
     }
 }

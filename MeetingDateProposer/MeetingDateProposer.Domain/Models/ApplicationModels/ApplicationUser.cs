@@ -8,14 +8,20 @@ namespace MeetingDateProposer.Domain.Models.ApplicationModels
     public class ApplicationUser
     {
         public object Credentials { get; set; }
+
         public List<Calendar> Calendars { get; set; }
+
         public Guid Id { get; set; }
+
         public List<Meeting> UserMeetings { get; set; }
+
         [Required]
         [MaxLength(ValidationRules.ApplicationUserNameMaxLength)]
         [DataType(DataType.Text)]
         public string Name { get; set; }
+
         public Guid? AccountUserId { get; set; }
+
         public AccountUser AccountUser { get; set; }
     }
 }

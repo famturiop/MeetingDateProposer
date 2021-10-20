@@ -8,12 +8,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 using Calendar = MeetingDateProposer.Domain.Models.ApplicationModels.Calendar;
 
 namespace MeetingDateProposer.BusinessLayer.Providers
 {
     public class GoogleCalendarProvider : ICalendarProvider
     {
+        private readonly ILogger<GoogleCalendarProvider> _logger;
+
+        public GoogleCalendarProvider(ILogger<GoogleCalendarProvider> logger)
+        {
+            _logger = logger;
+        }
         public void GetCalendar(ApplicationUser user)
         {
             string[] scopes = { CalendarService.Scope.CalendarReadonly };
@@ -27,19 +34,31 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 
             foreach (var eventItem in events.Items)
             {
-                calendar.UserCalendar.Add(new CalendarEvent
+                try
                 {
-                    EventStart = (DateTime)eventItem.Start.DateTime,
-                    EventEnd = (DateTime)eventItem.End.DateTime
-                });
+                    var eventStart = (DateTime) eventItem.Start.DateTime;
+                    var eventEnd = (DateTime) eventItem.End.DateTime;
+                    
+                    calendar.UserCalendar.Add(new CalendarEvent
+                    {
+                        EventStart = eventStart,
+                        EventEnd = eventEnd
+                    });
+                }
+                catch(InvalidOperationException e)
+                {
+                    _logger.LogError(e,$"Null event time was detected in {eventItem}");
+                }
             }
 
             if (user.Calendars == null)
             {
                 user.Calendars = new List<Calendar> { calendar };
             }
-            else { user.Calendars.Add(calendar); }
-
+            else
+            {
+                user.Calendars.Add(calendar);
+            }
 
         }
 
@@ -47,6 +66,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
         {
             LocalServerCodeReceiver redirectUri = new LocalServerCodeReceiver("You may close the page now.",
                 LocalServerCodeReceiver.CallbackUriChooserStrategy.Default);
+
             using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
                 return GoogleWebAuthorizationBroker.AuthorizeAsync(
@@ -72,13 +92,11 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             request.SingleEvents = true;
             request.MaxResults = 250;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
+            
             var events = request.Execute();
+            
             return events;
         }
 
-        private void NullEventsHandler()
-        {
-
-        }
     }
 }

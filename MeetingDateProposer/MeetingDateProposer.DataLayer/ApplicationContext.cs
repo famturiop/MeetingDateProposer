@@ -12,11 +12,17 @@ namespace MeetingDateProposer.DataLayer
         public ApplicationContext(DbContextOptions options) : base(options)
         {
         }
+
         public override DbSet<AccountUser> Users { get; set; }
+
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
         public DbSet<Calendar> Calendars { get; set; }
+
         public DbSet<CalendarEvent> CalendarEvents { get; set; }
+
         public DbSet<Meeting> Meetings { get; set; }
+
         public override DbSet<IdentityRole<Guid>> Roles { get; set; }
 
 

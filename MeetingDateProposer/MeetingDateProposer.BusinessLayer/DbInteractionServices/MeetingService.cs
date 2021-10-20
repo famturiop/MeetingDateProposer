@@ -41,6 +41,7 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
             {
                 meeting.ConnectedUsers.Add(user);
             }
+
             _appContext.Meetings.Update(meeting);
             await _appContext.SaveChangesAsync();
         }
@@ -48,6 +49,7 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
         public async Task DeleteMeetingAsync(Guid id)
         {
             var meeting = await _appContext.Meetings.FirstOrDefaultAsync(m => m.Id == id);
+
             if (meeting != null)
             {
                 _appContext.Meetings.Remove(meeting);

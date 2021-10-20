@@ -24,6 +24,7 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
         public async Task RemoveUserFromDbAsync(Guid id)
         {
             var user = await _appContext.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == id);
+            
             if (user != null)
             {
                 _appContext.ApplicationUsers.Remove(user);

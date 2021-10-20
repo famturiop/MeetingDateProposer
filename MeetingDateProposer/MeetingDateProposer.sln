@@ -9,13 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.Domain"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.Tests.xUnit", "MeetingDateProposer.Tests.xUnit\MeetingDateProposer.Tests.xUnit.csproj", "{4198F9C8-C020-4749-892C-762A7B92D974}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.Tests.nUnit", "MeetingDateProposer.Tests.nUnit\MeetingDateProposer.Tests.nUnit.csproj", "{3DA11E09-AEB8-4EC9-9E12-EADA75B56815}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.DataLayer", "MeetingDateProposer.DataLayer\MeetingDateProposer.DataLayer.csproj", "{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingDateProposer.BusinessLayer", "MeetingDateProposer.BusinessLayer\MeetingDateProposer.BusinessLayer.csproj", "{92AB0E28-55A5-46AD-9975-B76EAB3CC4EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{BC179A52-C36D-49CF-BB2A-4240FF7D0899}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{BC179A52-C36D-49CF-BB2A-4240FF7D0899}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BE703E0F-C4F5-4CD1-8C38-D2A3B594CB8D} = {BE703E0F-C4F5-4CD1-8C38-D2A3B594CB8D}
 	EndProjectSection
@@ -38,10 +36,6 @@ Global
 		{4198F9C8-C020-4749-892C-762A7B92D974}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4198F9C8-C020-4749-892C-762A7B92D974}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4198F9C8-C020-4749-892C-762A7B92D974}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3DA11E09-AEB8-4EC9-9E12-EADA75B56815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3DA11E09-AEB8-4EC9-9E12-EADA75B56815}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3DA11E09-AEB8-4EC9-9E12-EADA75B56815}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3DA11E09-AEB8-4EC9-9E12-EADA75B56815}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15BD54CE-2FB4-4C0C-8F40-DFB0936EBC7B}.Release|Any CPU.ActiveCfg = Release|Any CPU

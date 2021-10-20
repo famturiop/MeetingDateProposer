@@ -19,51 +19,34 @@ namespace MeetingDateProposer.BusinessLayer
                 c1.Calendars.ForEach(c2 =>
                     jointCalendar.UserCalendar.AddRange(c2.UserCalendar)));
 
-
             if (jointCalendar.UserCalendar.Count != 0)
             {
                 ReversedCalEventsCheck(jointCalendar.UserCalendar);
+                
                 jointCalendar.UserCalendar.Sort((x, y) => DateTime.Compare(x.EventStart, y.EventStart));
 
                 var jCalRemoveDuplicates = RemoveDuplicateCalEvents(jointCalendar.UserCalendar);
                 var jCalNoNestedEvents = RemoveNestedCalEvents(jCalRemoveDuplicates);
                 var jCalNoIntersectedEvents = UniteIntersectedCalEvents(jCalNoNestedEvents);
                 var jCalInversed = GetAvailableSchedule(jCalNoIntersectedEvents);
+                
                 return new Calendar()
                 {
                     UserCalendar = jCalInversed
                 };
             }
-            else
+
+            return new Calendar()
             {
-                return new Calendar()
+                UserCalendar = new List<CalendarEvent>
                 {
-                    UserCalendar = new List<CalendarEvent>
+                    new CalendarEvent()
                     {
-                        new CalendarEvent()
-                        {
-                            EventStart = DateTime.MinValue,
-                            EventEnd = DateTime.MaxValue
-                        }
+                        EventStart = DateTime.MinValue,
+                        EventEnd = DateTime.MaxValue
                     }
-                };
-            }
-        }
-        private static List<CalendarEvent> NullCheck(List<CalendarEvent> calendarList)
-        {
-            if (calendarList.Any(c => c.EventStart == null || c.EventEnd == null))
-            {
-                throw new Exception("A null Event time was detected.");
-            }
-
-            Action<CalendarEvent> CalEventInsertedDelegate = (calEvnt) =>
-            {
-                calEvnt.EventStart = (DateTime)calEvnt.EventStart;
-                calEvnt.EventEnd = (DateTime)calEvnt.EventEnd;
+                }
             };
-
-            calendarList.ForEach(CalEventInsertedDelegate);
-            return calendarList;
         }
 
         private static void ReversedCalEventsCheck(List<CalendarEvent> calendarList)
@@ -87,24 +70,26 @@ namespace MeetingDateProposer.BusinessLayer
 
         private static List<CalendarEvent> UniteIntersectedCalEvents(List<CalendarEvent> calendarList)
         {
-            var IntersectedEventIndex = calendarList.FindIndex(x => calendarList.Any(
+            var intersectedEventIndex = calendarList.FindIndex(x => calendarList.Any(
                 y => x.EventStart >= y.EventStart && x.EventStart <= y.EventEnd && !x.Equals(y)));
-            while (IntersectedEventIndex != -1)
+            
+            while (intersectedEventIndex != -1)
             {
-                var UnitedCalEvent = new CalendarEvent
+                var unitedCalEvent = new CalendarEvent
                 {
-                    EventStart = calendarList[IntersectedEventIndex - 1].EventStart,
-                    EventEnd = calendarList[IntersectedEventIndex].EventEnd
+                    EventStart = calendarList[intersectedEventIndex - 1].EventStart,
+                    EventEnd = calendarList[intersectedEventIndex].EventEnd
                 };
 
-                calendarList.RemoveAt(IntersectedEventIndex);
-                calendarList.RemoveAt(IntersectedEventIndex - 1);
-                calendarList.Add(UnitedCalEvent);
+                calendarList.RemoveAt(intersectedEventIndex);
+                calendarList.RemoveAt(intersectedEventIndex - 1);
+                calendarList.Add(unitedCalEvent);
                 calendarList.Sort((x, y) => DateTime.Compare(x.EventStart, y.EventStart));
 
-                IntersectedEventIndex = calendarList.FindIndex(x => calendarList.Any(
+                intersectedEventIndex = calendarList.FindIndex(x => calendarList.Any(
                     y => x.EventStart >= y.EventStart && x.EventStart <= y.EventEnd && !x.Equals(y)));
             }
+            
             return calendarList;
         }
 
@@ -138,6 +123,7 @@ namespace MeetingDateProposer.BusinessLayer
                     EventEnd = DateTime.MaxValue
                 });
             }
+            
             return calendarListModified;
         }
     }
