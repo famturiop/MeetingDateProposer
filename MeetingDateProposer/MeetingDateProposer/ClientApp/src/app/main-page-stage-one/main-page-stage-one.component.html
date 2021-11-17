@@ -7,11 +7,11 @@
         <label for="name">Meeting Name:</label><br>
         <input type="text" id="name" name="fname"><br>
         <label for="name">Time period:</label><br>
-        <input type="text" id="name" name="fname"><br>
+        <input type="text" placeholder="id" id="name" name="fname"><br>
         <label for="name">Access to calendar:</label><br>
-        <input type="button" value="Submit"><br>
+        <input type="button" value="Submit" (click)="getCalendar()"><br>
         <label for="name">Create meeting:</label><br>
-        <input type="button" value="Submit"><br>
+        <input type="button" value="Submit" routerLink="/stageTwo" (click)="goToStageTwo()"><br>
     </form>
 </div>
 
