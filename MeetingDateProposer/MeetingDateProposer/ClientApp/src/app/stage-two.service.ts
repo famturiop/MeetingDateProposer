@@ -1,32 +1,27 @@
-import { User } from './domain-objects/User';
-import { Calendar } from './domain-objects/Calendar';
-
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
-
-import { MessageService } from './message.service';
+import { catchError, tap } from 'rxjs/operators';
 import { BackendBaseService } from './backend-base.service';
 import { Meeting } from './domain-objects/Meeting';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StageOneService extends BackendBaseService {
+export class StageTwoService extends BackendBaseService {
 
   constructor(private http: HttpClient,
-    private messageService: MessageService) {
-      super();
-     }
-  
-  private access_url = 'api/calendar';
+    private messageService: MessageService) { 
+    super()
+  }
 
-  createMeeting(meeting: Meeting): Observable<Meeting> {
-    return this.http.post<Meeting>(`${this.baseURL}/api/CreateMeetingAsync?name=${meeting.name}`,"")
-    .pipe(tap(_ => this.log('created Meeting')),
+  getMeeting(meeting: Meeting): Observable<Meeting> {
+    return this.http.get<Meeting>(`${this.baseURL}/api/GetMeetingByIdAsync?meetingId=${meeting.id}`)
+    .pipe(tap(_ => this.log('got Meeting')),
     catchError(this.handleError<Meeting>()));
   }
+
 
 
   private handleError<T>(operation = 'operation', result?: T) {
@@ -46,5 +41,4 @@ export class StageOneService extends BackendBaseService {
   private log(message: string) {
     this.messageService.add(`stage-one.service: ${message}`);
   }
-
 }

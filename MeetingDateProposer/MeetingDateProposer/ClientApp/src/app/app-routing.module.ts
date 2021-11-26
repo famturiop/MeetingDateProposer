@@ -10,10 +10,9 @@ import { BottomToolbarComponent } from './bottom-toolbar/bottom-toolbar.componen
 
 const routes: Routes = [
   {path: '', redirectTo: 'stageOne', pathMatch: 'full'},
-  {path: 'stageTwo', component: MainPageStageTwoComponent},
+  {path: 'stageTwo/:id', component: MainPageStageTwoComponent},
   {path: 'about', component: AboutPageComponent},
   {path: 'stageOne', component: MainPageStageOneComponent}
-
 ]
 
 

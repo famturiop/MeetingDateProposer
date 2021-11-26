@@ -6,7 +6,7 @@ div {
     border: 3px solid green;
     padding: 10px;
     margin: auto;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     background-color:white;
   }

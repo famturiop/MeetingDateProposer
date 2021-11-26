@@ -1,6 +1,7 @@
 import { User } from './User';
 
 export  interface Meeting {
-    id: number;
+    id: string;
     connectedUsers: User[];
+    name: string;
   }

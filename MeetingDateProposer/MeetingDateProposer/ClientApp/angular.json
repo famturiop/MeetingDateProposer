@@ -72,6 +72,9 @@
             },
             "development": {
               "browserTarget": "ClientApp:build:development"
+            },
+            "options": {
+              "port": 4200
             }
           },
           "defaultConfiguration": "development"

@@ -1,10 +1,17 @@
 <div>
     <h1>Stage 2.</h1>
+    <div>
+        <p>Add user in the form below {{meeting.name}}</p>
+        <input type="text" value="">
+        <button onclick="myFunction()">Access calendar</button>
+        <button onclick="createUser()">Add user</button>
+    </div>
     <p>When visitor first completes the form display success msg here.</p>
     <label class="form">Use this link to share the meeting:</label>
     <form class="form">
-        <input type="text" value="your link">
-        <button onclick="myFunction()">Copy link</button>
+        <input type="text" value="{{displayLink()}}">
+        <!-- "{{baseUrl}}/stageTwo/{{meeting.id}}" -->
+        <button onclick="copyLink()">Copy link</button>
     </form>
     <label class="list">People signed up so far:</label>
     <ul class="list">
