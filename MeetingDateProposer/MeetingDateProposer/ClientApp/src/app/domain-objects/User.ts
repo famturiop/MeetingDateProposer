@@ -4,6 +4,7 @@ import { Meeting } from './Meeting';
 export interface User {
     credentials?: any;
     calendars: Calendar[];
+    id: string;
     userMeetings?: Meeting[];
-    id: number;
+    name: string;
   }

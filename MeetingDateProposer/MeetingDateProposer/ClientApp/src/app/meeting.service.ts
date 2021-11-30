@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MeetingService {
 
-  private meeting = new BehaviorSubject<Meeting>({id: "", connectedUsers: [], name: "hai"});
+  private meeting = new BehaviorSubject<Meeting>({id: "", connectedUsers: [], name: ""});
   currentMeeting = this.meeting.asObservable();
 
   constructor() { }

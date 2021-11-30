@@ -14,19 +14,16 @@ import { Meeting } from '../domain-objects/Meeting';
 })
 export class MainPageStageOneComponent implements OnInit {
 
+  public meeting: Meeting = {id: "", connectedUsers: [], name: ""};
+
   constructor(private route: ActivatedRoute, 
     private location: Location, 
     private stageOneService: StageOneService,
     private router: Router,
     private meetingService: MeetingService) {  }
 
-  
-
   ngOnInit(): void {
   }
-
-  public user: User = {calendars:[],credentials:null,id:0,userMeetings:[]};
-  public meeting: Meeting = {id: "", connectedUsers: [], name: ""};
 
   createMeeting(meetingName: string): void{
     this.meeting.name = meetingName;

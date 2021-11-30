@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BackendBaseService } from './backend-base.service';
 import { Meeting } from './domain-objects/Meeting';
+import { User } from './domain-objects/User';
 import { MessageService } from './message.service';
 
 @Injectable({
@@ -22,7 +23,17 @@ export class StageTwoService extends BackendBaseService {
     catchError(this.handleError<Meeting>()));
   }
 
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.baseURL}/api/CreateUserAsync?name=${user.name}`,"")
+    .pipe(tap(_ => this.log('created User')),
+    catchError(this.handleError<User>()));
+  }
 
+  updateMeeting(user: User, meeting: Meeting): Observable<Meeting> {
+    return this.http.put<Meeting>(`${this.baseURL}/api/UpdateMeetingAsync?meetingId=${meeting.id}&userId=${user.id}`,"")
+    .pipe(tap(_ => this.log('added user to the meeting')),
+    catchError(this.handleError<Meeting>()));
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
