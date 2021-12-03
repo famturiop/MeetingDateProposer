@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
+using Google.Apis.Auth.OAuth2.Flows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Calendar = MeetingDateProposer.Domain.Models.ApplicationModels.Calendar;
 
@@ -16,16 +19,18 @@ namespace MeetingDateProposer.BusinessLayer.Providers
     public class GoogleCalendarProvider : ICalendarProvider
     {
         private readonly ILogger<GoogleCalendarProvider> _logger;
+        private readonly IConfiguration _configuration;
 
-        public GoogleCalendarProvider(ILogger<GoogleCalendarProvider> logger)
+        public GoogleCalendarProvider(ILogger<GoogleCalendarProvider> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
-        public void GetCalendar(ApplicationUser user)
+
+        public async Task<Calendar> GetCalendarAsync(string authorizationCode, Guid userId)
         {
-            string[] scopes = { CalendarService.Scope.CalendarReadonly };
-            var credential = GetAccessToGoogle(scopes, user);
-            var events = SendRequestToGoogle(credential);
+            var credential = await ExchangeCodeForTokenAsync(authorizationCode, userId);
+            var events = await GetCalendarEventsAsync(credential);
 
             var calendar = new Calendar
             {
@@ -51,40 +56,44 @@ namespace MeetingDateProposer.BusinessLayer.Providers
                 }
             }
 
-            if (user.Calendars == null)
-            {
-                user.Calendars = new List<Calendar> { calendar };
-            }
-            else
-            {
-                user.Calendars.Add(calendar);
-            }
-
+            return calendar;
         }
 
-        private UserCredential GetAccessToGoogle(string[] scopes, ApplicationUser user)
+        private async Task<UserCredential> ExchangeCodeForTokenAsync(string authorizationCode, Guid userId)
         {
-            LocalServerCodeReceiver redirectUri = new LocalServerCodeReceiver("You may close the page now.",
-                LocalServerCodeReceiver.CallbackUriChooserStrategy.Default);
+            var clientId = _configuration["googleCredentials:client_id"];
+            var clientSecret = _configuration["googleCredentials:client_secret"];
+            var redirectUri = _configuration["googleCredentials:redirect_uris"];
 
-            using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
-                return GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    scopes,
-                    user.Id.ToString(),
-                    CancellationToken.None,
-                    new NullDataStore(), redirectUri).Result;
-            }
+                ClientSecrets = new ClientSecrets()
+                {
+                    ClientId = clientId,
+                    ClientSecret = clientSecret
+                },
+                Scopes = new[]
+                {
+                    CalendarService.Scope.CalendarReadonly
+                }
+            });
+
+            var tokenResponse = await authorizationCodeFlow.ExchangeCodeForTokenAsync(
+                userId.ToString(),
+                authorizationCode,
+                redirectUri,
+                CancellationToken.None);
+
+            return new UserCredential(authorizationCodeFlow, userId.ToString(), tokenResponse);
         }
 
-        private Events SendRequestToGoogle(UserCredential credential)
+        private Task<Events> GetCalendarEventsAsync(UserCredential credential)
         {
             var service = new CalendarService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
-                ApplicationName = "My Project 88493"
-            });
+                ApplicationName = _configuration["googleCredentials:project_id"]
+        });
 
             var request = service.Events.List("primary");
             request.TimeMin = DateTime.Now;
@@ -92,10 +101,8 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             request.SingleEvents = true;
             request.MaxResults = 250;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-            
-            var events = request.Execute();
-            
-            return events;
+
+            return request.ExecuteAsync();
         }
 
     }

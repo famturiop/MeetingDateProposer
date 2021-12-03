@@ -12,5 +12,7 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 
         public Task<ApplicationUser> GetUserByIdFromDbAsync(Guid id);
 
+        public Task UpdateUserAsync(Guid id);
+
     }
 }

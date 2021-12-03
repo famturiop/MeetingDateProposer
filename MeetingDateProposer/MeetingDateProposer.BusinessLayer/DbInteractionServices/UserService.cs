@@ -38,5 +38,14 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
                 .Include(u => u.Calendars)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task UpdateUserAsync(Guid id)
+        {
+            var user = await _appContext.ApplicationUsers
+                .Include(u => u.Calendars)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            _appContext.ApplicationUsers.Update(user);
+            await _appContext.SaveChangesAsync();
+        }
     }
 }

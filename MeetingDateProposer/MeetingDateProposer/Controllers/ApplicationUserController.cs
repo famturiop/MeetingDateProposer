@@ -49,7 +49,6 @@ namespace MeetingDateProposer.Controllers
             {
                 Name = name
             };
-            _userCalendar.GetCalendar(user);
             await _userService.AddUserToDbAsync(user);
             return Ok(user);
         }

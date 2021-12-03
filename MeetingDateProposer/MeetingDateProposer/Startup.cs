@@ -35,7 +35,7 @@ namespace MeetingDateProposer
                     builder =>
                     {
                         builder.WithOrigins("http://example.com",
-                            "http://localhost:4200");
+                            "http://localhost:4200").AllowAnyMethod();
                     });
             });
 
