@@ -14,6 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+
 
 namespace MeetingDateProposer
 {
@@ -38,12 +42,11 @@ namespace MeetingDateProposer
                             "http://localhost:4200").AllowAnyMethod();
                     });
             });
-
             //services.AddControllersWithViews();
             services.AddControllers(options =>
                     options.SuppressAsyncSuffixInActionNames = false)
-                .AddJsonOptions(options =>
-                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling
+                    = ReferenceLoopHandling.Ignore);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
