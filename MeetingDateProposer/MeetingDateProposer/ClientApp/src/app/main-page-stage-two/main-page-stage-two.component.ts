@@ -16,8 +16,6 @@ import { switchMap } from 'rxjs/operators';
 export class MainPageStageTwoComponent implements OnInit {
 
   public meeting: Meeting = {id: "", connectedUsers: [], name: ""};
-  private readonly baseUrl = this.window.location.origin;
-  private readonly currentRoute = this.routes.url;
   private openWindowReference: (Window|null) = null;
 
   constructor(private meetingService: MeetingService,
@@ -31,7 +29,7 @@ export class MainPageStageTwoComponent implements OnInit {
       this.meeting = meeting;
     });
     if (this.meeting.id === "") {
-      this.meeting.id = this.currentRoute.split("/")[2];
+      this.meeting.id = this.routes.url.split("/")[2];
       this.stageTwoService.getMeeting(this.meeting).subscribe((response) => {
         this.meetingService.updateMeeting(response);
       },
@@ -44,7 +42,7 @@ export class MainPageStageTwoComponent implements OnInit {
     }
   }
 
-  createUser(userName: string): Observable<User> {
+  private createUser(userName: string): Observable<User> {
     let user: User = {calendars:[],credentials:null,id:"", name: userName};
     return this.stageTwoService.createUser(user);
   }
@@ -76,17 +74,15 @@ export class MainPageStageTwoComponent implements OnInit {
     
   }
 
-  @HostListener('window:message',['$event']) recieveAuthCode(event: MessageEvent<any>): void {
-    let message = event.data as (string|null)[];
-    let code = message[0];
-    let userId = message[1];
+  @HostListener('window:message',['$event']) recieveAuthCode(event: MessageEvent<string[]>): void {
+    let code = event.data[0];
+    let userId = event.data[1];
     let meeting = this.meeting;
     this.meeting.connectedUsers.forEach((user,userIndex) => {
       if (user.id === userId){
         this.stageTwoService.updateUser(user,code as string).subscribe((response) => {
           meeting.connectedUsers[userIndex] = response;
           this.meetingService.updateMeeting(meeting);
-          console.log(this.meeting);
         },
         (error) => {
           
@@ -111,11 +107,11 @@ export class MainPageStageTwoComponent implements OnInit {
   }
 
   displayLink(): string {
-    return this.baseUrl+this.currentRoute;
+    return this.window.location.origin+this.routes.url;
   }
 
   copyLink(): void {
-    this.clipboard.copy(this.baseUrl+this.currentRoute);
+    this.clipboard.copy(this.window.location.origin+this.routes.url);
   }
 
   ngOnChanges() {

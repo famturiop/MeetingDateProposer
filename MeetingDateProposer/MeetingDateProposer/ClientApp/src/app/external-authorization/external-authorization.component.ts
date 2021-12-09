@@ -12,12 +12,17 @@ export class ExternalAuthorizationComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeRoute.queryParamMap.subscribe(params => {
-      let code: string|null  = params.get('code');
-      let state: string|null = params.get('state');
-      let message: (string|null)[] = [code,state];
-      if (window.opener) {
-        this.window.opener.postMessage(message,this.window.location.origin);
-        this.window.close();
+      if (params.get('code') !== null && params.get('state') !== null){
+        let code: string = params.get('code') as string;
+        let state: string = params.get('state') as string;
+        let message: (string)[] = [code,state];
+        if (window.opener) {
+          this.window.opener.postMessage(message,this.window.location.origin);
+          this.window.close();
+        }
+      }
+      else {
+        throw new Error("One or more of the authentication parameters are null.");
       }
     });
   }
