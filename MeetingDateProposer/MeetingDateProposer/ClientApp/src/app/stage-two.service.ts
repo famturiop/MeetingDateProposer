@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, filter, map, tap } from 'rxjs/operators';
 import { BackendBaseService } from './backend-base.service';
 import { Meeting } from './domain-objects/Meeting';
 import { User } from './domain-objects/User';
@@ -16,6 +16,8 @@ export class StageTwoService extends BackendBaseService {
     private messageService: MessageService) { 
     super()
   }
+
+  
 
   getMeeting(meeting: Meeting): Observable<Meeting> {
     return this.http.get<Meeting>(`${this.baseURL}/api/GetMeetingByIdAsync?meetingId=${meeting.id}`)
@@ -33,6 +35,12 @@ export class StageTwoService extends BackendBaseService {
     return this.http.put<Meeting>(`${this.baseURL}/api/UpdateMeetingAsync?meetingId=${meeting.id}&userId=${user.id}`,"")
     .pipe(tap(_ => this.log('added user to the meeting')),
     catchError(this.handleError<Meeting>()));
+  }
+
+  updateUser(user: User, authorizationCode: string): Observable<User> {
+    return this.http.put<User>(`${this.baseURL}/api/AddCalendarToUserAsync?authorizationCode=${authorizationCode}&userId=${user.id}`,"")
+    .pipe(tap(_ => this.log('added user to the meeting')),
+    catchError(this.handleError<User>()));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

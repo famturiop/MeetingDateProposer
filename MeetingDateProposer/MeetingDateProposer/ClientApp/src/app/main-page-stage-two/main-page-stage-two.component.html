@@ -2,21 +2,23 @@
     <h1>Stage 2.</h1>
     <p>{{meeting.name}} meeting.</p>
     <div>
-        <p>Fill the form below to add user to the meeting.</p>
+        <p>Add user to the meeting.</p>
         <input type="text" value="" #userName>
-        <button (click)="createUser(userName.value)">Create user</button>
-        <button (click)="addUserToMeeting()">Add user to the meeting</button>
+        <button (click)="addUserToMeeting(userName.value);">Create user and add him to the meeting</button>
+
+        <p>Meeting participants:</p>
+        <ul>
+            <li *ngFor="let connectedUser of meeting.connectedUsers">
+                <p>{{connectedUser.name}}</p>
+                <button (click)="addCalendarToUser(connectedUser)">Add calendar</button><br>
+                <p *ngIf="(connectedUser.calendars.length !== 0)">Calendar count: {{connectedUser.calendars.length}}</p>
+            </li>
+        </ul>
     </div>
-    <p>When visitor first completes the form display success msg here.</p>
     <div>
         <label class="input">Use this link to share the meeting:</label>
         <input type="text" value="{{displayLink()}}">
         <button (click)="copyLink()">Copy link</button>
     </div>
-    <label class="list">People signed up so far:</label>
-    <ul class="list">
-        <li>Person One</li>
-        <li>Person two</li>
-    </ul>
     <p>Calendar display here?</p>
 </div>

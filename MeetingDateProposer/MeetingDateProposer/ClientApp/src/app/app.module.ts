@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
-
 import { AppComponent } from './app.component';
 import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
 import { MainPageStageOneComponent } from './main-page-stage-one/main-page-stage-one.component';
@@ -11,6 +10,7 @@ import { MainPageStageTwoComponent } from './main-page-stage-two/main-page-stage
 import { AboutPageComponent } from './about-page/about-page.component';
 import { BottomToolbarComponent } from './bottom-toolbar/bottom-toolbar.component';
 import { MessagesComponent } from './messages/messages.component';
+import { ExternalAuthorizationComponent } from './external-authorization/external-authorization.component';
 
 @NgModule({
   declarations: [
@@ -20,14 +20,17 @@ import { MessagesComponent } from './messages/messages.component';
     MainPageStageTwoComponent,
     AboutPageComponent,
     BottomToolbarComponent,
-    MessagesComponent
+    MessagesComponent,
+    ExternalAuthorizationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: Window, useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
