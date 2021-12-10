@@ -21,7 +21,7 @@ export class StageOneService extends BackendBaseService {
   private access_url = 'api/calendar';
 
   createMeeting(meeting: Meeting): Observable<Meeting> {
-    return this.http.post<Meeting>(`${this.baseURL}/api/CreateMeetingAsync?name=${meeting.name}`,"")
+    return this.http.post<Meeting>(`${StageOneService.baseURL}/api/CreateMeetingAsync?name=${meeting.name}`,"")
     .pipe(tap(_ => this.log('created Meeting')),
     catchError(this.handleError<Meeting>()));
   }
@@ -29,7 +29,7 @@ export class StageOneService extends BackendBaseService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-  
+      
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
   

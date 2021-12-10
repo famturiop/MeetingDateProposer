@@ -20,25 +20,25 @@ export class StageTwoService extends BackendBaseService {
   
 
   getMeeting(meeting: Meeting): Observable<Meeting> {
-    return this.http.get<Meeting>(`${this.baseURL}/api/GetMeetingByIdAsync?meetingId=${meeting.id}`)
+    return this.http.get<Meeting>(`${StageTwoService.baseURL}/api/GetMeetingByIdAsync?meetingId=${meeting.id}`)
     .pipe(tap(_ => this.log('got Meeting')),
     catchError(this.handleError<Meeting>()));
   }
 
   createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.baseURL}/api/CreateUserAsync?name=${user.name}`,"")
+    return this.http.post<User>(`${StageTwoService.baseURL}/api/CreateUserAsync?name=${user.name}`,"")
     .pipe(tap(_ => this.log('created User')),
     catchError(this.handleError<User>()));
   }
 
   updateMeeting(user: User, meeting: Meeting): Observable<Meeting> {
-    return this.http.put<Meeting>(`${this.baseURL}/api/UpdateMeetingAsync?meetingId=${meeting.id}&userId=${user.id}`,"")
+    return this.http.put<Meeting>(`${StageTwoService.baseURL}/api/UpdateMeetingAsync?meetingId=${meeting.id}&userId=${user.id}`,"")
     .pipe(tap(_ => this.log('added user to the meeting')),
     catchError(this.handleError<Meeting>()));
   }
 
   updateUser(user: User, authorizationCode: string): Observable<User> {
-    return this.http.put<User>(`${this.baseURL}/api/AddCalendarToUserAsync?authorizationCode=${authorizationCode}&userId=${user.id}`,"")
+    return this.http.put<User>(`${StageTwoService.baseURL}/api/AddCalendarToUserAsync?authorizationCode=${authorizationCode}&userId=${user.id}`,"")
     .pipe(tap(_ => this.log('added user to the meeting')),
     catchError(this.handleError<User>()));
   }

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class BackendBaseService {
 
-  baseURL: string = 'https://localhost:44343';
+  public static  readonly baseURL: string = 'https://localhost:44343';
 
   constructor(){}
 }
