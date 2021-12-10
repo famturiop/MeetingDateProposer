@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BottomOutlineComponent } from './bottom-outline.component';
 
-describe('BottomToolbarComponent', () => {
+describe('BottomOutlineComponent', () => {
   let component: BottomOutlineComponent;
   let fixture: ComponentFixture<BottomOutlineComponent>;
 
