@@ -1,9 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Meeting } from '../models/Meeting';
-import { MeetingService } from '../meeting.service';
-import { StageTwoService } from '../stage-two.service';
+import { Meeting } from 'src/app/models/Meeting';
+import { MeetingService } from 'src/app/services/meeting.service';
+import { StageTwoService } from 'src/app/api-services/stage-two.service';
 import { Router } from '@angular/router';
-import { User } from '../models/User';
+import { User } from 'src/app/models/User';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';

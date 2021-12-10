@@ -1,11 +1,9 @@
-import { User } from '../models/User';
-
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { StageOneService } from '../stage-one.service';
-import { MeetingService } from '../meeting.service';
-import { Meeting } from '../models/Meeting';
+import { StageOneService } from 'src/app/api-services/stage-one.service';
+import { MeetingService } from 'src/app/services/meeting.service';
+import { Meeting } from 'src/app/models/Meeting';
 
 @Component({
   selector: 'app-main-page-stage-one',

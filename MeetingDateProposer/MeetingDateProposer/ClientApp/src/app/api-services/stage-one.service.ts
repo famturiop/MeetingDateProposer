@@ -1,14 +1,12 @@
-import { User } from './models/User';
-import { Calendar } from './models/Calendar';
+import { Meeting } from '../models/Meeting';
 
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { MessageService } from './message.service';
+import { MessageService } from '../services/message.service';
 import { BackendBaseService } from './backend-base.service';
-import { Meeting } from './models/Meeting';
 
 @Injectable({
   providedIn: 'root'

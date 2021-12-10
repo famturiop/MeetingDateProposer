@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, tap } from 'rxjs/operators';
 import { BackendBaseService } from './backend-base.service';
-import { Meeting } from './models/Meeting';
-import { User } from './models/User';
-import { MessageService } from './message.service';
+import { Meeting } from '../models/Meeting';
+import { User } from '../models/User';
+import { MessageService } from '../services/message.service';
 
 @Injectable({
   providedIn: 'root'

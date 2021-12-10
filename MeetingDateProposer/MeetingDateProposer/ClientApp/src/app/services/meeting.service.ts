@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Meeting } from './models/Meeting';
+import { Meeting } from '../models/Meeting';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
