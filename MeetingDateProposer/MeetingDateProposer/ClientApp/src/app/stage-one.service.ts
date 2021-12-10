@@ -1,5 +1,5 @@
-import { User } from './domain-objects/User';
-import { Calendar } from './domain-objects/Calendar';
+import { User } from './models/User';
+import { Calendar } from './models/Calendar';
 
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
@@ -8,7 +8,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
 import { BackendBaseService } from './backend-base.service';
-import { Meeting } from './domain-objects/Meeting';
+import { Meeting } from './models/Meeting';
 
 @Injectable({
   providedIn: 'root'

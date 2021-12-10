@@ -4,22 +4,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
+import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { MainPageStageOneComponent } from './main-page-stage-one/main-page-stage-one.component';
 import { MainPageStageTwoComponent } from './main-page-stage-two/main-page-stage-two.component';
 import { AboutPageComponent } from './about-page/about-page.component';
-import { BottomToolbarComponent } from './bottom-toolbar/bottom-toolbar.component';
+import { BottomOutlineComponent } from './bottom-outline/bottom-outline.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ExternalAuthorizationComponent } from './external-authorization/external-authorization.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TopToolbarComponent,
+    TopNavbarComponent,
     MainPageStageOneComponent,
     MainPageStageTwoComponent,
     AboutPageComponent,
-    BottomToolbarComponent,
+    BottomOutlineComponent,
     MessagesComponent,
     ExternalAuthorizationComponent
   ],

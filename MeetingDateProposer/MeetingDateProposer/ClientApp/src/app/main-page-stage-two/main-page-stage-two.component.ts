@@ -1,9 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Meeting } from '../domain-objects/Meeting';
+import { Meeting } from '../models/Meeting';
 import { MeetingService } from '../meeting.service';
 import { StageTwoService } from '../stage-two.service';
 import { Router } from '@angular/router';
-import { User } from '../domain-objects/User';
+import { User } from '../models/User';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BottomToolbarComponent } from './bottom-toolbar.component';
+import { BottomOutlineComponent } from './bottom-outline.component';
 
 describe('BottomToolbarComponent', () => {
-  let component: BottomToolbarComponent;
-  let fixture: ComponentFixture<BottomToolbarComponent>;
+  let component: BottomOutlineComponent;
+  let fixture: ComponentFixture<BottomOutlineComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BottomToolbarComponent ]
+      declarations: [ BottomOutlineComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BottomToolbarComponent);
+    fixture = TestBed.createComponent(BottomOutlineComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

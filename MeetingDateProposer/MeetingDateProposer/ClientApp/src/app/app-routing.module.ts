@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
+import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { MainPageStageOneComponent } from './main-page-stage-one/main-page-stage-one.component';
 import { MainPageStageTwoComponent } from './main-page-stage-two/main-page-stage-two.component';
 import { AboutPageComponent } from './about-page/about-page.component';
-import { BottomToolbarComponent } from './bottom-toolbar/bottom-toolbar.component';
+import { BottomOutlineComponent } from './bottom-outline/bottom-outline.component';
 import { ExternalAuthorizationComponent } from './external-authorization/external-authorization.component';
 
 
