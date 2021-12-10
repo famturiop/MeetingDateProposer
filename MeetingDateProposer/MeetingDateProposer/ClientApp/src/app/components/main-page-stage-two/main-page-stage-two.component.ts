@@ -7,6 +7,7 @@ import { User } from 'src/app/models/User';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
 
 @Component({
   selector: 'app-main-page-stage-two',
@@ -16,13 +17,13 @@ import { switchMap } from 'rxjs/operators';
 export class MainPageStageTwoComponent implements OnInit {
 
   public meeting: Meeting = {id: "", connectedUsers: [], name: ""};
-  private openWindowReference: (Window|null) = null;
 
   constructor(private meetingService: MeetingService,
     private stageTwoService: StageTwoService,
     private clipboard: Clipboard,
     private routes: Router,
-    private window: Window) { }
+    private window: Window,
+    private newWindow: OpenNewWindowService) { }
 
   ngOnInit(): void {
     this.meetingService.currentMeeting.subscribe(meeting => {
@@ -62,16 +63,9 @@ export class MainPageStageTwoComponent implements OnInit {
   }
 
   addCalendarToUser(user: User): void {
-    const strWindowFeatures = 'toolbar=no, menubar=no, width=600, height=700, top=100, left=100';
-    const url = this.buildURL(user);
+    const url = this.newWindow.buildURL(user);
     const name = "";
-    if (this.openWindowReference === null || this.openWindowReference.closed) {
-      this.openWindowReference = this.window.open(url, name, strWindowFeatures);
-    }
-    else {
-      this.openWindowReference.focus();
-    }
-    
+    this.newWindow.openNewWindow(url,name);
   }
 
   @HostListener('window:message',['$event']) recieveAuthCode(event: MessageEvent<string[]>): void {
@@ -92,18 +86,6 @@ export class MainPageStageTwoComponent implements OnInit {
         });
       }
     })
-  }
-
-  buildURL(user: User): string {
-    const authEndpoint: string = 'https://accounts.google.com/o/oauth2/v2/auth';
-    const accessType: string = 'offline';
-    const state: string = user.id;
-    const responseType: string = 'code';
-    const clientId: string = '210750196305-c4dqfmn8emrlmbb0s0a38uuihhrp5a6m.apps.googleusercontent.com';
-    const redirectUri: string = 'http%3A%2F%2Flocalhost%3A4200%2Fauthorize%2F';
-    const scope: string = 'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly';
-    const flowName: string = 'GeneralOAuthFlow';
-    return `${authEndpoint}?access_type=${accessType}&response_type=${responseType}&state=${state}&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&flowName=${flowName}`;
   }
 
   displayLink(): string {
