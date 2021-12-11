@@ -1,9 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Meeting } from 'src/app/models/Meeting';
+import { IMeeting } from 'src/app/models/meeting.model';
 import { MeetingService } from 'src/app/services/meeting.service';
 import { StageTwoService } from 'src/app/api-services/stage-two.service';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/User';
+import { IUser } from 'src/app/models/user.model';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
 })
 export class MainPageStageTwoComponent implements OnInit {
 
-  public meeting: Meeting = {id: "", connectedUsers: [], name: ""};
+  public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
 
   constructor(private meetingService: MeetingService,
     private stageTwoService: StageTwoService,
@@ -43,8 +43,8 @@ export class MainPageStageTwoComponent implements OnInit {
     }
   }
 
-  private createUser(userName: string): Observable<User> {
-    let user: User = {calendars:[],credentials:null,id:"", name: userName};
+  private createUser(userName: string): Observable<IUser> {
+    let user: IUser = {calendars:[],credentials:null,id:"", name: userName};
     return this.stageTwoService.createUser(user);
   }
 
@@ -62,7 +62,7 @@ export class MainPageStageTwoComponent implements OnInit {
     });
   }
 
-  addCalendarToUser(user: User): void {
+  addCalendarToUser(user: IUser): void {
     const url = this.newWindow.buildURL(user);
     const name = "";
     this.newWindow.openNewWindow(url,name);

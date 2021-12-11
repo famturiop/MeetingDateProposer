@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '../models/User';
+import { IUser } from '../models/user.model';
+import { AppConfigService } from '../app-config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,18 +8,19 @@ import { User } from '../models/User';
 export class OpenNewWindowService {
 
   private openWindowReference: (Window|null) = null;
+  private settings = AppConfigService.settings.googleOAuthSettings;
 
   constructor(private window: Window) { }
 
-  buildURL(user: User): string {
-    const authEndpoint: string = 'https://accounts.google.com/o/oauth2/v2/auth';
-    const accessType: string = 'offline';
+  buildURL(user: IUser): string {
+    const authEndpoint: string = this.settings.authEndpoint;
+    const accessType: string = this.settings.accessType;
     const state: string = user.id;
-    const responseType: string = 'code';
-    const clientId: string = '210750196305-c4dqfmn8emrlmbb0s0a38uuihhrp5a6m.apps.googleusercontent.com';
-    const redirectUri: string = 'http%3A%2F%2Flocalhost%3A4200%2Fauthorize%2F';
-    const scope: string = 'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly';
-    const flowName: string = 'GeneralOAuthFlow';
+    const responseType: string = this.settings.responseType;
+    const clientId: string = this.settings.clientId;
+    const redirectUri: string = this.settings.redirectUri;
+    const scope: string = this.settings.scope;
+    const flowName: string = this.settings.flowName;
     return `${authEndpoint}?access_type=${accessType}&response_type=${responseType}&state=${state}&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&flowName=${flowName}`;
   }
 

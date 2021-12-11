@@ -1,4 +1,4 @@
-import { Meeting } from '../models/Meeting';
+import { IMeeting } from '../models/meeting.model';
 
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
@@ -6,24 +6,24 @@ import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from '../services/message.service';
-import { BackendBaseService } from './backend-base.service';
+import { AppConfigService } from '../app-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StageOneService extends BackendBaseService {
+export class StageOneService {
+
+  private baseURL: string = AppConfigService.settings.backEndpoint;
 
   constructor(private http: HttpClient,
     private messageService: MessageService) {
-      super();
-     }
-  
-  private access_url = 'api/calendar';
 
-  createMeeting(meeting: Meeting): Observable<Meeting> {
-    return this.http.post<Meeting>(`${StageOneService.baseURL}/api/CreateMeetingAsync?name=${meeting.name}`,"")
+     }
+
+  createMeeting(meeting: IMeeting): Observable<IMeeting> {
+    return this.http.post<IMeeting>(`${this.baseURL}/api/CreateMeetingAsync?name=${meeting.name}`,"")
     .pipe(tap(_ => this.log('created Meeting')),
-    catchError(this.handleError<Meeting>()));
+    catchError(this.handleError<IMeeting>()));
   }
 
 

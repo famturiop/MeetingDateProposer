@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,6 +11,13 @@ import { AboutPageComponent } from './components/about-page/about-page.component
 import { BottomOutlineComponent } from './components/bottom-outline/bottom-outline.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { ExternalAuthorizationComponent } from './components/external-authorization/external-authorization.component';
+import { AppConfigService } from './app-config.service';
+
+export function initializeApp(appConfigService: AppConfigService) {
+  return (): Promise<any> => { 
+    return appConfigService.load();
+  }
+}
 
 @NgModule({
   declarations: [
@@ -29,6 +36,7 @@ import { ExternalAuthorizationComponent } from './components/external-authorizat
     HttpClientModule
   ],
   providers: [
+    { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppConfigService], multi: true},
     { provide: Window, useValue: window }
   ],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Meeting } from '../models/Meeting';
+import { IMeeting } from '../models/meeting.model';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -7,12 +7,12 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MeetingService {
 
-  private meeting = new BehaviorSubject<Meeting>({id: "", connectedUsers: [], name: ""});
+  private meeting = new BehaviorSubject<IMeeting>({id: "", connectedUsers: [], name: ""});
   currentMeeting = this.meeting.asObservable();
 
   constructor() { }
 
-  updateMeeting(meeting: Meeting){
+  updateMeeting(meeting: IMeeting){
     if (meeting.connectedUsers?.length > 1){
       meeting.connectedUsers?.sort((userA,userB) => {
         return userA.name.localeCompare(userB.name);

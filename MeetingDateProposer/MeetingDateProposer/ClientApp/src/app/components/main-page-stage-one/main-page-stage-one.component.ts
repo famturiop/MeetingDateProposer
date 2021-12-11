@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { StageOneService } from 'src/app/api-services/stage-one.service';
 import { MeetingService } from 'src/app/services/meeting.service';
-import { Meeting } from 'src/app/models/Meeting';
+import { IMeeting } from 'src/app/models/meeting.model';
 
 @Component({
   selector: 'app-main-page-stage-one',
@@ -12,7 +12,7 @@ import { Meeting } from 'src/app/models/Meeting';
 })
 export class MainPageStageOneComponent implements OnInit {
 
-  public meeting: Meeting = {id: "", connectedUsers: [], name: ""};
+  public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
 
   constructor(private route: ActivatedRoute, 
     private location: Location, 
