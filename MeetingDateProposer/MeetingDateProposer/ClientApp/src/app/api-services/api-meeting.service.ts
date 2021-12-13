@@ -1,17 +1,16 @@
-import { IMeeting } from '../models/meeting.model';
-
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
-
-import { MessageService } from '../services/message.service';
+import { catchError, tap } from 'rxjs/operators';
 import { AppConfigService } from '../app-config.service';
+import { IMeeting } from '../models/meeting.model';
+import { IUser } from '../models/user.model';
+import { MessageService } from '../services/message.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StageOneService {
+export class ApiMeetingService {
 
   private baseURL: string = AppConfigService.settings.backEndpoint;
 
@@ -26,6 +25,17 @@ export class StageOneService {
     catchError(this.handleError<IMeeting>()));
   }
 
+  getMeeting(meeting: IMeeting): Observable<IMeeting> {
+    return this.http.get<IMeeting>(`${this.baseURL}/api/GetMeetingByIdAsync?meetingId=${meeting.id}`)
+    .pipe(tap(_ => this.log('got Meeting')),
+    catchError(this.handleError<IMeeting>()));
+  }
+
+  updateMeeting(user: IUser, meeting: IMeeting): Observable<IMeeting> {
+    return this.http.put<IMeeting>(`${this.baseURL}/api/UpdateMeetingAsync?meetingId=${meeting.id}&userId=${user.id}`,"")
+    .pipe(tap(_ => this.log('added user to the meeting')),
+    catchError(this.handleError<IMeeting>()));
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -44,5 +54,4 @@ export class StageOneService {
   private log(message: string) {
     this.messageService.add(`stage-one.service: ${message}`);
   }
-
 }
