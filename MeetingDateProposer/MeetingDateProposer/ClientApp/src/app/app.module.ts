@@ -12,6 +12,9 @@ import { BottomOutlineComponent } from './components/bottom-outline/bottom-outli
 import { MessagesComponent } from './components/messages/messages.component';
 import { ExternalAuthorizationComponent } from './components/external-authorization/external-authorization.component';
 import { AppConfigService } from './app-config.service';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { MeetingJointCalendarComponent } from './components/meeting-joint-calendar/meeting-joint-calendar.component';
 
 export function initializeApp(appConfigService: AppConfigService) {
   return (): Promise<any> => { 
@@ -28,12 +31,14 @@ export function initializeApp(appConfigService: AppConfigService) {
     AboutPageComponent,
     BottomOutlineComponent,
     MessagesComponent,
-    ExternalAuthorizationComponent
+    ExternalAuthorizationComponent,
+    MeetingJointCalendarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppConfigService], multi: true},

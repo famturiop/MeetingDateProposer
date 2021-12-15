@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { IMeeting } from 'src/app/models/meeting.model';
 import { MeetingService } from 'src/app/services/meeting.service';
 import { ApiMeetingService } from 'src/app/api-services/api-meeting.service';
@@ -6,7 +6,7 @@ import { ApiUserService } from 'src/app/api-services/api-user.service';
 import { Router } from '@angular/router';
 import { IUser } from 'src/app/models/user.model';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
 
@@ -15,9 +15,10 @@ import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
   templateUrl: './main-page-stage-two.component.html',
   styleUrls: ['./main-page-stage-two.component.css']
 })
-export class MainPageStageTwoComponent implements OnInit {
+export class MainPageStageTwoComponent implements OnInit, OnDestroy {
 
-  public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
+  @Output() public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
+  private meetingSubscription: Subscription;
 
   constructor(private meetingService: MeetingService,
     private apiMeetingService: ApiMeetingService,
@@ -25,12 +26,13 @@ export class MainPageStageTwoComponent implements OnInit {
     private clipboard: Clipboard,
     private router: Router,
     private window: Window,
-    private newWindow: OpenNewWindowService) { }
+    private newWindow: OpenNewWindowService) {
+      this.meetingSubscription = this.meetingService.currentMeeting.subscribe(meeting => {
+        this.meeting = meeting;
+      });
+     }
 
   ngOnInit(): void {
-    this.meetingService.currentMeeting.subscribe(meeting => {
-      this.meeting = meeting;
-    });
     if (this.meeting.id === "") {
       this.meeting.id = this.router.url.split("/")[2];
       this.apiMeetingService.getMeeting(this.meeting).subscribe((response) => {
@@ -54,7 +56,9 @@ export class MainPageStageTwoComponent implements OnInit {
     this.createUser(userName).pipe(switchMap(user => {
       return this.apiMeetingService.updateMeeting(user,this.meeting);
     })).subscribe((response) => {
+      console.log(this.meeting);
       this.meetingService.updateMeeting(response);
+      console.log(this.meeting);
     },
     (error) => {
 
@@ -73,7 +77,7 @@ export class MainPageStageTwoComponent implements OnInit {
   @HostListener('window:message',['$event']) recieveAuthCode(event: MessageEvent<string[]>): void {
     let code = event.data[0];
     let userId = event.data[1];
-    let meeting = this.meeting;
+    let meeting = Object.assign({},this.meeting);
     this.meeting.connectedUsers.forEach((user,userIndex) => {
       if (user.id === userId){
         this.apiUserService.updateUser(user,code as string).subscribe((response) => {
@@ -98,14 +102,8 @@ export class MainPageStageTwoComponent implements OnInit {
     this.clipboard.copy(this.window.location.origin+this.router.url);
   }
 
-  ngOnChanges() {
-    this.meetingService.currentMeeting.subscribe(meeting => {
-      this.meeting = meeting;
-    });
-  }
-
   ngOnDestroy() {
-
+    this.meetingSubscription.unsubscribe();
   }
 
 }
