@@ -26,7 +26,8 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
 
   private calculateAvailableMeetingTime(): void {
     this.apiUserMeetingInteractionService.getAvailableMeetingTime(this.meeting).subscribe((response) => {
-      this.convertCalendar(response);
+      this.availableTime = response;
+      //this.convertCalendar(response);
     });
   }
 

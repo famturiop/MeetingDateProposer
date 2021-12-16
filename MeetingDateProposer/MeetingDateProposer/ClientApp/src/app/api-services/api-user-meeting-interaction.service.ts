@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CalendarEvent } from 'angular-calendar';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { AppConfigService } from '../app-config.service';
 import { ICalendar } from '../models/calendar.model';
 import { IMeeting } from '../models/meeting.model';
@@ -20,10 +21,20 @@ export class ApiUserMeetingInteractionService {
 
      }
 
-  getAvailableMeetingTime(meeting: IMeeting): Observable<ICalendar> {
+  getAvailableMeetingTime(meeting: IMeeting): Observable<CalendarEvent[]> {
     return this.http.get<ICalendar>(`${this.baseURL}/api/CalculateMeetingTimeAsync?meetingId=${meeting.id}`)
+    .pipe(map(calendar => {
+      let availableTime: CalendarEvent[] = [];
+      calendar.userCalendar.forEach((iCalendarEvent) => {
+        let calendarEvent: CalendarEvent = { start: new Date(), title: ""};
+        calendarEvent.start = new Date(iCalendarEvent.eventStart);
+        calendarEvent.end = new Date(iCalendarEvent.eventEnd);
+        calendarEvent.title = "free time";
+        availableTime.push(calendarEvent);
+      })
+      return availableTime;}))
     .pipe(tap(_ => this.log('calculated available meeting time')),
-    catchError(this.handleError<ICalendar>()));
+    catchError(this.handleError<CalendarEvent[]>()));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
