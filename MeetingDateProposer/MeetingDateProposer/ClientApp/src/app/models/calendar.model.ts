@@ -4,7 +4,5 @@ import { CalendarEvent } from 'angular-calendar';
 
 export  interface ICalendar {
     id: number;
-    user?: IUser;
-    userId?: number;
-    userCalendar: ICalendarEvent[];
+    userCalendar: CalendarEvent[];
   }

@@ -1,4 +1,33 @@
+
+<button
+        class="btn btn-primary"
+        mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="currentDate"
+        (viewDateChange)="closeOpenMonthViewDay()"
+      >
+        Previous
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        mwlCalendarToday
+        [(viewDate)]="currentDate"
+      >
+        Today
+      </button>
+      <button
+        class="btn btn-primary"
+        mwlCalendarNextView
+        [view]="view"
+        [(viewDate)]="currentDate"
+        (viewDateChange)="closeOpenMonthViewDay()"
+      >
+        Next
+      </button>
+      <div class="col-md-4">
+        <h3>{{ currentDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+      </div>
 <mwl-calendar-week-view
- [viewDate]="viewDate"
- [events]="availableTime">
+ [viewDate]="currentDate"
+ [events]="displayCalendar">
 </mwl-calendar-week-view>

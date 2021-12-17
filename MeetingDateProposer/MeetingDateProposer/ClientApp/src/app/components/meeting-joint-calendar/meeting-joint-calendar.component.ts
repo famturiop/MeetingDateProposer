@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { CalendarEvent } from 'angular-calendar';
-import { Subscription } from 'rxjs';
+import { CalendarEvent, CalendarUtils, CalendarView } from 'angular-calendar';
+import { Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ApiUserMeetingInteractionService } from 'src/app/api-services/api-user-meeting-interaction.service';
 import { ICalendar } from 'src/app/models/calendar.model';
 import { IMeeting } from 'src/app/models/meeting.model';
@@ -14,8 +15,10 @@ import { MeetingService } from 'src/app/services/meeting.service';
 export class MeetingJointCalendarComponent implements OnInit, OnChanges {
 
   @Input() public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
-  public viewDate: Date = new Date();
-  public availableTime: CalendarEvent[] = [];
+  public currentDate: Date = new Date();
+  public displayCalendar: CalendarEvent[] = [];
+  view: CalendarView = CalendarView.Week;
+  activeDayIsOpen: boolean = true;
 
   constructor(private apiUserMeetingInteractionService: ApiUserMeetingInteractionService) {
    }
@@ -24,27 +27,29 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
 
   }
 
-  private calculateAvailableMeetingTime(): void {
-    this.apiUserMeetingInteractionService.getAvailableMeetingTime(this.meeting).subscribe((response) => {
-      this.availableTime = response;
-      //this.convertCalendar(response);
-    });
+  private calculateAvailableMeetingTime(): Observable<CalendarEvent[]> {
+    return this.apiUserMeetingInteractionService.getAvailableMeetingTime(this.meeting);
   }
 
-  private convertCalendar(calendar: ICalendar): void {
-    let calendarEvents: CalendarEvent[] = [];
-    calendar.userCalendar.forEach((iCalendarEvent) => {
-      let calendarEvent: CalendarEvent = { start: new Date(), title: ""};
-      calendarEvent.start = new Date(iCalendarEvent.eventStart);
-      calendarEvent.end = new Date(iCalendarEvent.eventEnd);
-      calendarEvent.title = "";
-      calendarEvents.push(calendarEvent);
-    })
-    this.availableTime = calendarEvents;
+  private inverseCalendar(calendar: CalendarEvent[]): CalendarEvent[] {
+    let inverseCalendar: CalendarEvent[] = [];
+    if (calendar.length > 1) {
+      for (let i = 0; i < (calendar.length - 1); i++) {
+        inverseCalendar.push({title: "busy time", start: calendar[i].end as Date, end: calendar[i+1].start});
+      }
+    }
+    return inverseCalendar;
+  }
+
+  closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
   }
 
   ngOnChanges(): void {
-    this.calculateAvailableMeetingTime();
+    this.calculateAvailableMeetingTime().subscribe(availableTime => {
+      let inverseAvailableTime = this.inverseCalendar(availableTime);
+      this.displayCalendar = availableTime.concat(inverseAvailableTime);
+    })
   }
 
   ngOnDestroy(): void {

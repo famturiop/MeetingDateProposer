@@ -48,7 +48,7 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
   }
 
   private createUser(userName: string): Observable<IUser> {
-    let user: IUser = {calendars:[],credentials:null,id:"", name: userName};
+    let user: IUser = {calendars:[], id:"", name: userName};
     return this.apiUserService.createUser(user);
   }
 
@@ -56,9 +56,7 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
     this.createUser(userName).pipe(switchMap(user => {
       return this.apiMeetingService.updateMeeting(user,this.meeting);
     })).subscribe((response) => {
-      console.log(this.meeting);
       this.meetingService.updateMeeting(response);
-      console.log(this.meeting);
     },
     (error) => {
 
