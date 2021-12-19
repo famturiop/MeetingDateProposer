@@ -36,6 +36,7 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
         {
             return _appContext.ApplicationUsers
                 .Include(u => u.Calendars)
+                .ThenInclude(ce => ce.UserCalendar)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
@@ -43,6 +44,7 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
         {
             var user = await _appContext.ApplicationUsers
                 .Include(u => u.Calendars)
+                .ThenInclude(ce => ce.UserCalendar)
                 .FirstOrDefaultAsync(u => u.Id == id);
             _appContext.ApplicationUsers.Update(user);
             await _appContext.SaveChangesAsync();
