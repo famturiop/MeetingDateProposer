@@ -17,6 +17,7 @@ export class ApiMeetingService {
   private baseURL: string = AppConfigService.settings.backEndpoint;
 
   private mapFunction = (apiMeeting: IApiMeeting) => {
+    console.log(apiMeeting);
     let map = {
       "id": "id",
       "name": "name",

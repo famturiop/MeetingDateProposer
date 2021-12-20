@@ -32,7 +32,6 @@ export class ApiUserMeetingInteractionService {
       calEvent.color = {primary: "pink", secondary: "green"};
       calEvent.title = "available free time";
     });
-    console.log(availableTime);
     return availableTime;
   };
 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+//import { stringify } from 'querystring';
+//import 'src/app/extensions' 
 
 @Component({
   selector: 'app-external-authorization',
@@ -12,9 +14,9 @@ export class ExternalAuthorizationComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeRoute.queryParamMap.subscribe(params => {
-      if (params.get('code') !== null && params.get('state') !== null){
-        let code: string = params.get('code') as string;
-        let state: string = params.get('state') as string;
+      let code: string = params.get('code') || "";
+      let state: string = params.get('state') || "";
+      if (!code.isEmpty() && !state.isEmpty()){
         let message: (string)[] = [code,state];
         if (window.opener) {
           this.window.opener.postMessage(message,this.window.location.origin);
