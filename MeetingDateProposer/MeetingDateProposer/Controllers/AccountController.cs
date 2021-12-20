@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using MeetingDateProposer.Models.AccountApiModels;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -24,7 +25,7 @@ namespace MeetingDateProposer.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RegisterAsync(RegisterViewModel model)
+        public async Task<IActionResult> RegisterAsync(RegisterApiModel model)
         {
             if (ModelState.IsValid)
             {
@@ -53,7 +54,7 @@ namespace MeetingDateProposer.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> LoginAsync(LoginViewModel model)
+        public async Task<IActionResult> LoginAsync(LoginApiModel model)
         {
             if (ModelState.IsValid)
             {

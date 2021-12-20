@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MeetingDateProposer.Domain.Models.AccountModels
+namespace MeetingDateProposer.Models.AccountApiModels
 {
-    public class LoginViewModel
+    public class LoginApiModel
     {
         [Required]
         [EmailAddress]

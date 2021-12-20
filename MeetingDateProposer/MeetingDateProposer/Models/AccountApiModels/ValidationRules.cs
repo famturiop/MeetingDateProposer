@@ -1,4 +1,4 @@
-﻿namespace MeetingDateProposer.Domain.Models.AccountModels
+﻿namespace MeetingDateProposer.Models.AccountApiModels
 {
     public class ValidationRules
     {

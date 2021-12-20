@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using AutoMapper;
+using MeetingDateProposer.Models.AccountApiModels;
+using MeetingDateProposer.Models.ApplicationApiModels;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -17,43 +20,49 @@ namespace MeetingDateProposer.Controllers
     public class MeetingController : ControllerBase
     {
         private readonly IMeetingService _meetingService;
+        private readonly IMapper _mapper;
 
-        public MeetingController(IMeetingService meetingService)
+        public MeetingController(IMeetingService meetingService, IMapper mapper)
         {
             _meetingService = meetingService;
+            _mapper = mapper;
         }
 
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult<Meeting>> GetMeetingByIdAsync(Guid meetingId)
+        public async Task<ActionResult<MeetingApiModel>> GetMeetingByIdAsync(Guid meetingId)
         {
             var meeting = await _meetingService.GetMeetingByIdFromDbAsync(meetingId);
             if (meeting == null)
             {
                 return NotFound();
             }
-            return Ok(meeting);
+
+            var meetingViewModel = _mapper.Map<MeetingApiModel>(meeting);
+            return Ok(meetingViewModel);
         }
 
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUser>> CreateMeetingAsync(string name)
+        public async Task<ActionResult<MeetingApiModel>> CreateMeetingAsync(string name)
         {
             var meeting = new Meeting
             {
                 Name = name
             };
+
             await _meetingService.AddMeetingToDbAsync(meeting);
-            return CreatedAtAction(nameof(GetMeetingByIdAsync), new { meetingId = meeting.Id }, meeting);
+            var meetingViewModel = _mapper.Map<MeetingApiModel>(meeting);
+            return CreatedAtAction(nameof(GetMeetingByIdAsync), new { meetingId = meeting.Id }, meetingViewModel);
         }
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApplicationUser>> DeleteMeetingAsync(Guid meetingId)
+        public async Task<ActionResult> DeleteMeetingAsync(Guid meetingId)
         {
             await _meetingService.DeleteMeetingAsync(meetingId);
             return Ok();
