@@ -15,9 +15,6 @@ namespace MeetingDateProposer.Domain.Models.ApplicationModels
 
         public List<Meeting> UserMeetings { get; set; }
 
-        [Required]
-        [MaxLength(ValidationRules.ApplicationUserNameMaxLength)]
-        [DataType(DataType.Text)]
         public string Name { get; set; }
 
         public Guid? AccountUserId { get; set; }

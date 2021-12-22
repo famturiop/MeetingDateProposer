@@ -10,9 +10,6 @@ namespace MeetingDateProposer.Domain.Models.ApplicationModels
 
         public List<ApplicationUser> ConnectedUsers { get; set; }
 
-        [Required]
-        [MaxLength(ValidationRules.MeetingNameMaxLength)]
-        [DataType(DataType.Text)]
         public string Name { get; set; }
     }
 }

@@ -47,13 +47,9 @@ namespace MeetingDateProposer.Controllers
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
-        public async Task<ActionResult<MeetingApiModel>> CreateMeetingAsync(string name)
+        public async Task<ActionResult<MeetingApiModel>> CreateMeetingAsync(MeetingApiModel meetingApiModel)
         {
-            var meeting = new Meeting
-            {
-                Name = name
-            };
-
+            var meeting = _mapper.Map<Meeting>(meetingApiModel);
             await _meetingService.AddMeetingToDbAsync(meeting);
             var meetingViewModel = _mapper.Map<MeetingApiModel>(meeting);
             return CreatedAtAction(nameof(GetMeetingByIdAsync), new { meetingId = meeting.Id }, meetingViewModel);

@@ -48,12 +48,9 @@ namespace MeetingDateProposer.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUserApiModel>> CreateUserAsync(string name)
+        public async Task<ActionResult<ApplicationUserApiModel>> CreateUserAsync(ApplicationUserApiModel userApiModel)
         {
-            var user = new ApplicationUser
-            {
-                Name = name
-            };
+            var user = _mapper.Map<ApplicationUser>(userApiModel);
             await _userService.AddUserToDbAsync(user);
             var userViewModel = _mapper.Map<ApplicationUserApiModel>(user);
             return Ok(userViewModel);

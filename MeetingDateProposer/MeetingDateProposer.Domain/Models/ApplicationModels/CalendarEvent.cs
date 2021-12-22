@@ -11,10 +11,8 @@ namespace MeetingDateProposer.Domain.Models.ApplicationModels
 
         public Calendar Calendar { get; set; }
 
-        [DataType(DataType.DateTime)]
         public DateTime EventStart { get; set; }
 
-        [DataType(DataType.DateTime)]
         public DateTime EventEnd { get; set; }
     }
 }

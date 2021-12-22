@@ -18,6 +18,13 @@ namespace MeetingDateProposer.Utilities
                 .ForMember(dest => dest.Start, opt => opt.MapFrom(src => src.EventStart))
                 .ForMember(dest => dest.End, opt => opt.MapFrom(src => src.EventEnd));
             CreateMap<ApplicationUser, ApplicationUserApiModel>();
+
+            CreateMap<MeetingApiModel, Meeting>();
+            CreateMap<CalendarApiModel, Calendar>();
+            CreateMap<CalendarEventApiModel, CalendarEvent>()
+                .ForMember(dest => dest.EventStart, opt => opt.MapFrom(src => src.Start))
+                .ForMember(dest => dest.EventEnd, opt => opt.MapFrom(src => src.End));
+            CreateMap<ApplicationUserApiModel, ApplicationUser>();
         }
     }
 }
