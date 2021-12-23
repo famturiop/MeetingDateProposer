@@ -43,7 +43,10 @@ namespace MeetingDateProposer.BusinessLayer.Providers
                 {
                     var eventStart = (DateTime) eventItem.Start.DateTime;
                     var eventEnd = (DateTime) eventItem.End.DateTime;
-                    
+
+                    eventStart = eventStart.ToUniversalTime();
+                    eventEnd = eventEnd.ToUniversalTime();
+
                     calendar.UserCalendar.Add(new CalendarEvent
                     {
                         EventStart = eventStart,
