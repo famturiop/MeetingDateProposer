@@ -17,7 +17,7 @@ import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
 })
 export class MainPageStageTwoComponent implements OnInit, OnDestroy {
 
-  @Output() public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
+  public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
   private meetingSubscription: Subscription;
 
   constructor(private meetingService: MeetingService,
@@ -33,7 +33,7 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
      }
 
   ngOnInit(): void {
-    if (this.meeting.id === "") {
+    if (this.meeting.id === "00000000-0000-0000-0000-000000000000") {
       this.meeting.id = this.router.url.split("/")[2];
       this.apiMeetingService.getMeeting(this.meeting).subscribe((response) => {
         this.meetingService.updateMeeting(response);
@@ -48,7 +48,7 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
   }
 
   private createUser(userName: string): Observable<IUser> {
-    let user: IUser = {calendars:[], id:"", name: userName};
+    let user: IUser = {calendars:[], id:"00000000-0000-0000-0000-000000000000", name: userName};
     return this.apiUserService.createUser(user);
   }
 

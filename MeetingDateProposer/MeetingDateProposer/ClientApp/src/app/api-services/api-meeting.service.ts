@@ -3,11 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { AppConfigService } from '../app-config.service';
-import { IApiMeeting } from '../models/api-models/api-meeting.model';
 import { IMeeting } from '../models/meeting.model';
 import { IUser } from '../models/user.model';
 import { MessageService } from '../services/message.service';
-import { merge } from 'object-mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -16,49 +14,41 @@ export class ApiMeetingService {
 
   private baseURL: string = AppConfigService.settings.backEndpoint;
 
-  private mapFunction = (apiMeeting: IApiMeeting) => {
-    console.log(apiMeeting);
-    let map = {
-      "id": "id",
-      "name": "name",
-      "connectedUsers[].id": "connectedUsers[].id",
-      "connectedUsers[].name": "connectedUsers[].name",
-      "connectedUsers[].calendars": "connectedUsers[].calendars",
-      "connectedUsers[].calendars[].id": "connectedUsers[].calendars[].id",
-      "connectedUsers[].calendars[].userCalendar[].id": "connectedUsers[].calendars[].userCalendar[].id",
-      "connectedUsers[].calendars[].userCalendar[].eventStart": "connectedUsers[].calendars[].userCalendar[].start",
-      "connectedUsers[].calendars[].userCalendar[].eventEnd": "connectedUsers[].calendars[].userCalendar[].end"
-    };
-    let meeting: IMeeting = {id: "", connectedUsers: [], name: ""}; 
-    merge<IMeeting>(apiMeeting, meeting, map);
-    return meeting;
-  };
-
   constructor(private http: HttpClient,
     private messageService: MessageService) {
 
      }
 
   createMeeting(meeting: IMeeting): Observable<IMeeting> {
-    return this.http.post<IApiMeeting>(`${this.baseURL}/api/CreateMeetingAsync?name=${meeting.name}`,"")
+    const headers = { 'content-type': 'application/json'};
+    const body = JSON.stringify(meeting);
+    // const params = new HttpParams()
+    // .set('para1', "value1")
+    // .set('para2',"value2");
+    return this.http.post<IMeeting>(`${this.baseURL}/api/CreateMeetingAsync`,body, {'headers':headers})
     .pipe(map(this.mapFunction))
     .pipe(tap(_ => this.log('created Meeting')),
     catchError(this.handleError<IMeeting>()));
   }
 
   getMeeting(meeting: IMeeting): Observable<IMeeting> {
-    return this.http.get<IApiMeeting>(`${this.baseURL}/api/GetMeetingByIdAsync?meetingId=${meeting.id}`)
+    return this.http.get<IMeeting>(`${this.baseURL}/api/GetMeetingByIdAsync?meetingId=${meeting.id}`)
     .pipe(map(this.mapFunction))
     .pipe(tap(_ => this.log('got Meeting')),
     catchError(this.handleError<IMeeting>()));
   }
 
   updateMeeting(user: IUser, meeting: IMeeting): Observable<IMeeting> {
-    return this.http.put<IApiMeeting>(`${this.baseURL}/api/UpdateMeetingAsync?meetingId=${meeting.id}&userId=${user.id}`,"")
+    return this.http.put<IMeeting>(`${this.baseURL}/api/UpdateMeetingAsync?meetingId=${meeting.id}&userId=${user.id}`,"")
     .pipe(map(this.mapFunction))
     .pipe(tap(_ => this.log('added user to the meeting')),
     catchError(this.handleError<IMeeting>()));
   }
+
+  private mapFunction(apiMeeting: IMeeting): IMeeting {
+    // transform user calendar events start/end times from string to date?
+    return apiMeeting;
+  };
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

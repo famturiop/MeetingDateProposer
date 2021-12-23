@@ -14,7 +14,7 @@ import { MeetingService } from 'src/app/services/meeting.service';
 })
 export class MeetingJointCalendarComponent implements OnInit, OnChanges {
 
-  @Input() public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
+  @Input() public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
   public currentDate: Date = new Date();
   public displayCalendar: CalendarEvent[] = [];
   view: CalendarView = CalendarView.Week;

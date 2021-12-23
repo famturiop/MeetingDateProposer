@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 //import { stringify } from 'querystring';
-//import 'src/app/extensions' 
 
 @Component({
   selector: 'app-external-authorization',

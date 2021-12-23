@@ -12,7 +12,7 @@ import { IMeeting } from 'src/app/models/meeting.model';
 })
 export class MainPageStageOneComponent implements OnInit {
 
-  public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
+  public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
 
   constructor(private route: ActivatedRoute, 
     private location: Location, 
