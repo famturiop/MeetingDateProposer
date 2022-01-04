@@ -13,7 +13,7 @@ import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
 @Component({
   selector: 'app-main-page-stage-two',
   templateUrl: './main-page-stage-two.component.html',
-  styleUrls: ['./main-page-stage-two.component.css']
+  styleUrls: ['./main-page-stage-two.component.scss']
 })
 export class MainPageStageTwoComponent implements OnInit, OnDestroy {
 

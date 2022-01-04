@@ -1,0 +1,15 @@
+div {
+    padding: 20px 20px 20px 0px;
+    background-color: rgb(112, 41, 41);
+    width: auto;
+    height: auto;
+}
+
+@media (max-width: 450px) {
+    div {
+        padding: 20px 20px 20px 0px;
+        background-color: rgb(112, 41, 41);
+        width: 400px;
+        height: auto;
+    }
+}

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-external-authorization',
   templateUrl: './external-authorization.component.html',
-  styleUrls: ['./external-authorization.component.css']
+  styleUrls: ['./external-authorization.component.scss']
 })
 export class ExternalAuthorizationComponent implements OnInit {
 

@@ -27,7 +27,24 @@
       <div class="col-md-4">
         <h3>{{ currentDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
       </div>
+<ng-template
+      #customTemplate
+      let-columnDate="columnDate"
+      let-dayStartHour="dayStartHour"
+      let-dayStartMinute="dayStartMinute"
+      let-dayEndHour="dayEndHour"
+      let-dayEndMinute="dayEndMinute"
+      let-isVisible="isVisible"
+      let-topPx="topPx"
+    >
+    <div
+        class="cal-current-time-marker111"
+        *ngIf="isVisible"
+        [style.top.px]="topPx"
+      ></div>
+    </ng-template>
 <mwl-calendar-week-view
  [viewDate]="currentDate"
- [events]="displayCalendar">
+ [events]="displayCalendar"
+ [currentTimeMarkerTemplate]="customTemplate">
 </mwl-calendar-week-view>

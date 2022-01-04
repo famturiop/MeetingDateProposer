@@ -1,0 +1,88 @@
+@import '../../sass/variables';
+
+.navbar {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px 5px;
+  overflow: hidden;
+  background-color: $website-color-primary;
+}
+
+.navbar-links {
+  display: flex;
+  float: right;
+  height: 100px;
+  flex-direction: column;
+  justify-content: center;
+  @media (max-width: 300px) {
+    float: none;
+    height: auto;
+  }
+}
+
+.navbar-link-button {
+  border: 1px solid $navbar-color-border;
+  margin: 10px 5px;
+  color: $navbar-color-font;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  padding: 20px 10px;
+  text-decoration: none;
+  &:hover {
+    background-color: $website-color-tertiary;
+  }
+  @media (max-width: 300px) {
+    margin: 10px 5px;
+    padding: 10px 5px;
+  }
+}
+
+.navbar-icon-image {
+  display: flex;
+  background-color: $website-color-primary;
+  margin: 10px;
+  width: 100px;
+  height: 75px;
+  padding: 3.75px 5px;
+  &:hover {
+    width: 100px+10px;
+    height: 75px+7.5px;
+    padding: 0px;
+  }
+}
+
+.navbar-icon{
+  display: flex;
+  float: left;
+  height: 100px;
+  @media (max-width: 300px) {
+    float: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.navbar-header{
+  display: flex;
+  float: left;
+  height: 100px;
+  flex-direction: column;
+  justify-content: center;
+  @media (max-width: 620px) {
+    display: none;
+  }
+}
+
+.navbar-header-text {
+  display: flex;
+  margin: 30px 0px;
+  color: $navbar-color-font;
+  text-align: left;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 5px 10px;
+  text-decoration: none;
+}
+

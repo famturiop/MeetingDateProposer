@@ -1,0 +1,18 @@
+.classflex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 1;
+  width: 400px;
+  border: 3px solid green;
+  padding: 10px;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  margin-right: auto;
+  margin-left: auto;
+  flex-direction: column;
+  min-height: max-content;
+  background-color:white;
+}
+
+  

@@ -10,7 +10,7 @@ import { MeetingService } from 'src/app/services/meeting.service';
 @Component({
   selector: 'app-meeting-joint-calendar',
   templateUrl: './meeting-joint-calendar.component.html',
-  styleUrls: ['./meeting-joint-calendar.component.css']
+  styleUrls: ['./meeting-joint-calendar.component.scss']
 })
 export class MeetingJointCalendarComponent implements OnInit, OnChanges {
 

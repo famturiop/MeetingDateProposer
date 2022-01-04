@@ -8,7 +8,7 @@ import { IMeeting } from 'src/app/models/meeting.model';
 @Component({
   selector: 'app-main-page-stage-one',
   templateUrl: './main-page-stage-one.component.html',
-  styleUrls: ['./main-page-stage-one.component.css']
+  styleUrls: ['./main-page-stage-one.component.scss']
 })
 export class MainPageStageOneComponent implements OnInit {
 
