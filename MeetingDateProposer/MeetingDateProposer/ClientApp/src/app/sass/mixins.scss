@@ -1,0 +1,15 @@
+@mixin primary-content-box {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  padding: 10px;
+  margin: 10px auto;
+  flex-direction: column;
+  @media (min-width: 420px) {
+    width: 400px;
+  }
+}
+
+@mixin website-font-primary {
+  font-family: Arial, Helvetica, sans-serif;
+}

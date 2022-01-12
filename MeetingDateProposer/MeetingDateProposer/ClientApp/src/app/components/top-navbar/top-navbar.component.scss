@@ -24,10 +24,10 @@
   border: 1px solid $navbar-color-border;
   margin: 10px 5px;
   color: $navbar-color-font;
-  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
   padding: 20px 10px;
   text-decoration: none;
+  background-color: $website-color-secondary;
   &:hover {
     background-color: $website-color-tertiary;
   }
@@ -69,7 +69,7 @@
   height: 100px;
   flex-direction: column;
   justify-content: center;
-  @media (max-width: 620px) {
+  @media (max-width: 660px) {
     display: none;
   }
 }
@@ -79,7 +79,6 @@
   margin: 30px 0px;
   color: $navbar-color-font;
   text-align: left;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: xx-large;
   font-weight: bold;
   padding: 5px 10px;

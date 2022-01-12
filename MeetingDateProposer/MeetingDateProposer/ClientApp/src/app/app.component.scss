@@ -1,4 +1,7 @@
+@import './sass/variables';
+@import './sass/mixins';
+
 div {
-    background-color:darkolivegreen;
-    height: 100vh;
+    background-color: $website-color-quaternary;
+    @include website-font-primary;
 }

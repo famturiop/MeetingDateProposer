@@ -1,18 +1,81 @@
-.classflex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 1;
-  width: 400px;
-  border: 3px solid green;
-  padding: 10px;
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-  margin-right: auto;
-  margin-left: auto;
-  flex-direction: column;
-  min-height: max-content;
-  background-color:white;
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.stage-one-container {
+  @include primary-content-box;
+  background-color: $website-color-quinary;
+  box-shadow: 0 1.5px 4px rgb(0 0 0 / 24%), 0 1.5px 6px rgb(0 0 0 / 12%);
+  border-radius: 6px;
 }
+
+.stage-one-header-indicator {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: auto;
+  opacity: 0.75;
+  text-align: center;
+  margin: 0px;
+}
+
+.stage-one-header-welcome {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.3;
+  letter-spacing: 1px;
+  margin: 20px 0px 5px;
+}
+
+.stage-one-header-message {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 1.3;
+  margin: 5px 0px 20px;
+}
+
+.stage-one-header-request {
+  font-size: 15px;
+  font-weight: normal;
+  text-align: left;
+  margin: 20px 0px 10px;
+}
+
+.stage-one-input-form {
+  @include website-font-primary;
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  margin: 0;
+  background-clip: padding-box;
+  background-color: transparent;
+  border-radius: 8px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-color: $stage-one-color-form-border;
+  &::placeholder{
+    @include website-font-primary;
+  }
+}
+
+.stage-one-button-continue {
+  @include website-font-primary;
+  background-color: $website-color-secondary;
+  float: right;
+  margin: 10px 0px;
+  padding: 10px;
+  border: 1px solid $stage-one-color-button-border;
+  font-weight: normal;
+  font-style: normal;
+  &:hover {
+    background-color: $website-color-tertiary;
+  }
+}
+
+
+
 
   
