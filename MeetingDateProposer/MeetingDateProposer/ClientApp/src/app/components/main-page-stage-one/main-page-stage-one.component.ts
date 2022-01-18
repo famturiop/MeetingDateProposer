@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ApiMeetingService } from 'src/app/api-services/api-meeting.service';
@@ -13,6 +13,7 @@ import { IMeeting } from 'src/app/models/meeting.model';
 export class MainPageStageOneComponent implements OnInit {
 
   public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
+  public isDisabled: boolean = true;
 
   constructor(private route: ActivatedRoute, 
     private location: Location, 
@@ -35,5 +36,14 @@ export class MainPageStageOneComponent implements OnInit {
       this.meetingService.updateMeeting(this.meeting);
       this.router.navigate(['/stageTwo',this.meeting.id]);
     });
+  }
+
+  meetingTitleCheck(meetingName: string): void {
+    if (meetingName.isEmpty()) {
+      this.isDisabled = true;
+    }
+    else {
+      this.isDisabled = false;
+    }
   }
 }

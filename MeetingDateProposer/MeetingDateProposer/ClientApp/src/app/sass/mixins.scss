@@ -1,3 +1,5 @@
+@import '../sass/variables';
+
 @mixin primary-content-box {
   display: flex;
   justify-content: center;
@@ -10,6 +12,13 @@
   }
 }
 
-@mixin website-font-primary {
-  font-family: Arial, Helvetica, sans-serif;
+@mixin primary-button-style {
+  background-color: $website-color-secondary;
+  border: 1px solid $stage-two-color-button-border;
+  font-weight: normal;
+  font-style: normal;
+  font-family: $website-font-primary;
+  &:hover {
+    background-color: $website-color-tertiary;
+  }
 }

@@ -3,5 +3,5 @@
 
 div {
     background-color: $website-color-quaternary;
-    @include website-font-primary;
+    font-family: $website-font-primary;
 }

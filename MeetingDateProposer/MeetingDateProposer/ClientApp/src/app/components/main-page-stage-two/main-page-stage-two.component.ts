@@ -19,6 +19,8 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
 
   public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
   private meetingSubscription: Subscription;
+  public isDisabled: boolean = true;
+  public addCalendarIsVisible: boolean = false;
 
   constructor(private meetingService: MeetingService,
     private apiMeetingService: ApiMeetingService,
@@ -66,11 +68,11 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
     });
   }
 
-  addCalendarToUser(user: IUser): void {
-    const url = this.newWindow.buildURL(user);
-    const name = "";
-    this.newWindow.openNewWindow(url,name);
-  }
+  // addCalendarToUser(user: IUser): void {
+  //   const url = this.newWindow.buildURL(user);
+  //   const name = "";
+  //   this.newWindow.openNewWindow(url,name);
+  // }
 
   @HostListener('window:message',['$event']) recieveAuthCode(event: MessageEvent<string[]>): void {
     let code = event.data[0];
@@ -98,6 +100,15 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
 
   copyLink(): void {
     this.clipboard.copy(this.window.location.origin+this.router.url);
+  }
+
+  userNameCheck(userName: string): void {
+    if (userName.isEmpty()) {
+      this.isDisabled = true;
+    }
+    else {
+      this.isDisabled = false;
+    }
   }
 
   ngOnDestroy() {

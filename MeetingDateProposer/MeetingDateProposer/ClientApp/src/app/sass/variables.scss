@@ -3,11 +3,15 @@ $website-color-secondary: rgb(42, 122, 62) !default;
 $website-color-tertiary: rgb(28, 192, 110) !default;
 $website-color-quaternary: rgb(3, 87, 10) !default;
 $website-color-quinary: rgb(255, 255, 255) !default;
+$website-font-primary: Arial, Helvetica, sans-serif;
 
 $navbar-color-border: rgb(69, 212, 212) !default;
 $navbar-color-font: rgb(0,0,0) !default;
 
-$stage-one-color-background: rgb(255, 255, 255) !default;
 $stage-one-color-form-border: rgb(153, 155, 153) !default;
 $stage-one-color-button-border: rgb(118, 172, 93) !default;
-$stage-one-color-button-disabled: rgb(157, 224, 255) !default;
+$stage-one-color-button-disabled: rgb(0 0 0 / 14%) !default;
+
+$stage-two-color-form-border: $stage-one-color-form-border;
+$stage-two-color-button-border: $stage-one-color-button-border;
+$stage-two-color-button-disabled: $stage-one-color-button-disabled;

@@ -45,7 +45,6 @@
 }
 
 .stage-one-input-form {
-  @include website-font-primary;
   width: 100%;
   max-width: 100%;
   padding: 10px;
@@ -56,24 +55,26 @@
   box-sizing: border-box;
   border: 2px solid transparent;
   border-color: $stage-one-color-form-border;
+  font-family: $website-font-primary;
   &::placeholder{
-    @include website-font-primary;
+    font-family: $website-font-primary;
   }
 }
 
 .stage-one-button-continue {
-  @include website-font-primary;
-  background-color: $website-color-secondary;
+  @include primary-button-style;
   float: right;
   margin: 10px 0px;
   padding: 10px;
-  border: 1px solid $stage-one-color-button-border;
-  font-weight: normal;
-  font-style: normal;
-  &:hover {
-    background-color: $website-color-tertiary;
+  &:disabled {
+    background-color: $stage-one-color-button-disabled;
+    &:hover {
+      cursor: not-allowed;
+    }
   }
 }
+
+
 
 
 

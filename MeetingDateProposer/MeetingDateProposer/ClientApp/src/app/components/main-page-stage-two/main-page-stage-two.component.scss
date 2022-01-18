@@ -1,12 +1,111 @@
-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 400px;
-    border: 3px solid green;
-    padding: 10px;
-    margin: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color:white;
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.stage-two-container {
+  @include primary-content-box;
+  background-color: $website-color-quinary;
+  box-shadow: 0 1.5px 4px rgb(0 0 0 / 24%), 0 1.5px 6px rgb(0 0 0 / 12%);
+  border-radius: 6px;
+}
+
+.stage-two-header-indicator {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: auto;
+  opacity: 0.75;
+  text-align: center;
+  margin: 0px;
+}
+
+.stage-two-header-meeting {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.3;
+  letter-spacing: 1px;
+  margin: 20px 0px 5px;
+  overflow-wrap: break-word;
+}
+
+.stage-two-input-form {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  margin: 0;
+  background-clip: padding-box;
+  background-color: transparent;
+  border-radius: 8px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-color: $stage-two-color-form-border;
+  font-family: $website-font-primary;
+  &::placeholder{
+    font-family: $website-font-primary;
   }
+}
+
+.stage-two-button-add-user {
+  @include primary-button-style;
+  float: right;
+  margin: 10px 0px;
+  padding: 10px;
+  &:disabled {
+    background-color: $stage-two-color-button-disabled;
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.stage-two-header-participants {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 1.3;
+  margin: 5px 0px 5px;
+}
+
+.stage-two-participants {
+  padding: 0px 0px 0px 5px;
+  margin: 0;
+}
+
+.stage-two-participant {
+  list-style-type: square;
+  position: relative;
+  padding: 0px 0 0px 0px;
+  margin: 0px 0px 7px 15px;
+}
+
+.stage-two-link-share-label {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 1.3;
+  margin: 12px 0px 0px 0px;
+}
+
+.stage-two-link-share {
+  display: flex;
+}
+
+.stage-two-link-share-form {
+  display: flex;
+  align-self: center;
+  flex-grow: 1;
+}
+
+.stage-two-link-share-button {
+  @include primary-button-style;
+  display: flex;
+  justify-content: center;
+  margin: 0px 0px 0px 5px;
+  width: 100px;
+  padding: 5px;
+  @media (max-width: 310px) {
+    width: 100%;
+  }
+}
