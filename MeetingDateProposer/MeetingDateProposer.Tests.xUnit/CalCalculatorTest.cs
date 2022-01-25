@@ -1,9 +1,9 @@
-﻿using Xunit;
-using MeetingDateProposer.Domain.Models;
+﻿using MeetingDateProposer.BusinessLayer;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 using MeetingDateProposer.Domain.Utilities;
-using MeetingDateProposer.BusinessLayer.Providers;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace MeetingDateProposer.Tests.xUnit
 {
@@ -12,229 +12,508 @@ namespace MeetingDateProposer.Tests.xUnit
         [Fact]
         public void MeetingTestNestedEvents()
         {
-            // Arrange
-            Meeting meeting = new Meeting()
+            var userCalendar1 = new Calendar
             {
-                ConnectedUsers = new List<User>(),
-                MeetingID = 1
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 12, 0, 0), 
+                        EventEnd = new DateTime(2021, 5, 8, 14, 0, 0)
+                    }
+                }
             };
-            var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal1.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = new DateTime(2021, 5, 8, 14, 0, 0) });
+            
+            var userCalendar2 = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 13, 0, 0), 
+                        EventEnd = new DateTime(2021, 5, 8, 13, 30, 0) 
+                    }
+                }
+            };
 
-            var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 13, 0, 0), EventEnd = new DateTime(2021, 5, 8, 13, 30, 0) });
+            var meeting = new Meeting
+            {
+                ConnectedUsers = new List<ApplicationUser>
+                {
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar1
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid() 
+                    },
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar2
+                        }, 
+                        Credentials = null, 
+                        Id = Guid.NewGuid()
+                    }
+                },
+                Id = Guid.NewGuid()
+            };
 
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal1, Credentials = null, UserId = 1 });
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal2, Credentials = null, UserId = 2 });
+            var availableTime = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = DateTime.MinValue, 
+                        EventEnd = new DateTime(2021, 5, 8, 12, 0, 0)
+                    },
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 14, 0, 0),
+                        EventEnd = DateTime.MaxValue
+                    }
+                }
+            };
 
-            var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 14, 0, 0), EventEnd = DateTime.MaxValue });
+            var calculatorUt = new CalendarCalculator();
 
-            var calculatorUT = new CalendarCalculator();
+            var result = calculatorUt.CalculateAvailableMeetingTime(meeting);
 
-            // Act
-            var result = calculatorUT.CalculateAvailableMeetingTime(meeting);
-
-            // Assert
             Assert.True(ObjectEquivalence.CalendarCheck(result, availableTime));
         }
 
         [Fact]
         public void MeetingTestIntersectedEvents()
         {
-            // Arrange
-            Meeting meeting = new Meeting()
+            var userCalendar1 = new Calendar
             {
-                ConnectedUsers = new List<User>(),
-                MeetingID = 1
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 12, 0, 0),
+                        EventEnd = new DateTime(2021, 5, 8, 14, 0, 0)
+                    }
+                }
             };
-            var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal1.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = new DateTime(2021, 5, 8, 14, 0, 0) });
 
-            var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 13, 0, 0), EventEnd = new DateTime(2021, 5, 8, 15, 30, 0) });
+            var userCalendar2 = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 13, 0, 0),
+                        EventEnd = new DateTime(2021, 5, 8, 15, 30, 0)
+                    }
+                }
+            };
 
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal1, Credentials = null, UserId = 1 });
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal2, Credentials = null, UserId = 2 });
+            var meeting = new Meeting
+            {
+                ConnectedUsers = new List<ApplicationUser>
+                {
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar1
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    },
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar2
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    }
+                },
+                Id = Guid.NewGuid()
+            };
 
-            var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 15, 30, 0), EventEnd = DateTime.MaxValue });
+            var availableTime = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = DateTime.MinValue, 
+                        EventEnd = new DateTime(2021, 5, 8, 12, 0, 0)
+                    },
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 15, 30, 0),
+                        EventEnd = DateTime.MaxValue
+                    }
+                }
+            };
 
-            var calculatorUT = new CalendarCalculator();
+            var calculatorUt = new CalendarCalculator();
 
-            // Act
-            var result = calculatorUT.CalculateAvailableMeetingTime(meeting);
+            var result = calculatorUt.CalculateAvailableMeetingTime(meeting);
 
-            // Assert
             Assert.True(ObjectEquivalence.CalendarCheck(result, availableTime));
         }
 
         [Fact]
         public void MeetingTestSpacedEvents()
         {
-            // Arrange
-            Meeting meeting = new Meeting()
+            var userCalendar1 = new Calendar
             {
-                ConnectedUsers = new List<User>(),
-                MeetingID = 1
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 12, 0, 0),
+                        EventEnd = new DateTime(2021, 5, 8, 14, 0, 0)
+                    }
+                }
             };
-            var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal1.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = new DateTime(2021, 5, 8, 14, 0, 0) });
 
-            var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 15, 0, 0), EventEnd = new DateTime(2021, 5, 8, 16, 30, 0) });
+            var userCalendar2 = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 15, 0, 0),
+                        EventEnd = new DateTime(2021, 5, 8, 16, 30, 0)
+                    }
+                }
+            };
 
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal1, Credentials = null, UserId = 1 });
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal2, Credentials = null, UserId = 2 });
+            var meeting = new Meeting
+            {
+                ConnectedUsers = new List<ApplicationUser>
+                {
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar1
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    },
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar2
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    }
+                },
+                Id = Guid.NewGuid()
+            };
 
-            var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 14, 0, 0), EventEnd = new DateTime(2021, 5, 8, 15, 0, 0) });
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 16, 30, 0), EventEnd = DateTime.MaxValue });
+            var availableTime = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = DateTime.MinValue,
+                        EventEnd = new DateTime(2021, 5, 8, 12, 0, 0)
+                    },
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 14, 0, 0), 
+                        EventEnd = new DateTime(2021, 5, 8, 15, 0, 0)
+                    },
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 16, 30, 0),
+                        EventEnd = DateTime.MaxValue
+                    }
+                }
+            };
+            
+            var calculatorUt = new CalendarCalculator();
 
-            var calculatorUT = new CalendarCalculator();
+            var result = calculatorUt.CalculateAvailableMeetingTime(meeting);
 
-            // Act
-            var result = calculatorUT.CalculateAvailableMeetingTime(meeting);
-
-            // Assert
             Assert.True(ObjectEquivalence.CalendarCheck(result, availableTime));
         }
 
         [Fact]
         public void MeetingTestSameDateEvents()
         {
-            // Arrange
-            Meeting meeting = new Meeting()
+            var userCalendar1 = new Calendar
             {
-                ConnectedUsers = new List<User>(),
-                MeetingID = 1
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 12, 0, 0), 
+                        EventEnd = new DateTime(2021, 5, 8, 13, 0, 0)
+                    }
+                }
             };
-            var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal1.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = new DateTime(2021, 5, 8, 13, 0, 0) });
 
-            var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = new DateTime(2021, 5, 8, 13, 00, 0) });
+            var userCalendar2 = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 12, 0, 0),
+                        EventEnd = new DateTime(2021, 5, 8, 13, 00, 0)
+                    }
+                }
+            };
 
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal1, Credentials = null, UserId = 1 });
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal2, Credentials = null, UserId = 2 });
+            var meeting = new Meeting
+            {
+                ConnectedUsers = new List<ApplicationUser>
+                {
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar1
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    },
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar2
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    }
+                },
+                Id = Guid.NewGuid()
+            };
 
-            var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 13, 0, 0), EventEnd = DateTime.MaxValue });
+            var availableTime = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = DateTime.MinValue, 
+                        EventEnd = new DateTime(2021, 5, 8, 12, 0, 0)
+                    },
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 13, 0, 0),
+                        EventEnd = DateTime.MaxValue
+                    }
+                }
+            };
 
-            var calculatorUT = new CalendarCalculator();
+            var calculatorUt = new CalendarCalculator();
 
-            // Act
-            var result = calculatorUT.CalculateAvailableMeetingTime(meeting);
+            var result = calculatorUt.CalculateAvailableMeetingTime(meeting);
 
-            // Assert
             Assert.True(ObjectEquivalence.CalendarCheck(result, availableTime));
         }
 
         [Fact]
         public void MeetingTestNoEvents()
         {
-            // Arrange
-            Meeting meeting = new Meeting()
+            var userCalendar1 = new Calendar
             {
-                ConnectedUsers = new List<User>(),
-                MeetingID = 1
+                UserCalendar = new List<CalendarEvent>()
             };
-            var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
 
-            var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
+            var userCalendar2 = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>()
+            };
 
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal1, Credentials = null, UserId = 1 });
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal2, Credentials = null, UserId = 2 });
+            var meeting = new Meeting
+            {
+                ConnectedUsers = new List<ApplicationUser>
+                {
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar1
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    },
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar2
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    }
+                },
+                Id = Guid.NewGuid()
+            };
 
-            var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = DateTime.MaxValue });
+            var availableTime = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = DateTime.MinValue,
+                        EventEnd = DateTime.MaxValue
+                    }
+                }
+            };
 
-            var calculatorUT = new CalendarCalculator();
+            var calculatorUt = new CalendarCalculator();
 
-            // Act
-            var result = calculatorUT.CalculateAvailableMeetingTime(meeting);
+            var result = calculatorUt.CalculateAvailableMeetingTime(meeting);
 
-            // Assert
             Assert.True(ObjectEquivalence.CalendarCheck(result, availableTime));
         }
 
         [Fact]
         public void MeetingTestInfiniteEvents()
         {
-            // Arrange
-            Meeting meeting = new Meeting()
+            var userCalendar1 = new Calendar
             {
-                ConnectedUsers = new List<User>(),
-                MeetingID = 1
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = DateTime.MinValue, 
+                        EventEnd = new DateTime(2021, 5, 8, 12, 00, 0)
+                    }
+                }
             };
-            var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal1.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 00, 0) });
 
-            var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = DateTime.MaxValue });
+            var userCalendar2 = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 12, 0, 0),
+                        EventEnd = DateTime.MaxValue
+                    }
+                }
+            };
 
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal1, Credentials = null, UserId = 1 });
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal2, Credentials = null, UserId = 2 });
+            var meeting = new Meeting
+            {
+                ConnectedUsers = new List<ApplicationUser>
+                {
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar1
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    },
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar2
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    }
+                },
+                Id = Guid.NewGuid()
+            };
 
-            var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
+            var availableTime = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>()
+            };
 
-            var calculatorUT = new CalendarCalculator();
+            var calculatorUt = new CalendarCalculator();
 
-            // Act
-            var result = calculatorUT.CalculateAvailableMeetingTime(meeting);
+            var result = calculatorUt.CalculateAvailableMeetingTime(meeting);
 
-            // Assert
             Assert.True(ObjectEquivalence.CalendarCheck(result, availableTime));
         }
 
         [Fact]
         public void MeetingTestOneUserOnly()
         {
-            // Arrange
-            Meeting meeting = new Meeting()
+            var userCalendar1 = new Calendar
             {
-                ConnectedUsers = new List<User>(),
-                MeetingID = 1
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 12, 0, 0),
+                        EventEnd = new DateTime(2021, 5, 8, 14, 0, 0)
+                    }
+                }
             };
-            var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal1.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 12, 0, 0), EventEnd = new DateTime(2021, 5, 8, 14, 0, 0) });
 
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal1, Credentials = null, UserId = 1 });
+            var meeting = new Meeting
+            {
+                ConnectedUsers = new List<ApplicationUser>
+                {
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar1
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    }
+                },
+                Id = Guid.NewGuid()
+            };
 
-            var availableTime = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = DateTime.MinValue, EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
-            availableTime.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 14, 0, 0), EventEnd = DateTime.MaxValue });
+            var availableTime = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = DateTime.MinValue, 
+                        EventEnd = new DateTime(2021, 5, 8, 12, 0, 0)
+                    },
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 14, 0, 0),
+                        EventEnd = DateTime.MaxValue
+                    }
+                }
+            };
+            
+            var calculatorUt = new CalendarCalculator();
 
-            var calculatorUT = new CalendarCalculator();
+            var result = calculatorUt.CalculateAvailableMeetingTime(meeting);
 
-            // Act
-            var result = calculatorUT.CalculateAvailableMeetingTime(meeting);
-
-            // Assert
             Assert.True(ObjectEquivalence.CalendarCheck(result, availableTime));
         }
 
         [Fact]
         public void MeetingTestMultipleUsers()
         {
-            // Arrange
-            Meeting myMeeting = new Meeting();
-            MeetingGenerator generator = new MeetingGenerator();
-            CalendarCalculator calculator = new CalendarCalculator();
+            var generator = new MeetingGenerator();
+            var calculator = new CalendarCalculator();
 
-            // Act
-            myMeeting = generator.GenerateMeeting(100, 100);
+            var myMeeting = generator.GenerateMeeting(100, 100);
             var result = calculator.CalculateAvailableMeetingTime(myMeeting);
 
-            // Assert
             Assert.NotEmpty(result.UserCalendar);
-            foreach(var user in myMeeting.ConnectedUsers)
+            foreach (var user in myMeeting.ConnectedUsers)
             {
-                foreach (var cal in user.Calendar.UserCalendar)
+                foreach (var cal in user.Calendars[0].UserCalendar)
                 {
                     Assert.DoesNotContain(cal, result.UserCalendar);
                 }
@@ -244,30 +523,60 @@ namespace MeetingDateProposer.Tests.xUnit
         [Fact]
         public void MeetingTestReversedEventsException()
         {
-            // Arrange
-            Meeting meeting = new Meeting()
+            var userCalendar1 = new Calendar
             {
-                ConnectedUsers = new List<User>(),
-                MeetingID = 1
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 14, 0, 0), 
+                        EventEnd = new DateTime(2021, 5, 8, 12, 0, 0)
+                    }
+                }
             };
-            var UserCal1 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal1.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 14, 0, 0), EventEnd = new DateTime(2021, 5, 8, 12, 0, 0) });
 
-            var UserCal2 = new Calendar() { UserCalendar = new List<CalendarEvent>() };
-            UserCal2.UserCalendar.Add(new CalendarEvent() { EventStart = new DateTime(2021, 5, 8, 13, 0, 0), EventEnd = new DateTime(2021, 5, 8, 13, 30, 0) });
+            var userCalendar2 = new Calendar
+            {
+                UserCalendar = new List<CalendarEvent>
+                {
+                    new CalendarEvent
+                    {
+                        EventStart = new DateTime(2021, 5, 8, 13, 0, 0), 
+                        EventEnd = new DateTime(2021, 5, 8, 13, 30, 0)
+                    }
+                }
+            };
 
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal1, Credentials = null, UserId = 1 });
-            meeting.ConnectedUsers.Add(new User() { Calendar = UserCal2, Credentials = null, UserId = 2 });
+            var meeting = new Meeting
+            {
+                ConnectedUsers = new List<ApplicationUser>
+                {
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar1
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    },
+                    new ApplicationUser
+                    {
+                        Calendars = new List<Calendar>
+                        {
+                            userCalendar2
+                        },
+                        Credentials = null,
+                        Id = Guid.NewGuid()
+                    }
+                },
+                Id = Guid.NewGuid()
+            };
 
-            var calculatorUT = new CalendarCalculator();
+            var calculatorUt = new CalendarCalculator();
 
-            // Act
-            Action test = () => calculatorUT.CalculateAvailableMeetingTime(meeting);
-
-            // Assert
-            Assert.ThrowsAny<Exception>(test);
+            Assert.ThrowsAny<Exception>(() =>
+                calculatorUt.CalculateAvailableMeetingTime(meeting));
         }
-
-        
     }
 }
