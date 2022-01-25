@@ -90,12 +90,19 @@
 
 .stage-two-link-share {
   display: flex;
+  @media (max-width: 310px) {
+    flex-direction: column;
+  }
 }
 
 .stage-two-link-share-form {
   display: flex;
   align-self: center;
   flex-grow: 1;
+  @media (max-width: 310px) {
+    margin: 5px 0px 0px 0px;
+    align-self: auto;
+  }
 }
 
 .stage-two-link-share-button {
@@ -106,6 +113,7 @@
   width: 100px;
   padding: 5px;
   @media (max-width: 310px) {
+    margin: 5px 0px 0px 0px;
     width: 100%;
   }
 }

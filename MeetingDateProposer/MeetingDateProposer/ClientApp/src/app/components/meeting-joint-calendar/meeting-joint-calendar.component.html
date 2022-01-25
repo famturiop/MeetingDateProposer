@@ -1,50 +1,99 @@
-
-<button
-        class="btn btn-primary"
+<div class="calendar-nav-container">
+    <div class="calendar-day-choice-buttons">
+        <button class="calendar-day-choice-button"
         mwlCalendarPreviousView
         [view]="view"
         [(viewDate)]="currentDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      >
-        Previous
-      </button>
-      <button
-        class="btn btn-outline-secondary"
+        (viewDateChange)="closeOpenMonthViewDay()">
+            Previous
+        </button>
+        <button class="calendar-day-choice-button"
         mwlCalendarToday
-        [(viewDate)]="currentDate"
-      >
-        Today
-      </button>
-      <button
-        class="btn btn-primary"
+        [(viewDate)]="currentDate">
+            Today
+        </button>
+        <button class="calendar-day-choice-button"
         mwlCalendarNextView
         [view]="view"
         [(viewDate)]="currentDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      >
-        Next
-      </button>
-      <div class="col-md-4">
-        <h3>{{ currentDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
-      </div>
-<ng-template
-      #customTemplate
-      let-columnDate="columnDate"
-      let-dayStartHour="dayStartHour"
-      let-dayStartMinute="dayStartMinute"
-      let-dayEndHour="dayEndHour"
-      let-dayEndMinute="dayEndMinute"
-      let-isVisible="isVisible"
-      let-topPx="topPx"
-    >
+        (viewDateChange)="closeOpenMonthViewDay()">
+            Next
+        </button>
+    </div>
+    <h3 class="calendar-nav-header">
+        {{ currentDate | calendarDate:(view + 'ViewTitle'):'en' }}
+    </h3>
+</div>
+
+<ng-template #customTemplateTest
+let-columnDate="columnDate"
+let-dayStartHour="dayStartHour"
+let-dayStartMinute="dayStartMinute"
+let-dayEndHour="dayEndHour"
+let-dayEndMinute="dayEndMinute"
+let-isVisible="isVisible"
+let-topPx="topPx">
     <div
-        class="cal-current-time-marker111"
-        *ngIf="isVisible"
-        [style.top.px]="topPx"
-      ></div>
-    </ng-template>
-<mwl-calendar-week-view
+    class="cal-current-time-marker-test"
+    *ngIf="isVisible"
+    [style.top.px]="topPx">
+    </div>
+</ng-template>
+
+<ng-template #customCalWeekTemplate
+let-days="days"
+let-locale="locale"
+let-dayHeaderClicked="dayHeaderClicked"
+let-eventDropped="eventDropped"
+let-trackByWeekDayHeaderDate="trackByWeekDayHeaderDate"
+let-dragEnter="dragEnter">
+    <div class="cal-day-headers  calendar-header" role="row">
+        <div class="cal-header"
+        *ngFor="let day of days; trackBy: trackByWeekDayHeaderDate"
+        [class.cal-past]="day.isPast"
+        [class.cal-today]="day.isToday"
+        [class.cal-future]="day.isFuture"
+        [class.cal-weekend]="day.isWeekend"
+        [ngClass]="day.cssClass"
+        (mwlClick)="dayHeaderClicked.emit({ day: day, sourceEvent: $event })"
+        mwlDroppable
+        dragOverClass="cal-drag-over"
+        (drop)="
+          eventDropped.emit({
+            event: $event.dropData.event,
+            newStart: day.date
+          })
+        "
+        (dragEnter)="dragEnter.emit({ date: day.date })"
+        tabindex="0"
+        role="columnheader">
+            <b>
+                {{day.date | calendarDate: 'weekViewColumnHeader':locale}}
+            </b>
+            <br/>
+            <span>
+                {{day.date | calendarDate: 'weekViewColumnSubHeader':locale}}
+            </span>
+        </div>
+    </div>
+</ng-template>
+<div [ngSwitch]="view">
+    <mwl-calendar-week-view
+    *ngSwitchCase="CalendarView.Week"
+    [viewDate]="currentDate"
+    [events]="displayCalendar"
+    [currentTimeMarkerTemplate]="customTemplateTest"
+    [headerTemplate]="customCalWeekTemplate">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+    *ngSwitchCase="CalendarView.Day"
+    [viewDate]="currentDate"
+    [events]="displayCalendar">
+    </mwl-calendar-day-view>
+</div>
+<!-- <mwl-calendar-week-view
  [viewDate]="currentDate"
  [events]="displayCalendar"
- [currentTimeMarkerTemplate]="customTemplate">
-</mwl-calendar-week-view>
+ [currentTimeMarkerTemplate]="customTemplateTest"
+ [headerTemplate]="customCalWeekTemplate">
+</mwl-calendar-week-view> -->

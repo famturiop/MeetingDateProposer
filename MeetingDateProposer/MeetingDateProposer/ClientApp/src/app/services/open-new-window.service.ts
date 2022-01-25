@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { IUser } from '../models/user.model';
 import { AppConfigService } from '../app-config.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class OpenNewWindowService {
 
   private openWindowReference: (Window|null) = null;

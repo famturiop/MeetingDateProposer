@@ -1,7 +1,53 @@
-.cal-current-time-marker111 {
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    z-index: 2;
-    background-color:blue;
-  }
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.cal-current-time-marker-test {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  z-index: 2;
+  background-color:blue;
+}
+
+.calendar-header {
+  position: sticky;
+  top: 65px;
+  background: white;
+  z-index: 2;
+}
+
+.calendar-nav-container {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  margin: 0px auto;
+  padding: 0px 10px;
+  background-color: $website-color-quinary;
+  border-bottom: 1px solid black;
+}
+
+.calendar-day-choice-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 5px 5px 0px 5px;
+}
+
+.calendar-day-choice-button {
+  @include primary-button-style;
+  margin: 0px 2px;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.calendar-nav-header {
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+}
+
+

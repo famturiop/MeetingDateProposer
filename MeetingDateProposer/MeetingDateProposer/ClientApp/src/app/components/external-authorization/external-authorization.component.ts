@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-//import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-external-authorization',
@@ -19,7 +18,9 @@ export class ExternalAuthorizationComponent implements OnInit {
         let message: (string)[] = [code,state];
         if (window.opener) {
           this.window.opener.postMessage(message,this.window.location.origin);
-          this.window.close();
+          this.window.onload = (ev: Event) => {
+            this.window.close();
+          };
         }
       }
       else {
@@ -28,4 +29,5 @@ export class ExternalAuthorizationComponent implements OnInit {
     });
   }
 
+  
 }

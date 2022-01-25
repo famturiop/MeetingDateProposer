@@ -1,11 +1,8 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { CalendarEvent, CalendarUtils, CalendarView } from 'angular-calendar';
-import { Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Component, HostListener, Input, OnChanges, OnInit } from '@angular/core';
+import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { Observable } from 'rxjs';
 import { ApiUserMeetingInteractionService } from 'src/app/api-services/api-user-meeting-interaction.service';
-import { ICalendar } from 'src/app/models/calendar.model';
 import { IMeeting } from 'src/app/models/meeting.model';
-import { MeetingService } from 'src/app/services/meeting.service';
 
 @Component({
   selector: 'app-meeting-joint-calendar',
@@ -17,14 +14,22 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
   @Input() public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
   public currentDate: Date = new Date();
   public displayCalendar: CalendarEvent[] = [];
-  view: CalendarView = CalendarView.Week;
-  activeDayIsOpen: boolean = true;
+  public view: CalendarView = CalendarView.Week;
+  public CalendarView = CalendarView;
+  public activeDayIsOpen: boolean = true;
 
-  constructor(private apiUserMeetingInteractionService: ApiUserMeetingInteractionService) {
-   }
+  constructor(private apiUserMeetingInteractionService: ApiUserMeetingInteractionService,
+    private window: Window) {
+  
+  }
 
   ngOnInit(): void {
-
+    if (this.window.innerWidth < 400) {
+      this.view = CalendarView.Day;
+    }
+    else {
+      this.view = CalendarView.Week;
+    }
   }
 
   private calculateAvailableMeetingTime(): Observable<CalendarEvent[]> {
@@ -50,6 +55,16 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
       let inverseAvailableTime = this.inverseCalendar(availableTime);
       this.displayCalendar = availableTime.concat(inverseAvailableTime);
     })
+  }
+
+  @HostListener('window:resize',['$event']) onScreenSizeChange(event: any): void {
+    console.log(event.target.innerWidth);
+    if (event.target.innerWidth < 400) {
+      this.view = CalendarView.Day;
+    }
+    else {
+      this.view = CalendarView.Week;
+    }
   }
 
   ngOnDestroy(): void {

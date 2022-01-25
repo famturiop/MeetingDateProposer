@@ -9,7 +9,8 @@ import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
 @Component({
   selector: 'app-connected-user-card',
   templateUrl: './connected-user-card.component.html',
-  styleUrls: ['./connected-user-card.component.scss']
+  styleUrls: ['./connected-user-card.component.scss'],
+  providers: [OpenNewWindowService]
 })
 export class ConnectedUserCardComponent implements OnInit {
 

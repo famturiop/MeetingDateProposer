@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { IMeeting } from 'src/app/models/meeting.model';
 import { MeetingService } from 'src/app/services/meeting.service';
 import { ApiMeetingService } from 'src/app/api-services/api-meeting.service';
@@ -8,7 +8,6 @@ import { IUser } from 'src/app/models/user.model';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
 
 @Component({
   selector: 'app-main-page-stage-two',
@@ -27,8 +26,7 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
     private apiUserService: ApiUserService,
     private clipboard: Clipboard,
     private router: Router,
-    private window: Window,
-    private newWindow: OpenNewWindowService) {
+    private window: Window) {
       this.meetingSubscription = this.meetingService.currentMeeting.subscribe(meeting => {
         this.meeting = meeting;
       });
@@ -67,12 +65,6 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
 
     });
   }
-
-  // addCalendarToUser(user: IUser): void {
-  //   const url = this.newWindow.buildURL(user);
-  //   const name = "";
-  //   this.newWindow.openNewWindow(url,name);
-  // }
 
   @HostListener('window:message',['$event']) recieveAuthCode(event: MessageEvent<string[]>): void {
     let code = event.data[0];
