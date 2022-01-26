@@ -6,7 +6,7 @@
         "accessType": "offline",
         "responseType": "code",
         "clientId": "210750196305-c4dqfmn8emrlmbb0s0a38uuihhrp5a6m.apps.googleusercontent.com",
-        "redirectUri": "http://localhost:4200/authorize/",
+        "redirectUri": "https://localhost:44343/authorize/",
         "scope": "https://www.googleapis.com/auth/calendar.readonly",
         "flowName": "GeneralOAuthFlow"
     }
