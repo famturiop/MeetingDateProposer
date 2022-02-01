@@ -35,8 +35,7 @@ export class ApiUserMeetingInteractionService {
     availableTime.forEach(calEvent => {
       calEvent.start = new Date(calEvent.start);
       calEvent.end = new Date(calEvent.end!);
-      calEvent.color = {primary: "pink", secondary: "green"};
-      calEvent.title = "available free time";
+      calEvent.title = "spare time";
     });
     return availableTime;
   };

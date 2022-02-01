@@ -3,6 +3,7 @@ import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { Observable } from 'rxjs';
 import { ApiUserMeetingInteractionService } from 'src/app/api-services/api-user-meeting-interaction.service';
 import { IMeeting } from 'src/app/models/meeting.model';
+import { PlacementArray } from 'positioning';
 
 @Component({
   selector: 'app-meeting-joint-calendar',
@@ -12,11 +13,15 @@ import { IMeeting } from 'src/app/models/meeting.model';
 export class MeetingJointCalendarComponent implements OnInit, OnChanges {
 
   @Input() public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
-  public currentDate: Date = new Date();
+  public viewDate: Date = new Date();
   public displayCalendar: CalendarEvent[] = [];
   public view: CalendarView = CalendarView.Week;
   public CalendarView = CalendarView;
-  public activeDayIsOpen: boolean = true;
+
+  public focusedEvent: CalendarEvent = {start: new Date(), title: ""};
+  public calEventDetailsIsActive: boolean = false;
+  public weekStartsOn: number = 1;
+  private readonly viewSwitchInnerWidth: number = 450;
 
   constructor(private apiUserMeetingInteractionService: ApiUserMeetingInteractionService,
     private window: Window) {
@@ -24,7 +29,7 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    if (this.window.innerWidth < 400) {
+    if (this.window.innerWidth <= this.viewSwitchInnerWidth) {
       this.view = CalendarView.Day;
     }
     else {
@@ -40,14 +45,10 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
     let inverseCalendar: CalendarEvent[] = [];
     if (calendar.length > 1) {
       for (let i = 0; i < (calendar.length - 1); i++) {
-        inverseCalendar.push({title: "busy time", start: calendar[i].end as Date, end: calendar[i+1].start});
+        inverseCalendar.push({title: "occupied time", start: calendar[i].end as Date, end: calendar[i+1].start});
       }
     }
     return inverseCalendar;
-  }
-
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
   }
 
   ngOnChanges(): void {
@@ -58,13 +59,17 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
   }
 
   @HostListener('window:resize',['$event']) onScreenSizeChange(event: any): void {
-    console.log(event.target.innerWidth);
-    if (event.target.innerWidth < 400) {
+    if (event.target.innerWidth <= this.viewSwitchInnerWidth) {
       this.view = CalendarView.Day;
     }
     else {
       this.view = CalendarView.Week;
     }
+  }
+
+  eventClicked({ event }: { event: CalendarEvent }): void {
+    this.calEventDetailsIsActive = true;
+    this.focusedEvent = event;
   }
 
   ngOnDestroy(): void {
