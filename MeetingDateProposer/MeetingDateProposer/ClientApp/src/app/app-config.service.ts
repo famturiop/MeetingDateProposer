@@ -10,7 +10,8 @@ export class AppConfigService {
 
   static settings: IAppConfig;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private window: Window) { }
   load(){
     const jsonFile = `assets/app.config.json`;
 
@@ -18,7 +19,7 @@ export class AppConfigService {
       this.http.get<IAppConfig>(jsonFile)
       .toPromise<IAppConfig>().then((response : IAppConfig) => {
         AppConfigService.settings = <IAppConfig>response;
-
+        AppConfigService.settings.backEndpoint = this.window.location.origin;
          console.log('Config Loaded');
          console.log( AppConfigService.settings);
          resolve();
