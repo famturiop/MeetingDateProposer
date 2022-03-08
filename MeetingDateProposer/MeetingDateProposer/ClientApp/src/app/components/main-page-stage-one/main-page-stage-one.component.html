@@ -1,0 +1,27 @@
+<div class="stage-one-container">
+    <header>
+        <h1 class="stage-one-header-indicator">
+            Stage 1 of 2
+        </h1>
+        <h2 class="stage-one-header-welcome">
+            Welcome!
+        </h2>
+        <h2 class="stage-one-header-message">
+            Create a meeting by stating its name in the form below.
+        </h2>
+    </header>
+    <form>
+        <input (input)="meetingTitleCheck(meetingName.value)" 
+        type="text" placeholder="Enter meeting title" maxlength="64" 
+        autocomplete="off" required="required" 
+        class="stage-one-input-form" #meetingName>
+        <button type="button" [disabled]="isDisabled" 
+        class="stage-one-button-continue"
+        (click)="createMeeting(meetingName.value)">
+            Continue
+        </button>
+    </form>
+</div>
+
+
+

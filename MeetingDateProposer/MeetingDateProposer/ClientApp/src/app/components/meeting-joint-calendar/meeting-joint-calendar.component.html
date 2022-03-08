@@ -1,0 +1,144 @@
+<div class="calendar-nav-container">
+    <div class="calendar-day-choice-buttons">
+        <button class="calendar-day-choice-button"
+        mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="viewDate">
+            Previous
+        </button>
+        <button class="calendar-day-choice-button"
+        mwlCalendarToday
+        [(viewDate)]="viewDate">
+            Today
+        </button>
+        <button class="calendar-day-choice-button"
+        mwlCalendarNextView
+        [view]="view"
+        [(viewDate)]="viewDate">
+            Next
+        </button>
+    </div>
+    <h3 class="calendar-nav-header">
+        {{ viewDate | calendarDate:(view + 'ViewTitle'):'en':weekStartsOn }}
+    </h3>
+    <div class="calendar-instructions">
+        <div class="calendar-legend">
+            <div class="calendar-legend-container">
+                <div class="calendar-legend-color spare">
+                </div>
+                <div class="calendar-instr-text">
+                    Spare time
+                </div>
+            </div>
+            <div class="calendar-legend-container">
+                <div class="calendar-legend-color occupied">
+                </div>
+                <div class="calendar-instr-text">
+                    Occupied time
+                </div>
+            </div>
+        </div>
+        <div class="calendar-instr-text selected">
+            Selected event:
+        </div>
+        <div *ngIf="calEventDetailsIsActive" class="calendar-instr">
+            <div class="calendar-instr-container">
+                <div *ngIf="calEventDetailsIsActive" class="calendar-instr-text date">
+                    starts at {{focusedEvent.start | date:'long'}}
+                </div>
+            </div>
+            <div class="calendar-instr-container">
+                <div *ngIf="calEventDetailsIsActive" class="calendar-instr-text date">
+                    ends at {{focusedEvent.end | date:'long'}}
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!calEventDetailsIsActive" class="calendar-instr-text">
+            Click on an event to see the exact event time
+        </div>
+    </div>
+</div>
+
+<ng-template #customCalWeekTemplate
+let-days="days"
+let-locale="locale"
+let-dayHeaderClicked="dayHeaderClicked"
+let-eventDropped="eventDropped"
+let-trackByWeekDayHeaderDate="trackByWeekDayHeaderDate"
+let-dragEnter="dragEnter">
+    <div class="cal-day-headers  calendar-header" role="row">
+        <div class="cal-header"
+        *ngFor="let day of days; trackBy: trackByWeekDayHeaderDate"
+        [class.cal-past]="day.isPast"
+        [class.cal-today]="day.isToday"
+        [class.cal-future]="day.isFuture"
+        [class.cal-weekend]="day.isWeekend"
+        [ngClass]="day.cssClass"
+        (mwlClick)="dayHeaderClicked.emit({ day: day, sourceEvent: $event })"
+        mwlDroppable
+        dragOverClass="cal-drag-over"
+        (drop)="
+          eventDropped.emit({
+            event: $event.dropData.event,
+            newStart: day.date
+          })
+        "
+        (dragEnter)="dragEnter.emit({ date: day.date })"
+        tabindex="0"
+        role="columnheader">
+            <b>
+                {{day.date | calendarDate: 'weekViewColumnHeader':locale}}
+            </b>
+            <br/>
+            <span>
+                {{day.date | calendarDate: 'weekViewColumnSubHeader':locale}}
+            </span>
+        </div>
+    </div>
+</ng-template>
+<ng-template #tooltipTemplate>
+</ng-template>
+<ng-template
+#eventTemplate
+let-weekEvent="weekEvent"
+let-tooltipPlacement="tooltipPlacement"
+let-eventClicked="eventClicked"
+let-tooltipTemplate="tooltipTemplate"
+let-tooltipAppendToBody="tooltipAppendToBody"
+let-tooltipDisabled="tooltipDisabled"
+let-tooltipDelay="tooltipDelay"
+let-column="column"
+let-daysInWeek="daysInWeek">
+    <div class="cal-event"
+    [ngClass]="weekEvent.event.title === 'spare time' ? 'calendar-event-spare-time' : 'calendar-event-occupied-time'"
+    (mwlClick)="eventClicked.emit({ sourceEvent: $event })">
+        &ngsp;
+        <mwl-calendar-event-title [event]="weekEvent.tempEvent || weekEvent.event"
+        [view]="daysInWeek === 1 ? 'day' : 'week'"
+        [customTemplate]="eventTitleTemplate">
+        </mwl-calendar-event-title>
+    </div>
+</ng-template>
+<ng-template #eventTitleTemplate>
+</ng-template>
+<div [ngSwitch]="view">
+    <mwl-calendar-week-view
+    *ngSwitchCase="CalendarView.Week"
+    [viewDate]="viewDate"
+    [events]="displayCalendar"
+    [weekStartsOn]="weekStartsOn"
+    [headerTemplate]="customCalWeekTemplate"
+    [tooltipTemplate]="tooltipTemplate"
+    [eventTemplate]="eventTemplate"
+    [eventTitleTemplate]="eventTitleTemplate"
+    (eventClicked)="eventClicked($event)">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+    *ngSwitchCase="CalendarView.Day"
+    [viewDate]="viewDate"
+    [events]="displayCalendar"
+    [tooltipTemplate]="tooltipTemplate"
+    [eventTemplate]="eventTemplate"
+    (eventClicked)="eventClicked($event)">
+    </mwl-calendar-day-view>
+</div>

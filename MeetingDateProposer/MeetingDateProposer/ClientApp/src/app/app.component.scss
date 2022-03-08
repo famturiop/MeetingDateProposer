@@ -1,0 +1,7 @@
+@import './sass/variables';
+@import './sass/mixins';
+
+div {
+    background-color: $website-color-quaternary;
+    font-family: $website-font-primary;
+}

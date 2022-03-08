@@ -1,0 +1,25 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.about-container {
+  @include primary-content-box;
+  overflow: hidden;
+  background-color: $website-color-quinary;
+  box-shadow: 0 1.5px 4px rgb(0 0 0 / 24%), 0 1.5px 6px rgb(0 0 0 / 12%);
+  border-radius: 6px;
+}
+
+.about-header {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin: 5px 0px 10px;
+}
+
+.about-paragraph {
+  font-size: 16px;
+  font-weight: normal;
+  text-align: left;
+  margin: 10px 0px 10px;
+}
+

@@ -1,0 +1,44 @@
+<div class="stage-two-container">
+    <header>
+        <h1 class="stage-two-header-indicator">
+            Stage 2 of 2
+        </h1>
+        <h2 class="stage-two-header-meeting">
+            {{meeting.name}} meeting
+        </h2>
+    </header>
+    <form>
+        <input class="stage-two-input-form"
+        type="text" maxlength="64" 
+        autocomplete="off" required="required" 
+        placeholder="Enter participant's name"
+        value="" #userName 
+        (input)="userNameCheck(userName.value)">
+        <button type="button" class="stage-two-button-add-user"
+        [disabled]="isDisabled" (click)="addUserToMeeting(userName.value);">
+            Add participant
+        </button>
+    </form>
+    <h1 class="stage-two-header-participants">
+        Meeting participants:
+    </h1>
+    <ul class="stage-two-participants">
+        <li class="stage-two-participant"
+        *ngFor="let connectedUser of meeting.connectedUsers; index as i;">
+            <app-connected-user-card [user]="connectedUser">
+            </app-connected-user-card>
+        </li>
+    </ul>
+    <label class="stage-two-link-share-label">
+        Use this link to share the meeting:
+    </label>
+    <div class="stage-two-link-share">
+        <input class="stage-two-link-share-form" type="text" 
+        value="{{displayLink()}}">
+        <button class="stage-two-link-share-button" (click)="copyLink()">
+            Copy link
+        </button>    
+    </div>
+</div>
+<app-meeting-joint-calendar [meeting]="meeting">
+</app-meeting-joint-calendar>

@@ -1,37 +1,51 @@
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { TestCompComponent } from './test-comp/test-comp.component';
+import { TopNavbarComponent } from './components/top-navbar/top-navbar.component';
+import { MainPageStageOneComponent } from './components/main-page-stage-one/main-page-stage-one.component';
+import { MainPageStageTwoComponent } from './components/main-page-stage-two/main-page-stage-two.component';
+import { AboutPageComponent } from './components/about-page/about-page.component';
+import { BottomOutlineComponent } from './components/bottom-outline/bottom-outline.component';
+import { MessagesComponent } from './components/messages/messages.component';
+import { ExternalAuthorizationComponent } from './components/external-authorization/external-authorization.component';
+import { AppConfigService } from './app-config.service';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { MeetingJointCalendarComponent } from './components/meeting-joint-calendar/meeting-joint-calendar.component';
+import { ConnectedUserCardComponent } from './components/connected-user-card/connected-user-card.component';
+
+export function initializeApp(appConfigService: AppConfigService) {
+  return (): Promise<any> => { 
+    return appConfigService.load();
+  }
+}
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
-    TestCompComponent
+    TopNavbarComponent,
+    MainPageStageOneComponent,
+    MainPageStageTwoComponent,
+    AboutPageComponent,
+    BottomOutlineComponent,
+    MessagesComponent,
+    ExternalAuthorizationComponent,
+    MeetingJointCalendarComponent,
+    ConnectedUserCardComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,
+    AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'test-comp', component: TestCompComponent },
-    ])
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
-  providers: [],
+  providers: [
+    { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppConfigService], multi: true},
+    { provide: Window, useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
