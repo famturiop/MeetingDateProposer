@@ -59,13 +59,17 @@ namespace MeetingDateProposer.BusinessLayer
 
         private static List<CalendarEvent> RemoveDuplicateCalEvents(List<CalendarEvent> calendarList)
         {
-            return calendarList.GroupBy(x => new { x.EventStart, x.EventEnd }).Select(x => x.First()).ToList();
+            return calendarList
+                .GroupBy(x => new { x.EventStart, x.EventEnd })
+                .Select(x => x.First()).ToList();
         }
 
         private static List<CalendarEvent> RemoveNestedCalEvents(List<CalendarEvent> calendarList)
         {
-            return calendarList.Where(x => !calendarList.Any(
-                y => x.EventStart >= y.EventStart && x.EventEnd <= y.EventEnd && !x.Equals(y))).ToList();
+            return calendarList
+                .Where(x => !calendarList.Any(
+                    y => x.EventStart >= y.EventStart && x.EventEnd <= y.EventEnd && !x.Equals(y)))
+                .ToList();
         }
 
         private static List<CalendarEvent> UniteIntersectedCalEvents(List<CalendarEvent> calendarList)
@@ -93,7 +97,8 @@ namespace MeetingDateProposer.BusinessLayer
             return calendarList;
         }
 
-        private static List<CalendarEvent> GetAvailableSchedule(List<CalendarEvent> calendarList)
+        private static List<CalendarEvent> GetAvailableSchedule(
+            List<CalendarEvent> calendarList)
         {
             var calendarListModified = new List<CalendarEvent>();
 

@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Http;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using MeetingDateProposer.Models.AccountApiModels;
 using MeetingDateProposer.Models.ApplicationApiModels;
-using Microsoft.Extensions.Configuration;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -25,21 +24,24 @@ namespace MeetingDateProposer.Controllers
     {
         private readonly ICalendarProvider _calendar;
         private readonly IUserService _userService;
-        private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
-        public CalendarController(ICalendarProvider calendar, IUserService userService, IConfiguration configuration, IMapper mapper)
+        public CalendarController(
+            ICalendarProvider calendar,
+            IUserService userService,
+            IMapper mapper)
         {
             _calendar = calendar;
             _userService = userService;
-            _configuration = configuration;
             _mapper = mapper;
         }
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUserApiModel>> AddCalendarToUserAsync(string authorizationCode, Guid userId)
+        public async Task<ActionResult<ApplicationUserApiModel>> AddCalendarToUserAsync(
+            string authorizationCode,
+            Guid userId)
         {
             var user = await _userService.GetUserByIdFromDbAsync(userId);
             var calendar = await _calendar.GetCalendarAsync(authorizationCode, userId);

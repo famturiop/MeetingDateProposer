@@ -83,7 +83,7 @@ namespace MeetingDateProposer.DataLayer
             base.OnModelCreating(modelBuilder);
         }
 
-        private void SetDateTimeKindToUtc(ModelBuilder modelBuilder)
+        private static void SetDateTimeKindToUtc(ModelBuilder modelBuilder)
         {
             var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
                 v => v.ToUniversalTime(),

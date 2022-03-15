@@ -16,7 +16,9 @@ namespace MeetingDateProposer.Controllers
         private readonly UserManager<AccountUser> _userManager;
         private readonly SignInManager<AccountUser> _signInManager;
 
-        public AccountController(UserManager<AccountUser> userManager, SignInManager<AccountUser> signInManager)
+        public AccountController(
+            UserManager<AccountUser> userManager, 
+            SignInManager<AccountUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

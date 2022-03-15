@@ -21,7 +21,9 @@ namespace MeetingDateProposer.Controllers
         private readonly UserManager<AccountUser> _userManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-        public RolesController(RoleManager<IdentityRole<Guid>> roleManager, UserManager<AccountUser> userManager)
+        public RolesController(
+            RoleManager<IdentityRole<Guid>> roleManager, 
+            UserManager<AccountUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;

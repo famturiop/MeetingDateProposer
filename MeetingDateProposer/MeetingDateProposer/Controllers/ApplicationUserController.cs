@@ -1,5 +1,4 @@
 ﻿using MeetingDateProposer.BusinessLayer.DbInteractionServices;
-using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,13 +19,11 @@ namespace MeetingDateProposer.Controllers
     public class ApplicationUserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly ICalendarProvider _userCalendar;
         private readonly IMapper _mapper;
 
-        public ApplicationUserController(IUserService userService, ICalendarProvider userCalendar, IMapper mapper)
+        public ApplicationUserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
-            _userCalendar = userCalendar;
             _mapper = mapper;
         }
 
@@ -48,7 +45,8 @@ namespace MeetingDateProposer.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUserApiModel>> CreateUserAsync(ApplicationUserApiModel userApiModel)
+        public async Task<ActionResult<ApplicationUserApiModel>> CreateUserAsync(
+            ApplicationUserApiModel userApiModel)
         {
             var user = _mapper.Map<ApplicationUser>(userApiModel);
             await _userService.AddUserToDbAsync(user);

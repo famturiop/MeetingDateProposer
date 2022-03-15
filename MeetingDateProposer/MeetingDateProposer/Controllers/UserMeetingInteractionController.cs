@@ -35,7 +35,9 @@ namespace MeetingDateProposer.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<MeetingApiModel>> UpdateMeetingAsync(Guid meetingId, Guid userId)
+        public async Task<ActionResult<MeetingApiModel>> UpdateMeetingAsync(
+            Guid meetingId, 
+            Guid userId)
         {
             var meeting = await _meetingService.GetMeetingByIdFromDbAsync(meetingId);
             var user = await _userService.GetUserByIdFromDbAsync(userId);

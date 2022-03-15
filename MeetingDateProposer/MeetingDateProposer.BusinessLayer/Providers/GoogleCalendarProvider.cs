@@ -2,11 +2,9 @@
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using Google.Apis.Util.Store;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2.Flows;
@@ -21,7 +19,9 @@ namespace MeetingDateProposer.BusinessLayer.Providers
         private readonly ILogger<GoogleCalendarProvider> _logger;
         private readonly IConfiguration _configuration;
 
-        public GoogleCalendarProvider(ILogger<GoogleCalendarProvider> logger, IConfiguration configuration)
+        public GoogleCalendarProvider(
+            ILogger<GoogleCalendarProvider> logger, 
+            IConfiguration configuration)
         {
             _logger = logger;
             _configuration = configuration;
@@ -62,13 +62,16 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             return calendar;
         }
 
-        private async Task<UserCredential> ExchangeCodeForTokenAsync(string authorizationCode, Guid userId)
+        private async Task<UserCredential> ExchangeCodeForTokenAsync(
+            string authorizationCode, 
+            Guid userId)
         {
             var clientId = _configuration["googleCredentials:client_id"];
             var clientSecret = _configuration["googleCredentials:client_secret"];
             var redirectUri = _configuration["googleCredentials:redirect_uris"];
 
-            var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+            var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(
+                new GoogleAuthorizationCodeFlow.Initializer
             {
                 ClientSecrets = new ClientSecrets()
                 {
@@ -96,7 +99,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             {
                 HttpClientInitializer = credential,
                 ApplicationName = _configuration["googleCredentials:project_id"]
-        });
+            });
 
             var request = service.Events.List("primary");
             request.TimeMin = DateTime.Now;

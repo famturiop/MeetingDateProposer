@@ -13,10 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 
 
@@ -39,14 +36,13 @@ namespace MeetingDateProposer
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://example.com",
-                            "http://localhost:4200")
+                        builder.WithOrigins("http://localhost:4200")
                             .AllowAnyMethod()
                             .AllowAnyHeader()
                             .AllowAnyOrigin();
                     });
             });
-            //services.AddControllersWithViews();
+
             services.AddControllers(options =>
                     options.SuppressAsyncSuffixInActionNames = false)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling
@@ -73,8 +69,6 @@ namespace MeetingDateProposer
             services.AddIdentity<AccountUser, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationContext>();
 
-            //services.AddIdentityServer().AddApiAuthorization<User, ApplicationContext>();
-            //services.AddAuthentication().AddIdentityServerJwt();
             services.AddAuthorization();
             services.AddControllersWithViews();
         }
@@ -116,21 +110,13 @@ namespace MeetingDateProposer
             app.UseRouting();
 
             app.UseAuthentication();
-            //app.UseIdentityServer();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller}/{action=Index}/{id?}");
-            //});
 
             app.UseSpa(spa =>
             {
@@ -141,8 +127,8 @@ namespace MeetingDateProposer
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-                    //spa.UseAngularCliServer(npmScript: "start");
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    spa.UseAngularCliServer(npmScript: "start");
                 }
             });
 

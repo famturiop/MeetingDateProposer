@@ -13,7 +13,7 @@ namespace MeetingDateProposer.Models.ApplicationApiModels
         [DataType(DataType.DateTime)]
         public DateTime End { get; set; }
 
-        public String Title { get; set; }
+        public string Title { get; set; }
 
     }
 }

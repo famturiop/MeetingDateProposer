@@ -1,5 +1,4 @@
 ﻿using MeetingDateProposer.BusinessLayer.DbInteractionServices;
-using MeetingDateProposer.Domain.Models.AccountModels;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -47,7 +46,8 @@ namespace MeetingDateProposer.Controllers
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
-        public async Task<ActionResult<MeetingApiModel>> CreateMeetingAsync(MeetingApiModel meetingApiModel)
+        public async Task<ActionResult<MeetingApiModel>> CreateMeetingAsync(
+            MeetingApiModel meetingApiModel)
         {
             var meeting = _mapper.Map<Meeting>(meetingApiModel);
             await _meetingService.AddMeetingToDbAsync(meeting);

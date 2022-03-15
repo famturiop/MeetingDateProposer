@@ -39,7 +39,9 @@ namespace MeetingDateProposer.Domain.Utilities
                 EventEnd = DateTime.Now
             };
 
-            for (int generateNextEvent = 0; generateNextEvent < numberofEvents; generateNextEvent++)
+            for (int generateNextEvent = 0; 
+                generateNextEvent < numberofEvents; 
+                generateNextEvent++)
             {
                 calendarEvent = GenerateCalendarEvent(calendarEvent);
                 testCalendar.UserCalendar.Add(calendarEvent);
@@ -52,12 +54,15 @@ namespace MeetingDateProposer.Domain.Utilities
         {
             var prevEventTimeEnd = prevEvent.EventEnd;
             var time = (prevEventTimeEnd - DateTime.MinValue).TotalSeconds;
-            var timePlusInterval = (prevEventTimeEnd - DateTime.MinValue + new TimeSpan(0, 2, 0, 0)).TotalSeconds;
+            var timePlusInterval = (prevEventTimeEnd - DateTime.MinValue + new TimeSpan(0, 2, 0, 0))
+                .TotalSeconds;
 
             var rnd = new Random();
-            var nextEventInsertedTimeSpan = TimeSpan.FromSeconds(time + (timePlusInterval - time) * rnd.NextDouble());
+            var nextEventInsertedTimeSpan = TimeSpan.FromSeconds(
+                time + (timePlusInterval - time) * rnd.NextDouble());
             var nextEventTimeStart = DateTime.MinValue.Add(nextEventInsertedTimeSpan);
-            var nextEventTimeEnd = nextEventTimeStart.AddHours(rnd.Next(0, 3)).AddMinutes(rnd.Next(0, 59));
+            var nextEventTimeEnd = nextEventTimeStart.AddHours(
+                rnd.Next(0, 3)).AddMinutes(rnd.Next(0, 59));
 
             return new CalendarEvent
             {
