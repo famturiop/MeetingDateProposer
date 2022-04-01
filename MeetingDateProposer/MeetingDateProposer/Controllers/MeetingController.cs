@@ -30,6 +30,7 @@ namespace MeetingDateProposer.Controllers
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ActionName("GetMeetingByIdAsync")]
         [AllowAnonymous]
         public async Task<ActionResult<MeetingApiModel>> GetMeetingByIdAsync(Guid meetingId)
         {
