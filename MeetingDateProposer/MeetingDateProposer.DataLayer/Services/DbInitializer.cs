@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
+using IdentityServer4.Extensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 
 namespace MeetingDateProposer.DataLayer.Services
 {
@@ -11,35 +14,45 @@ namespace MeetingDateProposer.DataLayer.Services
     {
         private readonly ApplicationContext _appContext;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<DbInitializer> _logger;
 
-        public DbInitializer(ApplicationContext appContext, IConfiguration configuration)
+        public DbInitializer(
+            ApplicationContext appContext, 
+            IConfiguration configuration,
+            ILogger<DbInitializer> logger)
         {
             _appContext = appContext;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public void Initialize()
         {
-            _appContext.Database.Migrate();
+            var migrations = _appContext.Database.GetPendingMigrations().ToList();
+            if (!migrations.IsNullOrEmpty())
+            {
+                _appContext.Database.Migrate();
+                _logger.LogInformation("Applied {1} pending migrations to the database.", migrations.Count);
+            }
         }
 
         public void Seed()
         {
-            IdentityRole<Guid> adminRole = new IdentityRole<Guid>
+            var adminRole = new IdentityRole<Guid>
             {
                 Id = Guid.NewGuid(),
                 Name = "admin",
                 NormalizedName = "ADMIN"
             };
-            IdentityRole<Guid> userRole = new IdentityRole<Guid>
+            var userRole = new IdentityRole<Guid>
             {
                 Id = Guid.NewGuid(),
                 Name = "user",
                 NormalizedName = "USER"
             };
 
-            PasswordHasher<AccountUser> pass = new PasswordHasher<AccountUser>();
-            AccountUser admin = new AccountUser
+            var pass = new PasswordHasher<AccountUser>();
+            var admin = new AccountUser
             {
                 Email = _configuration["admin:Email"],
                 EmailConfirmed = true,
@@ -62,11 +75,13 @@ namespace MeetingDateProposer.DataLayer.Services
             {
                 _appContext.Roles.Add(adminRole);
                 _appContext.Roles.Add(userRole);
+                _logger.LogInformation("Added admin and user roles entries to the database.");
             }
             if (!_appContext.Users.Any())
             {
                 _appContext.Users.Add(admin);
                 _appContext.UserRoles.Add(identityAdminRole);
+                _logger.LogInformation("Added admin as a user entry to the database.");
             }
 
             _appContext.SaveChanges();

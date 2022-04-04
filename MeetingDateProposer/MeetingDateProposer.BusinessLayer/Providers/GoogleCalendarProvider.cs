@@ -55,7 +55,8 @@ namespace MeetingDateProposer.BusinessLayer.Providers
                 }
                 catch(InvalidOperationException e)
                 {
-                    _logger.LogError(e,$"Null event time was detected in {eventItem}");
+                    _logger.LogError(e,"Null event time was detected and skipped in {eventItem} " +
+                                       "for userId {userId}", eventItem, userId);
                 }
             }
 
