@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2.Flows;
+using MeetingDateProposer.BusinessLayer.Formatters;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Calendar = MeetingDateProposer.Domain.Models.ApplicationModels.Calendar;
@@ -16,14 +18,14 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 {
     public class GoogleCalendarProvider : ICalendarProvider
     {
-        private readonly ILogger<GoogleCalendarProvider> _logger;
+        private readonly ICalendarEventFormatter<IList<Event>> _calendarEventFormatter;
         private readonly IConfiguration _configuration;
 
         public GoogleCalendarProvider(
-            ILogger<GoogleCalendarProvider> logger, 
+            ICalendarEventFormatter<IList<Event>> calendarEventFormatter,
             IConfiguration configuration)
         {
-            _logger = logger;
+            _calendarEventFormatter = calendarEventFormatter;
             _configuration = configuration;
         }
 
@@ -31,34 +33,11 @@ namespace MeetingDateProposer.BusinessLayer.Providers
         {
             var credential = await ExchangeCodeForTokenAsync(authorizationCode, userId);
             var events = await GetCalendarEventsAsync(credential);
-
+            
             var calendar = new Calendar
             {
-                UserCalendar = new List<CalendarEvent>()
+                UserCalendar = _calendarEventFormatter.FormatCalendarEvents(events.Items)
             };
-
-            foreach (var eventItem in events.Items)
-            {
-                try
-                {
-                    var eventStart = (DateTime) eventItem.Start.DateTime;
-                    var eventEnd = (DateTime) eventItem.End.DateTime;
-
-                    eventStart = eventStart.ToUniversalTime();
-                    eventEnd = eventEnd.ToUniversalTime();
-
-                    calendar.UserCalendar.Add(new CalendarEvent
-                    {
-                        EventStart = eventStart,
-                        EventEnd = eventEnd
-                    });
-                }
-                catch(InvalidOperationException e)
-                {
-                    _logger.LogError(e,"Null event time was detected and skipped in {eventItem} " +
-                                       "for userId {userId}", eventItem, userId);
-                }
-            }
 
             return calendar;
         }

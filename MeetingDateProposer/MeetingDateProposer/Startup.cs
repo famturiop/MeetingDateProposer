@@ -13,9 +13,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
+using Google.Apis.Calendar.v3.Data;
+using MeetingDateProposer.BusinessLayer.Formatters;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Newtonsoft.Json;
-
 
 namespace MeetingDateProposer
 {
@@ -58,6 +60,7 @@ namespace MeetingDateProposer
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMeetingService, MeetingService>();
             services.AddScoped<ICalendarProvider, GoogleCalendarProvider>();
+            services.AddScoped<ICalendarEventFormatter<IList<Event>>, GoogleCalendarEventFormatter>();
             services.AddScoped<ICalendarCalculator, CalendarCalculator>();
             services.AddScoped<IDbInitializer, DbInitializer>();
 

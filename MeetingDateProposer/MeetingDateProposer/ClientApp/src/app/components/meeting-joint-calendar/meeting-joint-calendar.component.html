@@ -123,7 +123,7 @@ let-daysInWeek="daysInWeek">
 </ng-template>
 <div [ngSwitch]="view">
     <mwl-calendar-week-view
-    *ngSwitchCase="CalendarView.Week"
+    *ngSwitchCase="calendarView.Week"
     [viewDate]="viewDate"
     [events]="displayCalendar"
     [weekStartsOn]="weekStartsOn"
@@ -131,14 +131,16 @@ let-daysInWeek="daysInWeek">
     [tooltipTemplate]="tooltipTemplate"
     [eventTemplate]="eventTemplate"
     [eventTitleTemplate]="eventTitleTemplate"
+    [minimumEventHeight]="minimumEventHeight"
     (eventClicked)="eventClicked($event)">
     </mwl-calendar-week-view>
     <mwl-calendar-day-view
-    *ngSwitchCase="CalendarView.Day"
+    *ngSwitchCase="calendarView.Day"
     [viewDate]="viewDate"
     [events]="displayCalendar"
     [tooltipTemplate]="tooltipTemplate"
     [eventTemplate]="eventTemplate"
+    [minimumEventHeight]="minimumEventHeight"
     (eventClicked)="eventClicked($event)">
     </mwl-calendar-day-view>
 </div>

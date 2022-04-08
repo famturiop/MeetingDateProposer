@@ -16,11 +16,12 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
   public viewDate: Date = new Date();
   public displayCalendar: CalendarEvent[] = [];
   public view: CalendarView = CalendarView.Week;
-  public CalendarView = CalendarView;
+  public calendarView = CalendarView;
+  public readonly minimumEventHeight = 0;
 
   public focusedEvent: CalendarEvent = {start: new Date(), title: ""};
   public calEventDetailsIsActive: boolean = false;
-  public weekStartsOn: number = 1;
+  public readonly weekStartsOn: number = 1;
   private readonly viewSwitchInnerWidth: number = 450;
 
   constructor(private apiUserMeetingInteractionService: ApiUserMeetingInteractionService,
