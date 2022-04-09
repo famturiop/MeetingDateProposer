@@ -14,13 +14,15 @@ export class ExternalAuthorizationComponent implements OnInit {
     this.activeRoute.queryParamMap.subscribe(params => {
       let code: string = params.get('code') || "";
       let state: string = params.get('state') || "";
+      let error: string = params.get('error') || "";
+      if (error === "access_denied"){
+        this.closeCurrentWindow();
+      }
       if (!code.isEmpty() && !state.isEmpty()){
         let message: (string)[] = [code,state];
         if (window.opener) {
           this.window.opener.postMessage(message,this.window.location.origin);
-          this.window.onload = (ev: Event) => {
-            this.window.close();
-          };
+          this.closeCurrentWindow();
         }
       }
       else {
@@ -29,5 +31,10 @@ export class ExternalAuthorizationComponent implements OnInit {
     });
   }
 
+  private closeCurrentWindow(): void {
+    this.window.onload = (ev: Event) => {
+      this.window.close();
+    };
+  }
   
 }
