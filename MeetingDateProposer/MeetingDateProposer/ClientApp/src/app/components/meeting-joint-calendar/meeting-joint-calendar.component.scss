@@ -4,7 +4,7 @@
 .calendar-header {
   position: sticky;
   top: 111px;
-  background: white;
+  background: $website-color-quinary;
   z-index: 3;
   @media (max-width: 700px) {
     top: 146px;

@@ -16,6 +16,7 @@ export class ConnectedUserCardComponent implements OnInit {
 
   @Input() public user: IUser = {calendars:[], id:"00000000-0000-0000-0000-000000000000", name: ""};
   public addCalendarIsVisible: boolean = false;
+  public readonly iconUrl: string = "/assets/Google_Calendar_icon_(2020).svg";
 
   constructor(private newWindow: OpenNewWindowService) {
 

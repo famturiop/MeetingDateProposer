@@ -1,7 +1,7 @@
 <div class="connected-user-card">
-    <p class="user-name">
+    <div class="user-name">
         {{this.user.name}}
-    </p>
+    </div>
     <div class="add-calendar-container">
         <button [ngClass]="{'add-calendar-button': true, 
         'add-calendar-button-active': addCalendarIsVisible }" 
@@ -9,9 +9,13 @@
             Add calendar
         </button>
         <div class="add-calendar-popup" *ngIf="addCalendarIsVisible">
-            <button class="add-calendar-popup-option" 
+            <button class="add-calendar-popup-button"
             (click)="addCalendarToUser(this.user)">
-                Google Calendar
+                <img [src]="iconUrl" class="add-calendar-popup-icon"
+                 title="Calendar Icon" alt="Calendar Icon">
+                <div class="add-calendar-popup-text">
+                    Google Calendar
+                </div>
             </button>
         </div>
         <div class="calendar-count" *ngIf="(this.user.calendars.length !== 0)">

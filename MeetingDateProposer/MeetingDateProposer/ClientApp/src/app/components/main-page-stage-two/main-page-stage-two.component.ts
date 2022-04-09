@@ -20,6 +20,7 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
   private meetingSubscription: Subscription;
   public isDisabled: boolean = true;
   public addCalendarIsVisible: boolean = false;
+  public readonly iconUrl: string = "/assets/Google_Calendar_icon_(2020).svg";
 
   constructor(private meetingService: MeetingService,
     private apiMeetingService: ApiMeetingService,
