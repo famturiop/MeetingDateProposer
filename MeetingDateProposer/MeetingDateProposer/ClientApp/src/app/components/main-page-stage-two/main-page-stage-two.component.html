@@ -9,13 +9,18 @@
     </header>
     <form>
         <input class="stage-two-input-form"
-        type="text" maxlength="64" 
-        autocomplete="off" required="required" 
+        type="text" 
+        maxlength="30" 
+        autocomplete="off" 
+        required="required" 
         placeholder="Enter participant's name"
-        value="" #userName 
+        value="" 
+        #userName 
         (input)="userNameCheck(userName.value)">
-        <button type="button" class="stage-two-button-add-user"
-        [disabled]="isDisabled" (click)="addUserToMeeting(userName.value);">
+        <button type="button" 
+        class="stage-two-button-add-user"
+        [disabled]="isDisabled" 
+        (click)="addUserToMeeting(userName.value);">
             Add participant
         </button>
     </form>
@@ -34,8 +39,12 @@
         Use this link to share the meeting:
     </label>
     <div class="stage-two-link-share">
-        <input class="stage-two-link-share-form" type="text" 
-        value="{{displayLink()}}">
+        <input class="stage-two-link-share-form" 
+        type="text" 
+        readonly
+        value="{{displayLink()}}"
+        #link
+        (click)="link.select()">
         <button class="stage-two-link-share-button" (click)="copyLink()">
             Copy link
         </button>    

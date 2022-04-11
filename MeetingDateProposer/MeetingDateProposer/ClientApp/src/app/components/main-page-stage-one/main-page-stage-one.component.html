@@ -12,10 +12,15 @@
     </header>
     <form>
         <input (input)="meetingTitleCheck(meetingName.value)" 
-        type="text" placeholder="Enter meeting title" maxlength="64" 
-        autocomplete="off" required="required" 
-        class="stage-one-input-form" #meetingName>
-        <button type="button" [disabled]="isDisabled" 
+        type="text" 
+        placeholder="Enter meeting title" 
+        maxlength="100" 
+        autocomplete="off" 
+        required="required" 
+        class="stage-one-input-form" 
+        #meetingName>
+        <button type="button" 
+        [disabled]="isDisabled" 
         class="stage-one-button-continue"
         (click)="createMeeting(meetingName.value)">
             Continue
