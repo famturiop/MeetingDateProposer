@@ -1,6 +1,7 @@
 ﻿using MeetingDateProposer.Domain.Models.AccountModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MeetingDateProposer.Domain.Models.ApplicationModels
 {
@@ -19,5 +20,21 @@ namespace MeetingDateProposer.Domain.Models.ApplicationModels
         public Guid? AccountUserId { get; set; }
 
         public AccountUser AccountUser { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var user = obj as ApplicationUser;
+            if (user == null)
+                return false;
+            return user.Name == Name && 
+                   user.Calendars.TrueForAll(x => Calendars.Any(y => x.Equals(y)));
+        }
+
+        public override int GetHashCode()
+        {
+            int calendarsHash = 0;
+            Calendars.ForEach(c => calendarsHash += c.GetHashCode());
+            return Name.GetHashCode() * calendarsHash;
+        }
     }
 }
