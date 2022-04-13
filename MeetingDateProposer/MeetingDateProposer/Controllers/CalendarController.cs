@@ -1,16 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mime;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.BusinessLayer.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MeetingDateProposer.Domain.Models.ApplicationModels;
 using MeetingDateProposer.Models.AccountApiModels;
 using MeetingDateProposer.Models.ApplicationApiModels;
 
@@ -36,27 +32,23 @@ namespace MeetingDateProposer.Controllers
             _mapper = mapper;
         }
 
-        [HttpPut]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUserApiModel>> AddCalendarToUserAsync(
+        public async Task<ActionResult<ApplicationUserApiModel>> AddGoogleCalendarToUser(
             string authorizationCode,
             Guid userId)
         {
-            var user = await _userService.GetUserByIdFromDbAsync(userId);
+            var user = await _userService.GetUserAsync(userId);
+            if (user == null)
+                return NotFound();
+
             var calendar = await _calendar.GetCalendarAsync(authorizationCode, userId);
 
-            if (user.Calendars == null)
-            {
-                user.Calendars = new List<Calendar> { calendar };
-            }
-            else
-            {
-                user.Calendars.Add(calendar);
-            }
-
-            await _userService.UpdateUserAsync(userId);
+            await _userService.AddCalendarToUserAsync(user, calendar);
             var userViewModel = _mapper.Map<ApplicationUserApiModel>(user);
+
             return Ok(userViewModel);
         }
     }

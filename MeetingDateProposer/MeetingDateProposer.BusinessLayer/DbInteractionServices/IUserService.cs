@@ -6,13 +6,13 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {
     public interface IUserService
     {
-        public Task AddUserToDbAsync(ApplicationUser user);
+        public Task CreateUserAsync(ApplicationUser user);
 
-        public Task RemoveUserFromDbAsync(Guid id);
+        public Task DeleteUserAsync(Guid id);
 
-        public Task<ApplicationUser> GetUserByIdFromDbAsync(Guid id);
+        public Task<ApplicationUser> GetUserAsync(Guid id);
 
-        public Task UpdateUserAsync(Guid id);
+        public Task AddCalendarToUserAsync(ApplicationUser user, Calendar calendar);
 
     }
 }

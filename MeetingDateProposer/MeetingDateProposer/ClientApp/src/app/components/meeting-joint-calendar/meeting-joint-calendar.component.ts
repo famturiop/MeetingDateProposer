@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnChanges, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { Observable } from 'rxjs';
-import { ApiUserMeetingInteractionService } from 'src/app/api-services/api-user-meeting-interaction.service';
+import { ApiCalculatorService } from 'src/app/api-services/api-calculator.service';
 import { IMeeting } from 'src/app/models/meeting.model';
 import { PlacementArray } from 'positioning';
 
@@ -24,7 +24,7 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
   public readonly weekStartsOn: number = 1;
   private readonly viewSwitchInnerWidth: number = 450;
 
-  constructor(private apiUserMeetingInteractionService: ApiUserMeetingInteractionService,
+  constructor(private apiUserMeetingInteractionService: ApiCalculatorService,
     private window: Window) {
   
   }

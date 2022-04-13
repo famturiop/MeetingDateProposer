@@ -6,9 +6,9 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
 {
     public interface IMeetingService
     {
-        public Task AddMeetingToDbAsync(Meeting meeting);
+        public Task CreateMeetingAsync(Meeting meeting);
 
-        public Task<Meeting> GetMeetingByIdFromDbAsync(Guid id);
+        public Task<Meeting> GetMeetingAsync(Guid id);
 
         public Task AddUserToMeetingAsync(ApplicationUser user, Meeting meeting);
 

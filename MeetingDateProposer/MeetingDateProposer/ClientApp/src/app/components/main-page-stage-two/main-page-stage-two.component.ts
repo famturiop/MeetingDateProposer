@@ -55,7 +55,7 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
 
   addUserToMeeting(userName: string): void {
     this.createUser(userName).pipe(switchMap(user => {
-      return this.apiMeetingService.updateMeeting(user,this.meeting);
+      return this.apiMeetingService.addUserToMeeting(user,this.meeting);
     })).subscribe((response) => {
       this.meetingService.updateMeeting(response);
     },
@@ -73,7 +73,7 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
     let meeting = Object.assign({},this.meeting);
     this.meeting.connectedUsers.forEach((user,userIndex) => {
       if (user.id === userId){
-        this.apiUserService.updateUser(user,code as string).subscribe((response) => {
+        this.apiUserService.addGoogleCalendarToUser(user,code as string).subscribe((response) => {
           meeting.connectedUsers[userIndex] = response;
           this.meetingService.updateMeeting(meeting);
         },

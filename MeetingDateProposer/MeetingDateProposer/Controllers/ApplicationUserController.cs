@@ -31,34 +31,42 @@ namespace MeetingDateProposer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUserApiModel>> GetUserByIdAsync(Guid userId)
+        public async Task<ActionResult<ApplicationUserApiModel>> GetUserById(Guid userId)
         {
-            var user = await _userService.GetUserByIdFromDbAsync(userId);
+            var user = await _userService.GetUserAsync(userId);
             if (user == null)
-            {
                 return NotFound();
-            }
-            var userViewModel = _mapper.Map<ApplicationUserApiModel>(user);
-            return Ok(userViewModel);
+
+            var userApiModel = _mapper.Map<ApplicationUserApiModel>(user);
+
+            return Ok(userApiModel);
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUserApiModel>> CreateUserAsync(
+        public async Task<ActionResult<ApplicationUserApiModel>> CreateUser(
             ApplicationUserApiModel userApiModel)
         {
             var user = _mapper.Map<ApplicationUser>(userApiModel);
-            await _userService.AddUserToDbAsync(user);
-            var userViewModel = _mapper.Map<ApplicationUserApiModel>(user);
-            return Ok(userViewModel);
+            await _userService.CreateUserAsync(user);
+            userApiModel = _mapper.Map<ApplicationUserApiModel>(user);
+
+            return CreatedAtAction(nameof(GetUserById), new { userId = user.Id }, userApiModel);
         }
 
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> DeleteUserAsync(Guid userId)
+        public async Task<ActionResult> DeleteUser(Guid userId)
         {
-            await _userService.RemoveUserFromDbAsync(userId);
+            var user = await _userService.GetUserAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            await _userService.DeleteUserAsync(userId);
+
             return Ok();
         }
     }
