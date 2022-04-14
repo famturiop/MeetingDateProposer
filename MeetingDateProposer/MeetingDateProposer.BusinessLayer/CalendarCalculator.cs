@@ -53,7 +53,7 @@ namespace MeetingDateProposer.BusinessLayer
         {
             if (calendarList.Any(x => x.EventStart > x.EventEnd))
             {
-                throw new Exception("An event with start time later than end time was detected.");
+                throw new ArgumentException("An event with start time later than end time was detected.");
             }
         }
 
