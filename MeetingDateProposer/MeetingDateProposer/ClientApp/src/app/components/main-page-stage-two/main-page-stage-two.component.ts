@@ -16,13 +16,14 @@ import { switchMap } from 'rxjs/operators';
 })
 export class MainPageStageTwoComponent implements OnInit, OnDestroy {
 
-  public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
+  public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
   private meetingSubscription: Subscription;
   public isDisabled: boolean = true;
   public addCalendarIsVisible: boolean = false;
   public readonly iconUrl: string = "/assets/Google_Calendar_icon_(2020).svg";
 
-  constructor(private meetingService: MeetingService,
+  constructor(
+    private meetingService: MeetingService,
     private apiMeetingService: ApiMeetingService,
     private apiUserService: ApiUserService,
     private clipboard: Clipboard,
@@ -31,25 +32,19 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
       this.meetingSubscription = this.meetingService.currentMeeting.subscribe(meeting => {
         this.meeting = meeting;
       });
-     }
+  }
 
   ngOnInit(): void {
-    if (this.meeting.id === "00000000-0000-0000-0000-000000000000") {
+    if (this.meeting.id === "") {
       this.meeting.id = this.router.url.split("/")[2];
       this.apiMeetingService.getMeeting(this.meeting).subscribe((response) => {
         this.meetingService.updateMeeting(response);
-      },
-      (error) => {
-  
-      },
-      ()=>{
-
       });
     }
   }
 
   private createUser(userName: string): Observable<IUser> {
-    let user: IUser = {calendars:[], id:"00000000-0000-0000-0000-000000000000", name: userName};
+    let user: IUser = {calendars:[], id:"", name: userName};
     return this.apiUserService.createUser(user);
   }
 
@@ -58,12 +53,6 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
       return this.apiMeetingService.addUserToMeeting(user,this.meeting);
     })).subscribe((response) => {
       this.meetingService.updateMeeting(response);
-    },
-    (error) => {
-
-    },
-    ()=>{
-
     });
   }
 
@@ -76,12 +65,6 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
         this.apiUserService.addGoogleCalendarToUser(user,code as string).subscribe((response) => {
           meeting.connectedUsers[userIndex] = response;
           this.meetingService.updateMeeting(meeting);
-        },
-        (error) => {
-          
-        },
-        ()=>{
-    
         });
       }
     })

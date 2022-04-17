@@ -8,7 +8,7 @@ namespace MeetingDateProposer.Models.ApplicationApiModels
     {
         public List<CalendarApiModel> Calendars { get; set; }
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [MaxLength(ValidationRules.ApplicationUserNameMaxLength)]

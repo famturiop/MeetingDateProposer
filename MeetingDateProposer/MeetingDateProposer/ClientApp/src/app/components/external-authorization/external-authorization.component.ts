@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-external-authorization',
@@ -8,7 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ExternalAuthorizationComponent implements OnInit {
 
-  constructor(private activeRoute: ActivatedRoute, private window: Window) { }
+  constructor(private activeRoute: ActivatedRoute, private window: Window) { 
+  }
 
   ngOnInit(): void {
     this.activeRoute.queryParamMap.subscribe(params => {

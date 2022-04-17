@@ -3,7 +3,6 @@ import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { Observable } from 'rxjs';
 import { ApiCalculatorService } from 'src/app/api-services/api-calculator.service';
 import { IMeeting } from 'src/app/models/meeting.model';
-import { PlacementArray } from 'positioning';
 
 @Component({
   selector: 'app-meeting-joint-calendar',
@@ -12,19 +11,18 @@ import { PlacementArray } from 'positioning';
 })
 export class MeetingJointCalendarComponent implements OnInit, OnChanges {
 
-  @Input() public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
+  @Input() public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
   public viewDate: Date = new Date();
   public displayCalendar: CalendarEvent[] = [];
   public view: CalendarView = CalendarView.Week;
   public calendarView = CalendarView;
   public readonly minimumEventHeight = 0;
-
   public focusedEvent: CalendarEvent = {start: new Date(), title: ""};
   public calEventDetailsIsActive: boolean = false;
   public readonly weekStartsOn: number = 1;
   private readonly viewSwitchInnerWidth: number = 450;
 
-  constructor(private apiUserMeetingInteractionService: ApiCalculatorService,
+  constructor(private apiCalculatorService: ApiCalculatorService,
     private window: Window) {
   
   }
@@ -39,7 +37,7 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
   }
 
   private calculateAvailableMeetingTime(): Observable<CalendarEvent[]> {
-    return this.apiUserMeetingInteractionService.getAvailableMeetingTime(this.meeting);
+    return this.apiCalculatorService.getAvailableMeetingTime(this.meeting);
   }
 
   private inverseCalendar(calendar: CalendarEvent[]): CalendarEvent[] {
@@ -71,9 +69,5 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
   eventClicked({ event }: { event: CalendarEvent }): void {
     this.calEventDetailsIsActive = true;
     this.focusedEvent = event;
-  }
-
-  ngOnDestroy(): void {
-
   }
 }

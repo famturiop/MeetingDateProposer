@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiMeetingService } from 'src/app/api-services/api-meeting.service';
 import { MeetingService } from 'src/app/services/meeting.service';
 import { IMeeting } from 'src/app/models/meeting.model';
@@ -12,14 +11,14 @@ import { IMeeting } from 'src/app/models/meeting.model';
 })
 export class MainPageStageOneComponent implements OnInit {
 
-  public meeting: IMeeting = {id: "00000000-0000-0000-0000-000000000000", connectedUsers: [], name: ""};
+  public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
   public isDisabled: boolean = true;
 
-  constructor(private route: ActivatedRoute, 
-    private location: Location, 
+  constructor( 
     private apiMeetingService: ApiMeetingService,
     private router: Router,
-    private meetingService: MeetingService) {  }
+    private meetingService: MeetingService) {  
+    }
 
   ngOnInit(): void {
   }
@@ -28,11 +27,6 @@ export class MainPageStageOneComponent implements OnInit {
     this.meeting.name = meetingName;
     this.apiMeetingService.createMeeting(this.meeting).subscribe((response) => {
       this.meeting = response;
-    },
-    (error) => {
-
-    },
-    ()=>{
       this.meetingService.updateMeeting(this.meeting);
       this.router.navigate(['/stageTwo',this.meeting.id]);
     });

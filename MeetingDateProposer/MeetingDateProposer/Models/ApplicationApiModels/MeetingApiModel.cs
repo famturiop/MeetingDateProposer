@@ -6,7 +6,7 @@ namespace MeetingDateProposer.Models.ApplicationApiModels
 {
     public class MeetingApiModel
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public List<ApplicationUserApiModel> ConnectedUsers { get; set; }
 

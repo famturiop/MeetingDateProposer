@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-top-navbar',
@@ -7,12 +7,11 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class TopNavbarComponent implements OnInit {
 
+  public readonly imageUrl: string = "/assets/icon.svg";
+  
   constructor() { }
-
-  imageUrl: string = "/assets/icon.svg";
 
   ngOnInit(): void {
 
   }
-
 }

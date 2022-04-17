@@ -19,7 +19,8 @@ export class OpenNewWindowService {
     const redirectUri: string = this.settings.redirectUri;
     const scope: string = this.settings.scope;
     const flowName: string = this.settings.flowName;
-    return `${authEndpoint}?access_type=${accessType}&response_type=${responseType}&state=${state}&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&flowName=${flowName}`;
+    return `${authEndpoint}?access_type=${accessType}&response_type=${responseType}&state=${state}&client_id=` +
+      `${clientId}&redirect_uri=${redirectUri}&scope=${scope}&flowName=${flowName}`;
   }
 
   openNewWindow(url: string, name: string): void {
