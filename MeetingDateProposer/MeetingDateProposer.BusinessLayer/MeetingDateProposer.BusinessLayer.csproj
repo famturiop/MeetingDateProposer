@@ -1,11 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.54.0.2410" />
+    <PackageReference Include="Duende.IdentityServer.EntityFramework.Storage" Version="6.0.4" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.57.0.2647" />
   </ItemGroup>
 
   <ItemGroup>

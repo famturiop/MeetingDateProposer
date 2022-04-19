@@ -1,10 +1,10 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:59075",
-      "sslPort": 44343
+      "applicationUrl": "http://localhost:54678/",
+      "sslPort": 44360
     }
   },
   "profiles": {
@@ -18,10 +18,10 @@
     "MeetingDateProposer": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44343;http://localhost:44344",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:44343;http://localhost:44344"
     }
   }
 }

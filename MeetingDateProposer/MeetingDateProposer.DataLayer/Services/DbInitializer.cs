@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
-using IdentityServer4.Extensions;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 namespace MeetingDateProposer.DataLayer.Services
@@ -29,7 +27,7 @@ namespace MeetingDateProposer.DataLayer.Services
         public void Initialize()
         {
             var migrations = _appContext.Database.GetPendingMigrations().ToList();
-            if (!migrations.IsNullOrEmpty())
+            if (migrations.Count > 0)
             {
                 _appContext.Database.Migrate();
                 _logger.LogInformation("Applied {1} pending migrations to the database.", migrations.Count);
