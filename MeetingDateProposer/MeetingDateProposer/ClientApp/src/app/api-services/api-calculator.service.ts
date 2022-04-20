@@ -21,7 +21,7 @@ export class ApiCalculatorService {
      }
   
   getAvailableMeetingTime(meeting: IMeeting): Observable<CalendarEvent[]> {
-    const url = `${this.baseURL}/api/CalculateMeetingTimeAsync?meetingId=${meeting.id}`;
+    const url = `${this.baseURL}/api/CalculateMeetingTime?meetingId=${meeting.id}`;
 
     return this.http.get<ICalendar>(url)
     .pipe(map(this.toAvailableTime))

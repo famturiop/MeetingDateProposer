@@ -27,7 +27,7 @@ namespace MeetingDateProposer.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RegisterAsync(RegisterApiModel model)
+        public async Task<IActionResult> Register(RegisterApiModel model)
         {
             if (ModelState.IsValid)
             {
@@ -56,7 +56,7 @@ namespace MeetingDateProposer.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> LoginAsync(LoginApiModel model)
+        public async Task<IActionResult> Login(LoginApiModel model)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace MeetingDateProposer.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> LogoutAsync()
+        public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return Ok();

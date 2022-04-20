@@ -32,7 +32,7 @@ namespace MeetingDateProposer.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateAsync(string name)
+        public async Task<IActionResult> Create(string name)
         {
             if (!string.IsNullOrEmpty(name))
             {
@@ -55,7 +55,7 @@ namespace MeetingDateProposer.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAsync(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             IdentityRole<Guid> role = await _roleManager.FindByIdAsync(id);
             if (role != null)
@@ -69,7 +69,7 @@ namespace MeetingDateProposer.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> EditAsync(string userId, List<string> roles)
+        public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user != null)

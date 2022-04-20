@@ -32,7 +32,7 @@ namespace MeetingDateProposer.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CalendarApiModel>> CalculateMeetingTimeAsync(Guid meetingId)
+        public async Task<ActionResult<CalendarApiModel>> CalculateMeetingTime(Guid meetingId)
         {
             var meeting = await _meetingService.GetMeetingAsync(meetingId);
             if (meeting == null)
