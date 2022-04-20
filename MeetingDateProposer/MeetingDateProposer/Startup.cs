@@ -1,10 +1,5 @@
-using MeetingDateProposer.BusinessLayer;
-using MeetingDateProposer.BusinessLayer.DbInteractionServices;
-using MeetingDateProposer.BusinessLayer.Providers;
 using MeetingDateProposer.DataLayer;
-using MeetingDateProposer.DataLayer.Services;
 using MeetingDateProposer.Domain.Models.AccountModels;
-using MeetingDateProposer.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -13,11 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using Google.Apis.Calendar.v3.Data;
-using MeetingDateProposer.BusinessLayer.Formatters;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Newtonsoft.Json;
+using MeetingDateProposer.Extensions;
+using MeetingDateProposer.Mapper;
 
 namespace MeetingDateProposer
 {
@@ -30,44 +23,35 @@ namespace MeetingDateProposer
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:4200")
-                            .AllowAnyMethod()
-                            .AllowAnyHeader()
-                            .AllowAnyOrigin();
-                    });
-            });
-
-            services.AddControllers(options =>
-                    options.SuppressAsyncSuffixInActionNames = false)
-                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling
-                    = ReferenceLoopHandling.Ignore);
-            // In production, the Angular files will be served from this directory
+                services.AddCors(options =>
+                {
+                    options.AddDefaultPolicy(
+                        builder =>
+                        {
+                            builder.WithOrigins("http://localhost:4200")
+                                .AllowAnyMethod()
+                                .AllowAnyHeader()
+                                .AllowAnyOrigin();
+                        });
+                });
+                services.AddSwaggerGen();
+            }
+            
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddSwaggerGen();
-
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IMeetingService, MeetingService>();
-            services.AddScoped<ICalendarProvider, GoogleCalendarProvider>();
-            services.AddScoped<ICalendarEventFormatter<IList<Event>>, GoogleCalendarEventFormatter>();
-            services.AddScoped<ICalendarCalculator, CalendarCalculator>();
-            services.AddScoped<IDbInitializer, DbInitializer>();
+            services.AddServices();
 
             services.AddDbContext<ApplicationContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(OrganizationProfile));
 
             services.AddIdentity<AccountUser, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationContext>();
@@ -76,39 +60,36 @@ namespace MeetingDateProposer
             services.AddControllersWithViews();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors();
-
             if (env.IsDevelopment())
             {
+                app.UseCors();
                 app.UseDeveloperExceptionPage();
                 app.InitializeDbAndSeed();
             }
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
             }
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
+            if (env.IsDevelopment())
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                });
+            }
 
             app.UseRouting();
 
@@ -123,14 +104,10 @@ namespace MeetingDateProposer
 
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
                 {
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });

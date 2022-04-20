@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MeetingDateProposer.Utilities
+namespace MeetingDateProposer.Extensions
 {
-    public static class Extensions
+    public static class ApplicationBuilderExtensions
     {
         public static void InitializeDbAndSeed(this IApplicationBuilder app)
         {

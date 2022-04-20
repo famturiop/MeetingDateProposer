@@ -3,7 +3,7 @@ using AutoMapper;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using MeetingDateProposer.Models.ApplicationApiModels;
 
-namespace MeetingDateProposer.Utilities
+namespace MeetingDateProposer.Mapper
 {
     public class OrganizationProfile: Profile
     {

@@ -25,9 +25,15 @@ namespace MeetingDateProposer
                 {
                     logger.ClearProviders();
                     logger.AddConfiguration(context.Configuration.GetSection("Logging"));
-                    logger.AddConsole();
-                    logger.AddDebug();
-                    logger.AddAzureWebAppDiagnostics();
+                    if (context.HostingEnvironment.IsDevelopment())
+                    {
+                        logger.AddConsole();
+                        logger.AddDebug();
+                    }
+                    else
+                    {
+                        logger.AddAzureWebAppDiagnostics();
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
