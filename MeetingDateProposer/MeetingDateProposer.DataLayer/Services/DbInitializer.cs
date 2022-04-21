@@ -1,27 +1,28 @@
 ﻿using MeetingDateProposer.Domain.Models.AccountModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
+using MeetingDateProposer.DataLayer.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace MeetingDateProposer.DataLayer.Services
 {
     public class DbInitializer : IDbInitializer
     {
         private readonly ApplicationContext _appContext;
-        private readonly IConfiguration _configuration;
         private readonly ILogger<DbInitializer> _logger;
+        private readonly IOptions<SeededUsersOptions> _options;
 
         public DbInitializer(
-            ApplicationContext appContext, 
-            IConfiguration configuration,
-            ILogger<DbInitializer> logger)
+            ApplicationContext appContext,
+            ILogger<DbInitializer> logger,
+            IOptions<SeededUsersOptions> options)
         {
             _appContext = appContext;
-            _configuration = configuration;
             _logger = logger;
+            _options = options;
         }
 
         public void Initialize()
@@ -52,13 +53,13 @@ namespace MeetingDateProposer.DataLayer.Services
             var pass = new PasswordHasher<AccountUser>();
             var admin = new AccountUser
             {
-                Email = _configuration["admin:Email"],
+                Email = _options.Value.Email,
                 EmailConfirmed = true,
                 Id = Guid.NewGuid(),
-                UserName = _configuration["admin:UserName"],
-                PasswordHash = pass.HashPassword(new AccountUser(), _configuration["admin:Password"]),
-                NormalizedUserName = _configuration["admin:NormalizedUserName"],
-                NormalizedEmail = _configuration["admin:NormalizedEmail"],
+                UserName = _options.Value.UserName,
+                PasswordHash = pass.HashPassword(new AccountUser(), _options.Value.Password),
+                NormalizedUserName = _options.Value.UserName.ToUpper(),
+                NormalizedEmail = _options.Value.Email.ToUpper(),
                 LockoutEnabled = true,
                 SecurityStamp = Guid.NewGuid().ToString()
             };

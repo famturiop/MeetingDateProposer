@@ -2,16 +2,15 @@
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using MeetingDateProposer.Domain.Models.ApplicationModels;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2.Flows;
 using MeetingDateProposer.BusinessLayer.Formatters;
-using Microsoft.EntityFrameworkCore.Internal;
+using MeetingDateProposer.BusinessLayer.Options;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Calendar = MeetingDateProposer.Domain.Models.ApplicationModels.Calendar;
 
 namespace MeetingDateProposer.BusinessLayer.Providers
@@ -19,14 +18,14 @@ namespace MeetingDateProposer.BusinessLayer.Providers
     public class GoogleCalendarProvider : ICalendarProvider
     {
         private readonly ICalendarEventFormatter<IList<Event>> _calendarEventFormatter;
-        private readonly IConfiguration _configuration;
+        private readonly IOptions<ApiKeysOptions> _options;
 
         public GoogleCalendarProvider(
             ICalendarEventFormatter<IList<Event>> calendarEventFormatter,
-            IConfiguration configuration)
+            IOptions<ApiKeysOptions> options)
         {
             _calendarEventFormatter = calendarEventFormatter;
-            _configuration = configuration;
+            _options = options;
         }
 
         public async Task<Calendar> GetCalendarAsync(string authorizationCode, Guid userId)
@@ -46,9 +45,9 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             string authorizationCode, 
             Guid userId)
         {
-            var clientId = _configuration["googleCredentials:client_id"];
-            var clientSecret = _configuration["googleCredentials:client_secret"];
-            var redirectUri = _configuration["googleCredentials:redirect_uris"];
+            var clientId = _options.Value.ClientId;
+            var clientSecret = _options.Value.ClientSecret;
+            var redirectUri = _options.Value.RedirectUri;
 
             var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(
                 new GoogleAuthorizationCodeFlow.Initializer
@@ -78,7 +77,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             var service = new CalendarService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
-                ApplicationName = _configuration["googleCredentials:project_id"]
+                ApplicationName = _options.Value.ProjectId
             });
 
             var request = service.Events.List("primary");

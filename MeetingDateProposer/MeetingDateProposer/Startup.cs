@@ -48,6 +48,8 @@ namespace MeetingDateProposer
 
             services.AddServices();
 
+            services.ConfigureOptions(Configuration);
+
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
