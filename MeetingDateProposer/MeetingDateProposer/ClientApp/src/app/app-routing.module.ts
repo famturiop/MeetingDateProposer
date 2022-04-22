@@ -7,6 +7,7 @@ import { MainPageStageTwoComponent } from './components/main-page-stage-two/main
 import { AboutPageComponent } from './components/about-page/about-page.component';
 import { BottomOutlineComponent } from './components/bottom-outline/bottom-outline.component';
 import { ExternalAuthorizationComponent } from './components/external-authorization/external-authorization.component';
+import { ErrorComponent } from './components/error/error.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: 'stageTwo/:id', component: MainPageStageTwoComponent},
   {path: 'about', component: AboutPageComponent},
   {path: 'stageOne', component: MainPageStageOneComponent},
-  {path: 'authorize', component: ExternalAuthorizationComponent}
+  {path: 'authorize', component: ExternalAuthorizationComponent},
+  {path: '**', component: ErrorComponent}
 ]
 
 

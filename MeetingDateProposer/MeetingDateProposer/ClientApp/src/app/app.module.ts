@@ -16,6 +16,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MeetingJointCalendarComponent } from './components/meeting-joint-calendar/meeting-joint-calendar.component';
 import { ConnectedUserCardComponent } from './components/connected-user-card/connected-user-card.component';
+import { ErrorComponent } from './components/error/error.component';
 
 export function initializeApp(appConfigService: AppConfigService) {
   return (): Promise<any> => { 
@@ -34,7 +35,8 @@ export function initializeApp(appConfigService: AppConfigService) {
     MessagesComponent,
     ExternalAuthorizationComponent,
     MeetingJointCalendarComponent,
-    ConnectedUserCardComponent
+    ConnectedUserCardComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
