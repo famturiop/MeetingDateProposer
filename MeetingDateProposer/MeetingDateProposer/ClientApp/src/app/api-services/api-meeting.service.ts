@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AppConfigService } from '../app-config.service';
 import { IMeeting } from '../models/meeting.model';
 import { IUser } from '../models/user.model';
 import { MessageService } from '../services/message.service';
@@ -12,15 +11,14 @@ import { MessageService } from '../services/message.service';
 })
 export class ApiMeetingService {
 
-  private readonly baseURL: string = AppConfigService.settings.backEndpoint;
-
   constructor(private http: HttpClient,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    @Inject('BASE_URL') private baseUrl: string) {
 
      }
 
   createMeeting(meeting: IMeeting): Observable<IMeeting> {
-    const url = `${this.baseURL}/api/CreateMeeting`;
+    const url = `${this.baseUrl}/api/CreateMeeting`;
     const headers = { 'content-type': 'application/json'};
     const body = JSON.stringify(meeting);
 
@@ -29,14 +27,14 @@ export class ApiMeetingService {
   }
 
   getMeeting(meeting: IMeeting): Observable<IMeeting> {
-    const url = `${this.baseURL}/api/GetMeetingById?meetingId=${meeting.id}`;
+    const url = `${this.baseUrl}/api/GetMeetingById?meetingId=${meeting.id}`;
 
     return this.http.get<IMeeting>(url)
     .pipe(catchError(this.handleError<IMeeting>()));
   }
 
   addUserToMeeting(user: IUser, meeting: IMeeting): Observable<IMeeting> {
-    const url = `${this.baseURL}/api/AddUserToMeeting?meetingId=${meeting.id}`;
+    const url = `${this.baseUrl}/api/AddUserToMeeting?meetingId=${meeting.id}`;
     const headers = { 'content-type': 'application/json'};
     const body = JSON.stringify(user);
 

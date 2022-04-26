@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ApiUserService } from 'src/app/api-services/api-user.service';
 import { IUser } from 'src/app/models/user.model';
 import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
 
@@ -14,16 +15,20 @@ export class ConnectedUserCardComponent implements OnInit {
   public addCalendarIsVisible: boolean = false;
   public readonly iconUrl: string = "/assets/Google_Calendar_icon_(2020).svg";
 
-  constructor(private newWindow: OpenNewWindowService) {
+  constructor(
+    private newWindow: OpenNewWindowService,
+    private apiUserService: ApiUserService) {
   }
 
   ngOnInit(): void {
   }
 
   addCalendarToUser(user: IUser): void {
-    const url = this.newWindow.buildURL(user);
-    const name = "";
-    this.newWindow.openNewWindow(url,name);
+    this.apiUserService.getAuthorizationCodeRequest(user).subscribe((response) => {
+      const url = response;
+      const name = "";
+      this.newWindow.openNewWindow(url,name);
+    })
   }
 
   addCalendarVisibility(): void {

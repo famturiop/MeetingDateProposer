@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AppConfigService } from '../app-config.service';
 import { IUser } from '../models/user.model';
 import { MessageService } from '../services/message.service';
 
@@ -11,24 +10,29 @@ import { MessageService } from '../services/message.service';
 })
 export class ApiUserService {
 
-  private readonly baseURL: string = AppConfigService.settings.backEndpoint;
-
   constructor(private http: HttpClient,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    @Inject('BASE_URL') private baseUrl: string) {
 
      }
      
   createUser(user: IUser): Observable<IUser> {
     const headers = { 'content-type': 'application/json'};
     const body = JSON.stringify(user);
-    const url = `${this.baseURL}/api/CreateUser`;
+    const url = `${this.baseUrl}/api/CreateUser`;
 
     return this.http.post<IUser>(url,body,{'headers':headers})
     .pipe(catchError(this.handleError<IUser>()));
   }
 
+  getAuthorizationCodeRequest(user: IUser): Observable<string> {
+    const url = `${this.baseUrl}/api/GetAuthorizationCodeRequest?userId=${user.id}`;
+
+    return this.http.get<string>(url).pipe(catchError(this.handleError<string>()));
+  }
+
   addGoogleCalendarToUser(user: IUser, authorizationCode: string): Observable<IUser> {
-    const url = `${this.baseURL}/api/AddGoogleCalendarToUser?` +
+    const url = `${this.baseUrl}/api/AddGoogleCalendarToUser?` +
     `authorizationCode=${authorizationCode}&userId=${user.id}`;
 
     return this.http.post<IUser>(url,"")

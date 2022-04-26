@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { AppConfigService } from '../app-config.service';
 import { ICalendar } from '../models/calendar.model';
 import { IMeeting } from '../models/meeting.model';
 import { MessageService } from '../services/message.service';
@@ -13,15 +12,14 @@ import { MessageService } from '../services/message.service';
 })
 export class ApiCalculatorService {
 
-  private readonly baseURL: string = AppConfigService.settings.backEndpoint;
-
   constructor(private http: HttpClient,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    @Inject('BASE_URL') private baseUrl: string) {
 
      }
   
   getAvailableMeetingTime(meeting: IMeeting): Observable<CalendarEvent[]> {
-    const url = `${this.baseURL}/api/CalculateMeetingTime?meetingId=${meeting.id}`;
+    const url = `${this.baseUrl}/api/CalculateMeetingTime?meetingId=${meeting.id}`;
 
     return this.http.get<ICalendar>(url)
     .pipe(map(this.toAvailableTime))
