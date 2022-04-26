@@ -32,6 +32,18 @@ namespace MeetingDateProposer.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [AllowAnonymous]
+        public ActionResult<Uri> GetAuthorizationCodeRequest(Guid userId)
+        {
+            if (userId == Guid.Empty)
+                return BadRequest();
+
+            return Ok(_calendar.GetAuthorizationCodeRequest(userId));
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
