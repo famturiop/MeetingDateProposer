@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2.Flows;
 using MeetingDateProposer.BusinessLayer.Formatters;
 using MeetingDateProposer.BusinessLayer.Options;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Calendar = MeetingDateProposer.Domain.Models.ApplicationModels.Calendar;
 
@@ -18,14 +17,45 @@ namespace MeetingDateProposer.BusinessLayer.Providers
     public class GoogleCalendarProvider : ICalendarProvider
     {
         private readonly ICalendarEventFormatter<IList<Event>> _calendarEventFormatter;
-        private readonly IOptions<ApiKeysOptions> _options;
+        private readonly string _redirectUri;
+        private readonly string _projectId;
+        private readonly GoogleAuthorizationCodeFlow.Initializer _authorizationCodeFlowInitializer;
 
         public GoogleCalendarProvider(
             ICalendarEventFormatter<IList<Event>> calendarEventFormatter,
-            IOptions<ApiKeysOptions> options)
+            IOptions<ApiKeysOptions> apiKeysOptions,
+            IOptions<CalendarOptions> calendarOptions)
         {
             _calendarEventFormatter = calendarEventFormatter;
-            _options = options;
+            _redirectUri = calendarOptions.Value.RedirectUri;
+            _projectId = calendarOptions.Value.ProjectId;
+
+            _authorizationCodeFlowInitializer = new GoogleAuthorizationCodeFlow.Initializer
+            {
+                ClientSecrets = new ClientSecrets
+                {
+                    ClientId = apiKeysOptions.Value.ClientId,
+                    ClientSecret = apiKeysOptions.Value.ClientSecret
+                },
+                Scopes = new[]
+                {
+                    CalendarService.Scope.CalendarReadonly
+                },
+                ProjectId = calendarOptions.Value.ProjectId
+            };
+        }
+
+        public Uri GetAuthorizationCodeRequest(Guid userId)
+        {
+            _authorizationCodeFlowInitializer.UserDefinedQueryParams = new[]
+            {
+                new KeyValuePair<string, string>("state", userId.ToString())
+            };
+
+            var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(_authorizationCodeFlowInitializer);
+
+            return authorizationCodeFlow.CreateAuthorizationCodeRequest(_redirectUri).Build();
+
         }
 
         public async Task<Calendar> GetCalendarAsync(string authorizationCode, Guid userId)
@@ -45,28 +75,13 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             string authorizationCode, 
             Guid userId)
         {
-            var clientId = _options.Value.ClientId;
-            var clientSecret = _options.Value.ClientSecret;
-            var redirectUri = _options.Value.RedirectUri;
+            var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(_authorizationCodeFlowInitializer);
 
-            var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(
-                new GoogleAuthorizationCodeFlow.Initializer
-            {
-                ClientSecrets = new ClientSecrets()
-                {
-                    ClientId = clientId,
-                    ClientSecret = clientSecret
-                },
-                Scopes = new[]
-                {
-                    CalendarService.Scope.CalendarReadonly
-                }
-            });
 
             var tokenResponse = await authorizationCodeFlow.ExchangeCodeForTokenAsync(
                 userId.ToString(),
                 authorizationCode,
-                redirectUri,
+                _redirectUri,
                 CancellationToken.None);
 
             return new UserCredential(authorizationCodeFlow, userId.ToString(), tokenResponse);
@@ -77,7 +92,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             var service = new CalendarService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
-                ApplicationName = _options.Value.ProjectId
+                ApplicationName = _projectId
             });
 
             var request = service.Events.List("primary");
