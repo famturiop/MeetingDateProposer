@@ -30,6 +30,8 @@ namespace MeetingDateProposer.Extensions
                 configuration.GetSection(SeededUsersOptions.Admin).Bind(options));
             services.Configure<ApiKeysOptions>(options =>
                 configuration.GetSection(ApiKeysOptions.GoogleCalendarApiKeys).Bind(options));
+            services.Configure<CalendarOptions>(options =>
+                configuration.GetSection(CalendarOptions.GoogleCalendar).Bind(options));
         }
     }
 }
