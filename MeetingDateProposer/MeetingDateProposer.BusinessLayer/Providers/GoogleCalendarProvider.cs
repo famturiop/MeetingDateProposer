@@ -52,7 +52,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
                 new KeyValuePair<string, string>("state", userId.ToString())
             };
 
-            var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(_authorizationCodeFlowInitializer);
+            using var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(_authorizationCodeFlowInitializer);
 
             return authorizationCodeFlow.CreateAuthorizationCodeRequest(_redirectUri).Build();
 
@@ -60,7 +60,8 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 
         public async Task<Calendar> GetCalendarAsync(string authorizationCode, Guid userId)
         {
-            var credential = await ExchangeCodeForTokenAsync(authorizationCode, userId);
+            using var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(_authorizationCodeFlowInitializer);
+            var credential = await ExchangeCodeForTokenAsync(authorizationCodeFlow, authorizationCode, userId);
             var events = await GetCalendarEventsAsync(credential);
             
             var calendar = new Calendar
@@ -72,12 +73,10 @@ namespace MeetingDateProposer.BusinessLayer.Providers
         }
 
         private async Task<UserCredential> ExchangeCodeForTokenAsync(
+            GoogleAuthorizationCodeFlow authorizationCodeFlow,
             string authorizationCode, 
             Guid userId)
         {
-            var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(_authorizationCodeFlowInitializer);
-
-
             var tokenResponse = await authorizationCodeFlow.ExchangeCodeForTokenAsync(
                 userId.ToString(),
                 authorizationCode,
@@ -87,9 +86,9 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             return new UserCredential(authorizationCodeFlow, userId.ToString(), tokenResponse);
         }
 
-        private Task<Events> GetCalendarEventsAsync(UserCredential credential)
+        private async Task<Events> GetCalendarEventsAsync(UserCredential credential)
         {
-            var service = new CalendarService(new BaseClientService.Initializer
+            using var service = new CalendarService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
                 ApplicationName = _projectId
@@ -102,7 +101,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             request.MaxResults = 250;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
-            return request.ExecuteAsync();
+            return await request.ExecuteAsync();
         }
 
     }
