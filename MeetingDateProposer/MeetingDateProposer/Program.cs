@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.AzureAppServices;
 
 namespace MeetingDateProposer
 {
@@ -32,7 +31,7 @@ namespace MeetingDateProposer
                     }
                     else
                     {
-                        logger.AddAzureWebAppDiagnostics();
+                        logger.AddConsole();
                     }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>

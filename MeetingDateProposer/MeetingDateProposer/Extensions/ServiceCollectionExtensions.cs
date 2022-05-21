@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using MeetingDateProposer.BusinessLayer.Options;
 using MeetingDateProposer.DataLayer.Options;
 using Microsoft.Extensions.Configuration;
+using MeetingDateProposer.DataLayer;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeetingDateProposer.Extensions
 {
@@ -28,10 +30,14 @@ namespace MeetingDateProposer.Extensions
         {
             services.Configure<SeededUsersOptions>(options =>
                 configuration.GetSection(SeededUsersOptions.Admin).Bind(options));
-            services.Configure<ApiKeysOptions>(options =>
-                configuration.GetSection(ApiKeysOptions.GoogleCalendarApiKeys).Bind(options));
             services.Configure<CalendarOptions>(options =>
                 configuration.GetSection(CalendarOptions.GoogleCalendar).Bind(options));
+        }
+
+        public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         }
     }
 }
