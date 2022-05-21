@@ -1,0 +1,13 @@
+**/bin
+**/obj
+**/.vs
+**/.vscode
+**/node_modules
+**/.aspnet
+**/*.env
+**/Dockerfile
+**/.dockerignore
+**/.git
+**/.gitignore
+LICENSE
+README.md
