@@ -9,9 +9,6 @@ using System.Collections.Generic;
 using MeetingDateProposer.BusinessLayer.Options;
 using MeetingDateProposer.DataLayer.Options;
 using Microsoft.Extensions.Configuration;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
-using System;
 using MeetingDateProposer.DataLayer;
 using Microsoft.EntityFrameworkCore;
 
