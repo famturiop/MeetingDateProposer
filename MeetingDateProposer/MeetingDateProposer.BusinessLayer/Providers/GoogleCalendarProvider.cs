@@ -23,7 +23,6 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 
         public GoogleCalendarProvider(
             ICalendarEventFormatter<IList<Event>> calendarEventFormatter,
-            IOptions<ApiKeysOptions> apiKeysOptions,
             IOptions<CalendarOptions> calendarOptions)
         {
             _calendarEventFormatter = calendarEventFormatter;
@@ -34,8 +33,8 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             {
                 ClientSecrets = new ClientSecrets
                 {
-                    ClientId = apiKeysOptions.Value.ClientId,
-                    ClientSecret = apiKeysOptions.Value.ClientSecret
+                    ClientId = calendarOptions.Value.ClientId,
+                    ClientSecret = calendarOptions.Value.ClientSecret
                 },
                 Scopes = new[]
                 {
