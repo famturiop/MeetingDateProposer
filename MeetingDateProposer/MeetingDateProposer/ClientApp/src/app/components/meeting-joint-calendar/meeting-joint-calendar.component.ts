@@ -17,7 +17,7 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
   public view: CalendarView = CalendarView.Week;
   public calendarView = CalendarView;
   public readonly minimumEventHeight = 0;
-  public focusedEvent: CalendarEvent = {start: new Date(), title: ""};
+  public focusedEvent: CalendarEvent = {start: new Date(), title: "", cssClass: ""};
   public calEventDetailsIsActive: boolean = false;
   public readonly weekStartsOn: number = 1;
   private readonly viewSwitchInnerWidth: number = 450;
@@ -44,14 +44,25 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
     let inverseCalendar: CalendarEvent[] = [];
     if (calendar.length > 1) {
       for (let i = 0; i < (calendar.length - 1); i++) {
-        inverseCalendar.push({title: "occupied time", start: calendar[i].end as Date, end: calendar[i+1].start});
+        inverseCalendar.push({
+          title: "occupied time", 
+          start: calendar[i].end as Date, 
+          end: calendar[i+1].start,
+          cssClass: "calendar-event-occupied-time"});
       }
     }
     return inverseCalendar;
   }
 
+  private setEventsProperties(calendar: CalendarEvent[]): void {
+    calendar.forEach(event => {
+      event.cssClass = "calendar-event-spare-time";
+    });
+  }
+
   ngOnChanges(): void {
     this.calculateAvailableMeetingTime().subscribe(availableTime => {
+      this.setEventsProperties(availableTime);
       let inverseAvailableTime = this.inverseCalendar(availableTime);
       this.displayCalendar = availableTime.concat(inverseAvailableTime);
     })
@@ -68,6 +79,16 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
 
   eventClicked({ event }: { event: CalendarEvent }): void {
     this.calEventDetailsIsActive = true;
-    this.focusedEvent = event;
+    
+    event.cssClass = event.cssClass?.concat(" ", "selected");
+    this.focusedEvent.cssClass = this.focusedEvent.cssClass?.split(" ")[0];
+
+    if (this.focusedEvent !== event) {
+      this.focusedEvent = event;
+    }
+    else {
+      this.calEventDetailsIsActive = false;
+      this.focusedEvent = {start: new Date(), title: "", cssClass: ""};
+    }
   }
 }

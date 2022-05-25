@@ -111,12 +111,20 @@
 
 .calendar-event-spare-time {
   background-color: $calendar-color-spare-time;
-  border-color: $calendar-color-border-spare-time;
+  border-color: $calendar-color-event-border;
+  &.selected {
+    border-width: 5px;
+    border-color: $calendar-color-event-border-selected;
+  }
 }
 
 .calendar-event-occupied-time {
   background-color: $calendar-color-occupied-time;
-  border-color: $calendar-color-border-occupied-time;
+  border-color: $calendar-color-event-border;
+  &.selected {
+    border-width: 5px;
+    border-color: $calendar-color-event-border-selected;
+  }
 }
 
 

@@ -18,7 +18,7 @@ $stage-two-color-button-disabled: $stage-one-color-button-disabled;
 
 $calendar-color-spare-time: rgb(33, 211, 122) !default;
 $calendar-color-occupied-time: rgb(200, 42, 42) !default;
-$calendar-color-border-spare-time: rgb(1,1,1) !default;
-$calendar-color-border-occupied-time: rgb(1,1,1) !default;
+$calendar-color-event-border: rgb(1,1,1) !default;
+$calendar-color-event-border-selected: rgb(1,1,1) !default;
 
 $stages-max-width-breakpoint: 310px !default;
