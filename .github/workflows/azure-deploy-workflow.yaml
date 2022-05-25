@@ -25,12 +25,18 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
+        tags: |
+          type=ref,event=branch,enable=false
+          type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'deploy_azure') }}
+          type=ref,event=tag,enable=true,priority=600
+          type=ref,event=pr,prefix=pr-,enable=true,priority=600
+          type=schedule,pattern=nightly,enable=true,priority=1000
         images: ${{ secrets.DOCKER_USERNAME }}/meeting-date-proposer
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v3
       with:
-        context: .
+        context: ./MeetingDateProposer
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }} 
