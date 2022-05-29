@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { IUser } from '../models/user.model';
 import { MessageService } from '../services/message.service';
 
@@ -31,12 +31,23 @@ export class ApiUserService {
     return this.http.get<string>(url).pipe(catchError(this.handleError<string>()));
   }
 
-  addGoogleCalendarToUser(user: IUser, authorizationCode: string): Observable<IUser> {
+  addGoogleCalendarToUser(user: IUser, authorizationCode: string, isAParticipant?: boolean): Observable<IUser> {
     const url = `${this.baseUrl}/api/AddGoogleCalendarToUser?` +
     `authorizationCode=${authorizationCode}&userId=${user.id}`;
 
     return this.http.post<IUser>(url,"")
+    .pipe(map(user => {
+      if (isAParticipant) {
+        return this.setUserFlags(user);
+      }
+      return user;
+    }))
     .pipe(catchError(this.handleError<IUser>()));
+  }
+
+  private setUserFlags(user: IUser): IUser {
+    user.isAParticipant = true;
+    return user;
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

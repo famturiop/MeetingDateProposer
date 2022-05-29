@@ -5,4 +5,5 @@ export interface IUser {
     id: string;
     name: string;
     calendars: ICalendar[];
+    isAParticipant?: boolean;
   }

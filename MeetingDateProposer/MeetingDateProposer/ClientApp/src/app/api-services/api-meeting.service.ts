@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { IMeeting } from '../models/meeting.model';
 import { IUser } from '../models/user.model';
 import { MessageService } from '../services/message.service';
@@ -23,6 +23,8 @@ export class ApiMeetingService {
     const body = JSON.stringify(meeting);
 
     return this.http.post<IMeeting>(url, body, {'headers':headers})
+    .pipe(map(this.setUsersFlags))
+    .pipe(map(this.sortUsers))
     .pipe(catchError(this.handleError<IMeeting>()));
   }
 
@@ -30,6 +32,8 @@ export class ApiMeetingService {
     const url = `${this.baseUrl}/api/GetMeetingById?meetingId=${meeting.id}`;
 
     return this.http.get<IMeeting>(url)
+    .pipe(map(this.setUsersFlags))
+    .pipe(map(this.sortUsers))
     .pipe(catchError(this.handleError<IMeeting>()));
   }
 
@@ -39,7 +43,25 @@ export class ApiMeetingService {
     const body = JSON.stringify(user);
 
     return this.http.patch<IMeeting>(url, body, {'headers':headers})
+    .pipe(map(this.setUsersFlags))
+    .pipe(map(this.sortUsers))
     .pipe(catchError(this.handleError<IMeeting>()));
+  }
+
+  private setUsersFlags(meeting: IMeeting): IMeeting {
+    meeting.connectedUsers.forEach((user, userIndex) => {
+      user.isAParticipant = true;
+    })
+    return meeting;
+  }
+
+  private sortUsers(meeting: IMeeting): IMeeting {
+    if (meeting.connectedUsers?.length > 1){
+      meeting.connectedUsers?.sort((userA,userB) => {
+        return userA.name.localeCompare(userB.name);
+      })
+    }
+    return meeting;
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
