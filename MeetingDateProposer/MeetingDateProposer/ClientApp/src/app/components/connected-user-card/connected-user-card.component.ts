@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApiUserService } from 'src/app/api-services/api-user.service';
 import { IUser } from 'src/app/models/user.model';
 import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
@@ -12,6 +12,8 @@ import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
 export class ConnectedUserCardComponent implements OnInit {
 
   @Input() public user: IUser = {calendars:[], id:"", name: ""};
+  @Output() participationChanged: EventEmitter<IUser> =  new EventEmitter();
+  
   public addCalendarIsVisible: boolean = false;
   public readonly iconUrl: string = "/assets/Google_Calendar_icon_(2020).svg";
 
@@ -33,5 +35,10 @@ export class ConnectedUserCardComponent implements OnInit {
 
   addCalendarVisibility(): void {
     this.addCalendarIsVisible = this.addCalendarIsVisible ? false : true;
+  }
+
+  isAParticipant(): void {
+    this.user.isAParticipant = this.user.isAParticipant ? false : true;
+    this.participationChanged.emit(this.user);
   }
 }

@@ -62,7 +62,8 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
     let meeting = Object.assign({},this.meeting);
     this.meeting.connectedUsers.forEach((user,userIndex) => {
       if (user.id === userId){
-        this.apiUserService.addGoogleCalendarToUser(user,code as string).subscribe((response) => {
+        this.apiUserService.addGoogleCalendarToUser(user,code as string, user.isAParticipant)
+        .subscribe((response) => {
           meeting.connectedUsers[userIndex] = response;
           this.meetingService.updateMeeting(meeting);
         });
@@ -85,6 +86,11 @@ export class MainPageStageTwoComponent implements OnInit, OnDestroy {
     else {
       this.isDisabled = false;
     }
+  }
+
+  participationChangedHandler(user: IUser): void {
+    let meeting = Object.assign({},this.meeting);
+    this.meetingService.updateMeeting(meeting);
   }
 
   ngOnDestroy() {

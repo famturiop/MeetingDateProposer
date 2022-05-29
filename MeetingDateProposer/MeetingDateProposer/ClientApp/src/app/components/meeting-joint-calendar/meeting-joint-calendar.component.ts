@@ -2,6 +2,7 @@ import { Component, HostListener, Input, OnChanges, OnInit } from '@angular/core
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { Observable } from 'rxjs';
 import { ApiCalculatorService } from 'src/app/api-services/api-calculator.service';
+import { ICalendar } from 'src/app/models/calendar.model';
 import { IMeeting } from 'src/app/models/meeting.model';
 
 @Component({
@@ -37,7 +38,15 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
   }
 
   private calculateAvailableMeetingTime(): Observable<CalendarEvent[]> {
-    return this.apiCalculatorService.getAvailableMeetingTime(this.meeting);
+    let calendarsToCompare: ICalendar[] = [];
+    this.meeting.connectedUsers.forEach((user, userIndex) => {
+      if (user.isAParticipant) {
+        user.calendars.forEach(calendar => {
+          calendarsToCompare.push(calendar);
+        })
+      }
+    });
+    return this.apiCalculatorService.getAvailableMeetingTime(calendarsToCompare);
   }
 
   private inverseCalendar(calendar: CalendarEvent[]): CalendarEvent[] {
@@ -91,4 +100,6 @@ export class MeetingJointCalendarComponent implements OnInit, OnChanges {
       this.focusedEvent = {start: new Date(), title: "", cssClass: ""};
     }
   }
+
+  
 }
