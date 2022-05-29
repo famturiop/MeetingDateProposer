@@ -3,9 +3,11 @@ using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 using MeetingDateProposer.Models.ApplicationApiModels;
 
 namespace MeetingDateProposer.Controllers
@@ -29,16 +31,18 @@ namespace MeetingDateProposer.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CalendarApiModel>> CalculateMeetingTime(Guid meetingId)
+        public ActionResult<CalendarApiModel> CalculateMeetingTime(List<CalendarApiModel> calendarsApiModel)
         {
-            var meeting = await _meetingService.GetMeetingAsync(meetingId);
-            if (meeting == null)
-                return NotFound();
-            
-            var calendar = _calculator.CalculateAvailableMeetingTime(meeting);
+            var calendars = new List<Calendar>();
+
+            foreach (var calendarModel in calendarsApiModel)
+            {
+                calendars.Add(_mapper.Map<Calendar>(calendarModel));
+            }
+
+            var calendar = _calculator.CalculateAvailableMeetingTime(calendars);
             var calendarApiModel = _mapper.Map<CalendarApiModel>(calendar);
 
             return Ok(calendarApiModel);

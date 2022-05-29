@@ -1,9 +1,11 @@
-﻿using MeetingDateProposer.Domain.Models.ApplicationModels;
+﻿using System.Collections.Generic;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
 
 namespace MeetingDateProposer.BusinessLayer
 {
     public interface ICalendarCalculator
     {
-        public Calendar CalculateAvailableMeetingTime(Meeting currentMeeting);
+        public Calendar CalculateAvailableMeetingTime(Meeting meeting);
+        public Calendar CalculateAvailableMeetingTime(List<Calendar> calendarsToCompare);
     }
 }

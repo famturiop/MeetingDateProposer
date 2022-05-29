@@ -7,17 +7,28 @@ namespace MeetingDateProposer.BusinessLayer
 {
     public class CalendarCalculator : ICalendarCalculator
     {
+        public Calendar CalculateAvailableMeetingTime(Meeting meeting)
+        {
+            var usersCalendars = new List<Calendar>();
+            foreach (var user in meeting.ConnectedUsers)
+            {
+                usersCalendars.AddRange(user.Calendars);
+            }
 
-        public Calendar CalculateAvailableMeetingTime(Meeting currentMeeting)
+            return CalculateAvailableMeetingTime(usersCalendars);
+        }
+
+        public Calendar CalculateAvailableMeetingTime(List<Calendar> calendarsToCompare)
         {
             var jointCalendar = new Calendar
             {
                 UserCalendar = new List<CalendarEvent>()
             };
 
-            currentMeeting.ConnectedUsers.ForEach(c1 =>
-                c1.Calendars.ForEach(c2 =>
-                    jointCalendar.UserCalendar.AddRange(c2.UserCalendar)));
+            foreach (var calendar in calendarsToCompare)
+            {
+                jointCalendar.UserCalendar.AddRange(calendar.UserCalendar);
+            }
 
             if (jointCalendar.UserCalendar.Count != 0)
             {
