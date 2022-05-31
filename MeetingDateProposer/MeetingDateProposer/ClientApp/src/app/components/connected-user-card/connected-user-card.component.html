@@ -1,6 +1,13 @@
 <div class="connected-user-card">
     <div class="user-name">
-        {{this.user.name}}
+        <input 
+        type="checkbox" 
+        id="user" 
+        [checked]="this.user.isAParticipant"
+        (change)="isAParticipant()">
+        <label for="user">
+            {{this.user.name}}
+        </label>
     </div>
     <div class="add-calendar-container">
         <button [ngClass]="{'add-calendar-button': true, 
