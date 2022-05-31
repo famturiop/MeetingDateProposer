@@ -13,11 +13,7 @@ export class MeetingService {
   constructor() { }
 
   updateMeeting(meeting: IMeeting){
-    if (meeting.connectedUsers?.length > 1){
-      meeting.connectedUsers?.sort((userA,userB) => {
-        return userA.name.localeCompare(userB.name);
-      })
-    }
     this.meeting.next(meeting);
   }
+
 }

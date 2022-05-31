@@ -30,7 +30,9 @@
     <ul class="stage-two-participants">
         <li class="stage-two-participant"
         *ngFor="let connectedUser of meeting.connectedUsers; index as i;">
-            <app-connected-user-card [user]="connectedUser">
+            <app-connected-user-card 
+            [user]="connectedUser"
+            (participationChanged)="participationChangedHandler($event)">
             </app-connected-user-card>
         </li>
         <img [src]="iconUrl" title="Google Calendar Icon" hidden>

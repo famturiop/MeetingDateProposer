@@ -18,10 +18,12 @@ export class ApiCalculatorService {
 
      }
   
-  getAvailableMeetingTime(meeting: IMeeting): Observable<CalendarEvent[]> {
-    const url = `${this.baseUrl}/api/CalculateMeetingTime?meetingId=${meeting.id}`;
+  getAvailableMeetingTime(calendarsToCompare: ICalendar[]): Observable<CalendarEvent[]> {
+    const headers = { 'content-type': 'application/json'};
+    const body = JSON.stringify(calendarsToCompare);
+    const url = `${this.baseUrl}/api/CalculateMeetingTime`;
 
-    return this.http.get<ICalendar>(url)
+    return this.http.post<ICalendar>(url,body,{'headers':headers})
     .pipe(map(this.toAvailableTime))
     .pipe(catchError(this.handleError<CalendarEvent[]>()));
   }
