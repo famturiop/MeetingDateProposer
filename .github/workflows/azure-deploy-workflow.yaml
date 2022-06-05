@@ -1,4 +1,4 @@
-name: Azure Linux Container Workflow
+name: Deploy container to Azure
 
 on:
   push:

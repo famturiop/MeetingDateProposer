@@ -1,7 +1,5 @@
 # MeetingDateProposer
 
-Badges
-
 [![Deploy container to Azure](https://github.com/famturiop/MeetingDateProposer/actions/workflows/azure-deploy-workflow.yaml/badge.svg)](https://github.com/famturiop/MeetingDateProposer/actions/workflows/azure-deploy-workflow.yaml)
 [![Build and Test](https://github.com/famturiop/MeetingDateProposer/actions/workflows/build-and-test-workflow.yaml/badge.svg)](https://github.com/famturiop/MeetingDateProposer/actions/workflows/build-and-test-workflow.yaml)
 [![codecov](https://codecov.io/gh/famturiop/MeetingDateProposer/branch/develop/graph/badge.svg?token=5KEPOQ7GZV)](https://codecov.io/gh/famturiop/MeetingDateProposer)
@@ -13,6 +11,8 @@ This webapp creates a meeting that compares participants calendars and displays 
 
 The app is currently in development. It is being made using Angular for ClientApp SPA, ASP.NET Core for backend WebApi, Microsoft Sql Server for database. The main functionality has been done, and it's example is presented in the section below.
 
+Current version of the app is available at https://meetingdateproposer.azurewebsites.net
+
 ## Features
 
 - Registration is not required to use the app
@@ -22,33 +22,40 @@ The app is currently in development. It is being made using Angular for ClientAp
 
 ## The webapp usage example
 
-1. You message to your friend with whom you want to meet.
+>1. You message to your friend with whom you want to meet.
 
-<img src="https://i.imgur.com/xjph9Zf.png">
+<img src="https://i.imgur.com/xjph9Zf.png" style="border: solid">
+<br><br>
 
-2. You create the meeting in the app. No account registration required.
+>2. You create the meeting in the app. No account registration required.
 
-<img src="https://i.imgur.com/J9Y4lmc.png">
+<img src="https://i.imgur.com/J9Y4lmc.png" style="border: solid" width=500px>
+<br><br>
 
-3. You add yourself to the meeting, and give the app a readonly access to your calendar.
+>3. You add yourself to the meeting, and give the app a readonly access to your calendar.
 
-<img src="https://i.imgur.com/u7Kbvi2.png">
+<img src="https://i.imgur.com/u7Kbvi2.png" style="border: solid" width=500px>
+<br><br>
 
-4. You share the meeting link with your friend.
+>4. You share the meeting link with your friend.
 
-<img src="https://i.imgur.com/EIzjJHw.png">
+<img src="https://i.imgur.com/EIzjJHw.png" style="border: solid">
+<br><br>
 
-5. Your friend uses the link to add himself to the meeting and gives the app access to his calendar.
+>5. Your friend uses the link to add himself to the meeting and gives the app access to his calendar.
 
-<img src="https://i.imgur.com/pfiYUVY.png">
+<img src="https://i.imgur.com/pfiYUVY.png" style="border: solid" width=500px>
+<br><br>
 
-6. The app compares both calendars and presents you with a very simple view of time when both of you have spare time in your calendars and are free to meet.
+>6. The app compares both calendars and presents you with a very simple view of time when both of you have spare time in your calendars and are free to meet.
 
-<img src="https://i.imgur.com/IjXHVRr.png">
+<img src="https://i.imgur.com/IjXHVRr.png" style="border: solid" width=500px>
+<br><br>
 
-7. You and your friend arrange the exact meeting time via a chosen communication service using the information provided by the app.
+>7. You and your friend arrange the exact meeting time via a chosen communication service using the information provided by the app.
 
-<img src="https://i.imgur.com/UePZheW.png">
+<img src="https://i.imgur.com/UePZheW.png" style="border: solid">
+<br><br>
 
 ## Technologies and Packages
 
@@ -96,11 +103,11 @@ To build and run the project you would need the following:
 
 5. Set the following enviroment variables:
 
-   `ConnectionStrings__DefaultConnection`: Database connection string in MsSQL server format
-   `SeededUsers__Admin__Name`: Admin username
-   `SeededUsers__Admin__Email`: Admin email
-   `SeededUsers__Admin__Password`: Admin password
-   `Calendars__GoogleCalendar__ClientId` and `Calendars__GoogleCalendar__ClientSecret`:
+   - `ConnectionStrings__DefaultConnection`: Database connection string in MsSQL server format
+   - `SeededUsers__Admin__Name`: Admin username
+   - `SeededUsers__Admin__Email`: Admin email
+   - `SeededUsers__Admin__Password`: Admin password
+   - `Calendars__GoogleCalendar__ClientId` and `Calendars__GoogleCalendar__ClientSecret`:
    Google OAuth client ID credentials that are used to authenticate as an end user and access their data after said user gave his consent (You can learn how to get them [here](https://developers.google.com/workspace/guides/get-started))
 
 6. If you are running for the first time, install dev certificates using command:

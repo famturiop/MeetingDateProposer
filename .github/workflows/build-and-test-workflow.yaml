@@ -1,3 +1,5 @@
+name: Build and Test (.NET and Angular)
+
 on:
   push:
     branches:
