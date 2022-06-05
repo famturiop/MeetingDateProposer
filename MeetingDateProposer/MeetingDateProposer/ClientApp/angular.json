@@ -112,5 +112,8 @@
       "style": "scss"
     }
   },
-  "defaultProject": "ClientApp"
+  "defaultProject": "ClientApp",
+  "cli": {
+    "analytics": false
+  }
 }
