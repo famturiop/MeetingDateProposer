@@ -7,7 +7,7 @@
 
 ## About
 
-This webapp creates a meeting that compares participants calendars and displays their common available time. The purpose of the app is to provide a simple, convinient and fast way to schedule a meeting, without registering an account and without excessive amount of settings. Only Google calendar is supported now, Outlook calendar and manual calendar input are planned to be supported in the future.
+This webapp creates a meeting that compares participants' calendars and displays their common available time. The purpose of the app is to provide a simple, convinient and fast way to schedule a meeting, without registering an account and without excessive amount of settings. Only Google calendar is supported now, Outlook calendar and manual calendar input are planned to be supported in the future.
 
 The app is currently in development. It is being made using Angular for ClientApp SPA, ASP.NET Core for backend WebApi, Microsoft Sql Server for database. The main functionality has been done, and it's example is presented in the section below.
 
@@ -69,7 +69,6 @@ Current version of the app is available at https://meetingdateproposer.azurewebs
     - `AutoMapper`
     - `Google.Apis.Calendar.v3 1.57`
 - **Presentation:**
-    - API Documentation: `OpenAPI`
     - Frontend Development: `Angular 14`
     - Calendar view: `angular-calendar 0.29`
 - **Unit Testing:** `XUnit`
