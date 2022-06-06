@@ -1,10 +1,10 @@
 ﻿using MeetingDateProposer.Domain.Models.AccountModels;
+using MeetingDateProposer.Models.AccountApiModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using MeetingDateProposer.Models.AccountApiModels;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -17,7 +17,7 @@ namespace MeetingDateProposer.Controllers
         private readonly SignInManager<AccountUser> _signInManager;
 
         public AccountController(
-            UserManager<AccountUser> userManager, 
+            UserManager<AccountUser> userManager,
             SignInManager<AccountUser> signInManager)
         {
             _userManager = userManager;

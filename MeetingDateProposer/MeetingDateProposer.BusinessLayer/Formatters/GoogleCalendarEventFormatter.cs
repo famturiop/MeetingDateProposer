@@ -1,11 +1,8 @@
-﻿using MeetingDateProposer.Domain.Models.ApplicationModels;
+﻿using Google.Apis.Calendar.v3.Data;
+using MeetingDateProposer.Domain.Models.ApplicationModels;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Google.Apis.Calendar.v3.Data;
-using Microsoft.Extensions.Logging;
 
 namespace MeetingDateProposer.BusinessLayer.Formatters
 {
@@ -19,7 +16,7 @@ namespace MeetingDateProposer.BusinessLayer.Formatters
         public List<CalendarEvent> FormatCalendarEvents(IList<Event> events)
         {
             var calendarEvents = new List<CalendarEvent>();
-            
+
             foreach (var eventItem in events)
             {
                 try
@@ -52,25 +49,25 @@ namespace MeetingDateProposer.BusinessLayer.Formatters
             return calendarEvents;
         }
 
-        private DateTime ConvertStartDate(Event calEvent)
+        private static DateTime ConvertStartDate(Event calEvent)
         {
             return DateTime.Parse(calEvent.Start.Date);
         }
 
-        private DateTime ConvertEndDate(Event calEvent)
+        private static DateTime ConvertEndDate(Event calEvent)
         {
             return DateTime.Parse(calEvent.End.Date);
         }
 
-        private bool DoesBlockCalendar(Event calEvent)
+        private static bool DoesBlockCalendar(Event calEvent)
         {
             return calEvent.Transparency == null || calEvent.Transparency == "opaque";
         }
 
-        private bool IsFullDayEvent(Event calEvent)
+        private static bool IsFullDayEvent(Event calEvent)
         {
-            return calEvent.Start.DateTime == null && 
-                   calEvent.End.DateTime == null && 
+            return calEvent.Start.DateTime == null &&
+                   calEvent.End.DateTime == null &&
                    calEvent.Start.Date != null &&
                     calEvent.End.Date != null;
         }

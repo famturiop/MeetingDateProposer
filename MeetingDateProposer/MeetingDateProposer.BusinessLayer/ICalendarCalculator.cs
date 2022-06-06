@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MeetingDateProposer.Domain.Models.ApplicationModels;
+﻿using MeetingDateProposer.Domain.Models.ApplicationModels;
+using System.Collections.Generic;
 
 namespace MeetingDateProposer.BusinessLayer
 {

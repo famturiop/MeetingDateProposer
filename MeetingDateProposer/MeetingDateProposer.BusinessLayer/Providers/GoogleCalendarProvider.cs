@@ -1,15 +1,15 @@
 ﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
+using MeetingDateProposer.BusinessLayer.Formatters;
+using MeetingDateProposer.BusinessLayer.Options;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Google.Apis.Auth.OAuth2.Flows;
-using MeetingDateProposer.BusinessLayer.Formatters;
-using MeetingDateProposer.BusinessLayer.Options;
-using Microsoft.Extensions.Options;
 using Calendar = MeetingDateProposer.Domain.Models.ApplicationModels.Calendar;
 
 namespace MeetingDateProposer.BusinessLayer.Providers
@@ -62,7 +62,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
             using var authorizationCodeFlow = new GoogleAuthorizationCodeFlow(_authorizationCodeFlowInitializer);
             var credential = await ExchangeCodeForTokenAsync(authorizationCodeFlow, authorizationCode, userId);
             var events = await GetCalendarEventsAsync(credential);
-            
+
             var calendar = new Calendar
             {
                 UserCalendar = _calendarEventFormatter.FormatCalendarEvents(events.Items)
@@ -73,7 +73,7 @@ namespace MeetingDateProposer.BusinessLayer.Providers
 
         private async Task<UserCredential> ExchangeCodeForTokenAsync(
             GoogleAuthorizationCodeFlow authorizationCodeFlow,
-            string authorizationCode, 
+            string authorizationCode,
             Guid userId)
         {
             var tokenResponse = await authorizationCodeFlow.ExchangeCodeForTokenAsync(

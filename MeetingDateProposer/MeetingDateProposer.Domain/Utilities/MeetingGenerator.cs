@@ -6,27 +6,27 @@ namespace MeetingDateProposer.Domain.Utilities
 {
     public class MeetingGenerator
     {
-        public Meeting GenerateMeeting(int numberofUsers, int numberofEvents)
+        public static Meeting GenerateMeeting(int numberOfUsers, int numberOfEvents)
         {
-            var testMeeting = new Meeting();
+            var testMeeting = new Meeting
+            {
+                ConnectedUsers = new List<ApplicationUser>()
+            };
 
-            testMeeting.ConnectedUsers = new List<ApplicationUser>();
-
-            for (int currentUser = 0; currentUser < numberofUsers; currentUser++)
+            for (int currentUser = 0; currentUser < numberOfUsers; currentUser++)
             {
                 var testUser = new ApplicationUser()
                 {
                     Id = Guid.NewGuid(),
-                    Calendars = new List<Calendar>()
+                    Calendars = new List<Calendar> { GenerateCalendar(numberOfEvents) }
                 };
-                testUser.Calendars.Add(GenerateCalendar(numberofEvents));
                 testMeeting.ConnectedUsers.Add(testUser);
             }
 
             return testMeeting;
         }
 
-        public Calendar GenerateCalendar(int numberofEvents)
+        public static Calendar GenerateCalendar(int numberOfEvents)
         {
             var testCalendar = new Calendar
             {
@@ -39,8 +39,8 @@ namespace MeetingDateProposer.Domain.Utilities
                 EventEnd = DateTime.Now
             };
 
-            for (int generateNextEvent = 0; 
-                generateNextEvent < numberofEvents; 
+            for (int generateNextEvent = 0;
+                generateNextEvent < numberOfEvents;
                 generateNextEvent++)
             {
                 calendarEvent = GenerateCalendarEvent(calendarEvent);
@@ -50,7 +50,7 @@ namespace MeetingDateProposer.Domain.Utilities
             return testCalendar;
         }
 
-        private CalendarEvent GenerateCalendarEvent(CalendarEvent prevEvent)
+        private static CalendarEvent GenerateCalendarEvent(CalendarEvent prevEvent)
         {
             var prevEventTimeEnd = prevEvent.EventEnd;
             var time = (prevEventTimeEnd - DateTime.MinValue).TotalSeconds;

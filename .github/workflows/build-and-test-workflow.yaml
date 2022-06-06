@@ -1,0 +1,65 @@
+name: Build and Test (.NET and Angular)
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Setup Node.js 16
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+
+    - name: Install Node Modules
+      run: |
+        cd ./MeetingDateProposer/MeetingDateProposer/ClientApp
+        npm ci
+
+    - name: Build Angular
+      run: |
+        cd ./MeetingDateProposer/MeetingDateProposer/ClientApp
+        npm run build --production
+    
+    - name: Lint Angular Project
+      run: |
+        cd ./MeetingDateProposer/MeetingDateProposer/ClientApp
+        npm run lint
+
+    - name: Restore Nuget Packages
+      run: |
+        cd ./MeetingDateProposer
+        dotnet restore
+
+    - name: Build .NET Solution
+      run: |
+        cd ./MeetingDateProposer
+        dotnet build --no-restore --configuration Release
+
+    - name: Run Unit Tests
+      run: |
+        cd ./MeetingDateProposer
+        dotnet test --verbosity normal /p:CollectCoverage=true /p:Exclude="[*DataLayer]*" /p:CoverletOutputFormat=opencover
+
+    - name: Publish coverage report to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: web, server
+        fail_ci_if_error: false
+        verbose: true

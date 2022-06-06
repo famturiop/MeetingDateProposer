@@ -1,15 +1,15 @@
 using MeetingDateProposer.DataLayer;
 using MeetingDateProposer.Domain.Models.AccountModels;
+using MeetingDateProposer.Extensions;
+using MeetingDateProposer.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using MeetingDateProposer.Extensions;
-using MeetingDateProposer.Mapper;
 
 namespace MeetingDateProposer
 {
@@ -39,7 +39,7 @@ namespace MeetingDateProposer
                 });
                 services.AddSwaggerGen();
             }
-            
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";

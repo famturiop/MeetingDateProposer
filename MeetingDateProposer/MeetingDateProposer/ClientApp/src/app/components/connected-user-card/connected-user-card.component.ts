@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApiUserService } from 'src/app/api-services/api-user.service';
 import { IUser } from 'src/app/models/user.model';
 import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
@@ -9,7 +9,7 @@ import { OpenNewWindowService } from 'src/app/services/open-new-window.service';
   styleUrls: ['./connected-user-card.component.scss'],
   providers: [OpenNewWindowService]
 })
-export class ConnectedUserCardComponent implements OnInit {
+export class ConnectedUserCardComponent {
 
   @Input() public user: IUser = {calendars:[], id:"", name: ""};
   @Output() participationChanged: EventEmitter<IUser> =  new EventEmitter();
@@ -20,9 +20,6 @@ export class ConnectedUserCardComponent implements OnInit {
   constructor(
     private newWindow: OpenNewWindowService,
     private apiUserService: ApiUserService) {
-  }
-
-  ngOnInit(): void {
   }
 
   addCalendarToUser(user: IUser): void {

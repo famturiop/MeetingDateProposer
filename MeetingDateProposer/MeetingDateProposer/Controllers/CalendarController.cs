@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using MeetingDateProposer.BusinessLayer.DbInteractionServices;
+using MeetingDateProposer.BusinessLayer.Providers;
+using MeetingDateProposer.Models.AccountApiModels;
+using MeetingDateProposer.Models.ApplicationApiModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using AutoMapper;
-using MeetingDateProposer.BusinessLayer.DbInteractionServices;
-using MeetingDateProposer.BusinessLayer.Providers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using MeetingDateProposer.Models.AccountApiModels;
-using MeetingDateProposer.Models.ApplicationApiModels;
 
 namespace MeetingDateProposer.Controllers
 {
