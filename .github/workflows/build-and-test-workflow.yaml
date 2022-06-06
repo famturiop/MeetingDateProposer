@@ -35,6 +35,11 @@ jobs:
       run: |
         cd ./MeetingDateProposer/MeetingDateProposer/ClientApp
         npm run build --production
+    
+    - name: Lint Angular Project
+      run: |
+        cd ./MeetingDateProposer/MeetingDateProposer/ClientApp
+        npm run lint
 
     - name: Restore Nuget Packages
       run: |
