@@ -1,10 +1,6 @@
-﻿using System;
+﻿using MeetingDateProposer.Domain.Models.ApplicationModels;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MeetingDateProposer.Domain.Models.ApplicationModels;
 
 namespace MeetingDateProposer.BusinessLayer.Formatters
 {

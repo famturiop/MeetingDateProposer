@@ -40,7 +40,7 @@ namespace MeetingDateProposer.BusinessLayer.DbInteractionServices
             {
                 meeting.ConnectedUsers.Add(user);
             }
-            
+
             _appContext.Meetings.Update(meeting);
             await _appContext.SaveChangesAsync();
         }

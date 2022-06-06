@@ -1,4 +1,5 @@
 ﻿using MeetingDateProposer.Domain.Models.AccountModels;
+using MeetingDateProposer.Models.AccountApiModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using MeetingDateProposer.Models.AccountApiModels;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -22,7 +22,7 @@ namespace MeetingDateProposer.Controllers
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
         public RolesController(
-            RoleManager<IdentityRole<Guid>> roleManager, 
+            RoleManager<IdentityRole<Guid>> roleManager,
             UserManager<AccountUser> userManager)
         {
             _roleManager = roleManager;

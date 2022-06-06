@@ -109,7 +109,6 @@ let-tooltipDisabled="tooltipDisabled"
 let-tooltipDelay="tooltipDelay"
 let-column="column"
 let-daysInWeek="daysInWeek">
-<!-- [ngClass]="weekEvent.event.title === 'spare time' ? 'calendar-event-spare-time' : 'calendar-event-occupied-time'" -->
     <div class="cal-event"
     [ngClass]="weekEvent.event.cssClass"
     (mwlClick)="eventClicked.emit({ sourceEvent: $event })">

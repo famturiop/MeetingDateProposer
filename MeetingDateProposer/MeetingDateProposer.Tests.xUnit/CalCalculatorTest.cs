@@ -3,7 +3,6 @@ using MeetingDateProposer.Domain.Models.ApplicationModels;
 using MeetingDateProposer.Domain.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace MeetingDateProposer.Tests.xUnit
@@ -18,8 +17,8 @@ namespace MeetingDateProposer.Tests.xUnit
                 EventEnd = end
             };
         }
-        
-        private Calendar CreateCalendar(params CalendarEvent[] calendarEvents )
+
+        private Calendar CreateCalendar(params CalendarEvent[] calendarEvents)
         {
             var calendar = new Calendar
             {
@@ -50,7 +49,7 @@ namespace MeetingDateProposer.Tests.xUnit
 
             return user;
         }
-        
+
         private Meeting CreateMeeting(params ApplicationUser[] applicationUsers)
         {
             var meeting = new Meeting
@@ -190,7 +189,7 @@ namespace MeetingDateProposer.Tests.xUnit
             var generator = new MeetingGenerator();
             var calculator = new CalendarCalculator();
 
-            var myMeeting = generator.GenerateMeeting(100, 100);
+            var myMeeting = MeetingGenerator.GenerateMeeting(100, 100);
             var result = calculator.CalculateAvailableMeetingTime(myMeeting);
 
             Assert.NotEmpty(result.UserCalendar);

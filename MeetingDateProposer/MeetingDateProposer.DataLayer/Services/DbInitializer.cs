@@ -1,11 +1,11 @@
-﻿using MeetingDateProposer.Domain.Models.AccountModels;
+﻿using MeetingDateProposer.DataLayer.Options;
+using MeetingDateProposer.Domain.Models.AccountModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using MeetingDateProposer.DataLayer.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Linq;
 
 namespace MeetingDateProposer.DataLayer.Services
 {

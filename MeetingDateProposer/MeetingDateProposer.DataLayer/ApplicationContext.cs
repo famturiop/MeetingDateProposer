@@ -3,8 +3,8 @@ using MeetingDateProposer.Domain.Models.ApplicationModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 
 namespace MeetingDateProposer.DataLayer
 {

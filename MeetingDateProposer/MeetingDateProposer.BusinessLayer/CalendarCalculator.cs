@@ -33,14 +33,14 @@ namespace MeetingDateProposer.BusinessLayer
             if (jointCalendar.UserCalendar.Count != 0)
             {
                 ReversedCalEventsCheck(jointCalendar.UserCalendar);
-                
+
                 jointCalendar.UserCalendar.Sort((x, y) => DateTime.Compare(x.EventStart, y.EventStart));
 
                 var jCalRemoveDuplicates = RemoveDuplicateCalEvents(jointCalendar.UserCalendar);
                 var jCalNoNestedEvents = RemoveNestedCalEvents(jCalRemoveDuplicates);
                 var jCalNoIntersectedEvents = UniteIntersectedCalEvents(jCalNoNestedEvents);
                 var jCalInversed = GetAvailableSchedule(jCalNoIntersectedEvents);
-                
+
                 return new Calendar()
                 {
                     UserCalendar = jCalInversed
@@ -87,7 +87,7 @@ namespace MeetingDateProposer.BusinessLayer
         {
             var intersectedEventIndex = calendarList.FindIndex(x => calendarList.Any(
                 y => x.EventStart >= y.EventStart && x.EventStart <= y.EventEnd && !x.Equals(y)));
-            
+
             while (intersectedEventIndex != -1)
             {
                 var unitedCalEvent = new CalendarEvent
@@ -104,7 +104,7 @@ namespace MeetingDateProposer.BusinessLayer
                 intersectedEventIndex = calendarList.FindIndex(x => calendarList.Any(
                     y => x.EventStart >= y.EventStart && x.EventStart <= y.EventEnd && !x.Equals(y)));
             }
-            
+
             return calendarList;
         }
 
@@ -139,7 +139,7 @@ namespace MeetingDateProposer.BusinessLayer
                     EventEnd = DateTime.MaxValue
                 });
             }
-            
+
             return calendarListModified;
         }
     }

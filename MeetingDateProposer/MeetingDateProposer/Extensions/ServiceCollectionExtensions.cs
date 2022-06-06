@@ -2,15 +2,15 @@
 using MeetingDateProposer.BusinessLayer;
 using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.BusinessLayer.Formatters;
+using MeetingDateProposer.BusinessLayer.Options;
 using MeetingDateProposer.BusinessLayer.Providers;
+using MeetingDateProposer.DataLayer;
+using MeetingDateProposer.DataLayer.Options;
 using MeetingDateProposer.DataLayer.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
-using MeetingDateProposer.BusinessLayer.Options;
-using MeetingDateProposer.DataLayer.Options;
-using Microsoft.Extensions.Configuration;
-using MeetingDateProposer.DataLayer;
-using Microsoft.EntityFrameworkCore;
 
 namespace MeetingDateProposer.Extensions
 {

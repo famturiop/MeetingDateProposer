@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MeetingDateProposer.Domain.Models.ApplicationModels;
+using System;
 using System.Threading.Tasks;
-using MeetingDateProposer.Domain.Models.ApplicationModels;
 
 namespace MeetingDateProposer.BusinessLayer.Providers
 {

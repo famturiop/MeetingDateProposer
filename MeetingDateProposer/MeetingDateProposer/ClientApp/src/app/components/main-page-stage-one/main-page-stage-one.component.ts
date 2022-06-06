@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiMeetingService } from 'src/app/api-services/api-meeting.service';
 import { MeetingService } from 'src/app/services/meeting.service';
@@ -9,7 +9,7 @@ import { IMeeting } from 'src/app/models/meeting.model';
   templateUrl: './main-page-stage-one.component.html',
   styleUrls: ['./main-page-stage-one.component.scss']
 })
-export class MainPageStageOneComponent implements OnInit {
+export class MainPageStageOneComponent {
 
   public meeting: IMeeting = {id: "", connectedUsers: [], name: ""};
   public isDisabled: boolean = true;
@@ -19,9 +19,6 @@ export class MainPageStageOneComponent implements OnInit {
     private router: Router,
     private meetingService: MeetingService) {  
     }
-
-  ngOnInit(): void {
-  }
 
   createMeeting(meetingName: string): void{
     this.meeting.name = meetingName;

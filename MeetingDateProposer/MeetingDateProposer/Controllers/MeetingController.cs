@@ -1,14 +1,14 @@
-﻿using MeetingDateProposer.BusinessLayer.DbInteractionServices;
+﻿using AutoMapper;
+using MeetingDateProposer.BusinessLayer.DbInteractionServices;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
+using MeetingDateProposer.Models.AccountApiModels;
+using MeetingDateProposer.Models.ApplicationApiModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using AutoMapper;
-using MeetingDateProposer.Models.AccountApiModels;
-using MeetingDateProposer.Models.ApplicationApiModels;
 
 namespace MeetingDateProposer.Controllers
 {
@@ -23,8 +23,8 @@ namespace MeetingDateProposer.Controllers
         private readonly IMapper _mapper;
 
         public MeetingController(
-            IMeetingService meetingService, 
-            IMapper mapper, 
+            IMeetingService meetingService,
+            IMapper mapper,
             IUserService userService)
         {
             _meetingService = meetingService;

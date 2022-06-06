@@ -1,11 +1,11 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using MeetingDateProposer.Domain.Models.ApplicationModels;
 using MeetingDateProposer.Models.ApplicationApiModels;
+using System;
 
 namespace MeetingDateProposer.Mapper
 {
-    public class OrganizationProfile: Profile
+    public class OrganizationProfile : Profile
     {
         public OrganizationProfile()
         {
