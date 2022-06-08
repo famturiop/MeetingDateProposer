@@ -10,24 +10,30 @@
   width: 100%;
   bottom: 0;
   overflow:hidden;
+}
+
+.bottom-outline-container {
+  display: flex;
+  flex-direction: row;
+  float: right;
+  height: 100px;
   @media (max-width: 300px) {
-    height: auto;
+    flex-direction: column;
+    float: none;
+    text-align: center;
   }
 }
 
-.bottom-outline-copyright {
+.bottom-outline-item {
   display: flex;
-  float: right;
   flex-direction: column;
   justify-content: center;
-  height: 100px;
-  margin: 0px 20px;
-  font-size: 15px;
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
-  text-decoration: none;
-  @media (max-width: 300px) {
-    float: none;
+  margin: 5px 20px;
+  color: black;
+  &.bottom-outline-copyright {
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    text-decoration: none;
   }
 }
