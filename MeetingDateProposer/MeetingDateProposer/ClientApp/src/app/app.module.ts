@@ -15,6 +15,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MeetingJointCalendarComponent } from './components/meeting-joint-calendar/meeting-joint-calendar.component';
 import { ConnectedUserCardComponent } from './components/connected-user-card/connected-user-card.component';
 import { ErrorComponent } from './components/error/error.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+import { TermsComponent } from './components/terms/terms.component';
 
 export function getBaseUrl() {
   return location.origin;
@@ -32,7 +34,9 @@ export function getBaseUrl() {
     ExternalAuthorizationComponent,
     MeetingJointCalendarComponent,
     ConnectedUserCardComponent,
-    ErrorComponent
+    ErrorComponent,
+    PrivacyComponent,
+    TermsComponent
   ],
   imports: [
     BrowserModule,
