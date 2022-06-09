@@ -7,10 +7,11 @@ import { ExternalAuthorizationComponent } from './components/external-authorizat
 import { ErrorComponent } from './components/error/error.component';
 import { TermsComponent } from './components/terms/terms.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 const routes: Routes = [
-  {path: '', redirectTo: 'stageOne', pathMatch: 'full'},
+  {path: '', component: HomeComponent},
   {path: 'stageTwo/:id', component: MainPageStageTwoComponent},
   {path: 'about', component: AboutPageComponent},
   {path: 'stageOne', component: MainPageStageOneComponent},

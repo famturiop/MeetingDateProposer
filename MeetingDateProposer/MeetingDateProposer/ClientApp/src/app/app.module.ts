@@ -17,6 +17,7 @@ import { ConnectedUserCardComponent } from './components/connected-user-card/con
 import { ErrorComponent } from './components/error/error.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { TermsComponent } from './components/terms/terms.component';
+import { HomeComponent } from './components/home/home.component';
 
 export function getBaseUrl() {
   return location.origin;
@@ -36,7 +37,8 @@ export function getBaseUrl() {
     ConnectedUserCardComponent,
     ErrorComponent,
     PrivacyComponent,
-    TermsComponent
+    TermsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
